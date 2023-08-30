@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>MPA.knit</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="figures/Rstudio_logo.png" style="float: left;" width="80px"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Positions.html">
+    <span class="fas fa-chart-line"></span>
+     
+    POSITIONS
+  </a>
+</li>
+<li>
+  <a href="Trades.html">
+    <span class="far fa-file-alt"></span>
+     
+    TRADES
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="far fa-chart-bar"></span>
+     
+    ANALYTICS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Results.html">Results</a>
+    </li>
+    <li>
+      <a href="Plots.html">Plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fas fa-seedling"></span>
+     
+    STUDY
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PTA.html">PTA</a>
+    </li>
+    <li>
+      <a href="Models.html">Models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+img[src$="#round"] {
+  margin: 0px;
+  border-radius: 5px;
+}
+.box {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 20%);
+  color: hsl(233, 9%, 95%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 5%, 95%);
+  color: hsl(233, 9%, 95%);
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+<div id="trading-tutorials" class="section level3">
+<h3>TRADING TUTORIALS</h3>
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Special Session #3: Holding Losses,
+Overtrading, &amp; Forcing Trades</span><br> <em>Dec 16, 2021</em></p>
+<audio src="audio/MPA_Special_Session_3.mp3" controls=""><a
+href="audio/MPA_Special_Session_3.mp3">Audio</a></audio> <audio
+src="audio/MPA_Special_Session_3_2.mp3" controls=""><a
+href="audio/MPA_Special_Session_3_2.mp3">Audio</a></audio>
+</center>
+<div class="box1">
+<p><font color="black"> Recognize that you will never be perfect. Mark
+professes that he still makes mistakes even after 40-years of trading.
+The difference, however, is that his mistakes are very small and never
+hurt him too much. Do you know when you’ve made a mistake?</p>
+<p>Ensure you first have the <b>knowledge</b> and then with that
+knowledge you develop the <b>skills and discipline</b> to execute your
+knowledge.</p>
+<ol style="list-style-type: decimal">
+<li>Holding Losses</li>
+</ol>
+<p>MM commented about how MR has NEVER had an issue with cutting losses
+and I would say that I, too, have literally never questioned cutting a
+loss. He said that MR is an anomaly and must be within the 0.10% club
+b/c it’s such a common error. MM said he had issues with this for
+~5-years in the beginning.</p>
+<p>Being consistent requires CONSTANT management of your risk to reward
+and if you can’t cut losses you don’t have a chance. Mark has witnessed
+people wipeout 10-15 years of growth and hardwork in the market due to
+one bad bear market. This has led to health problems, suicide, etc. You
+must learn to be a hawk at all times.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Overtrading</li>
+</ol>
+<p>MR struggled with overtrading in the beginning. He has made progress
+by paying very close attention to his most-recent trades and combining
+this with knowing what he wants to see to know that “the wind is at our
+backs.” Are you seeing pivots failing, squats, etc.? If so, that type of
+market action should have you trading less by default. I struggle with
+overtrading. This became evident during this last rally and my solution
+was practically the same - add 10-most recent trades on my “Positions”
+page.</p>
+<p>The most common reason for overtrading in MM experience, is when
+people are buying good setups in a poor market. THEY HAVE TO BE WORKING.
+You have to bring trades into context. Overtrading can manifest itself
+in selling winners too soon. So you’re taking gains at 6% and losses at
+6% too. It can manifest itself in many ways. Most importantly, listen to
+MR. Look at your recent trades (feedback) and take market environment
+strongly into consideration.</p>
+<p>Overtrading is especially tempting for folks who are new and
+full-time. You sit in front of the screen all day and feel you need to
+do something.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Forcing Trades</li>
+</ol>
+<p>Most common reasons why people force trades: (1) you want action/to
+be in the game, (2) pressure to outperform the market or other people,
+(3) pressured by losses and want to recoup.</p>
+<p>Do PTA. Do PTA. Do PTA.</p>
+<p>Looking at a less-than-ideal trade that MM highlighted: QCOM in
+Dec. 2021. Stopped following the bearish engulfing. Was this ideal?
+No. It was not strong enough to be a PP, it was a short, extended base
+(not PP) and MM already knows that he has a poor track record with these
+setups. Big cap stock that was likely on everyone’s radar.</p>
+<p>These three things compound eachother. You hold losses, which likely
+leads to you wanting to recoup your losses which results in overtrading
+and/or forcing trades. The flip side, however, is that GOOD DECISIONS in
+the marketplace COMPOUND each other too. Trading creates a lot of
+emotional pressure. </font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Special Session #2: FOMO, Sit Out Power,
+&amp; Selling into Strength</span><br> <em>Dec 8, 2021</em></p>
+<a href="figures/SpecialSession2.png#round"><img
+src="figures/SpecialSession2.png#round" class="img-thumbnail"
+style="width:49.0%" /></a> <audio src="audio/SpecialSession2.mp3"
+controls=""><a href="audio/SpecialSession2.mp3">Audio</a></audio>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>These things build on each other and you have to build them one at a
+time. They support each other, like legs of a table. Also, recognize
+that you can’t necessarily perfect these things. Like selling. However,
+your goal should be to minimize these errors as much as possible,
+especially FOMO. This should be as close to eliminated as possible.
+Anyone ever golf an 18? Were always improving and even Mark M. admits
+that there’s only a handful of things on the list (twitter poll) that
+he’s perfect at, like: cutting losses, executing at buy point (and not
+chasing). When you consider the majority of things on that list, he’s a
+work in progress. Always looking to learn and improve. You will be
+forever!</p>
+<p>Consider learning each of these topics as little journeys. Their
+little journeys within a much larger journey that is your stock trading
+career.</p>
+<p>Consider adding a ‘tag’ to your trades that identifies the type of
+base / pattern you’re buying. Then go back and analyze how those setups
+perform for YOU. Either way, when doing PTA, analyze them according to
+setup type.</p>
+<ol style="list-style-type: decimal">
+<li>Sit out Power</li>
+</ol>
+<p>FOMO is what makes it so difficult to sit out. Nowadays were all
+equipped with a machine gun and able to buy whatever and whenever. But
+you shouldn’t be doing that. <b> It takes one or two good periods to
+realize the value of waiting for them. </b></p>
+<ol start="2" style="list-style-type: decimal">
+<li>FOMO</li>
+</ol>
+<p>HAVE RULES. Remove all the emotional, on the spot decisions. Being as
+mechanical as possible is the key to eliminate FOMO. If you’re
+susceptible to FOMO, you need to build protection mechanisms (like
+having rules for everything and planning everything out ahead of time).
+Just like an ex-alcoholic: don’t go to a party where everyone is
+drinking, build protection mechanisms!</p>
+<p>MR: “I used to chase gaps”, for example. Seems like they gap up and
+just go, however, in doing that over time, he realized that it just
+doesn’t pay on average. Then, follow the stats of those trades and see
+how they play out. This is partly how Mark became so picky about
+low-risk entry points. If I do this 1,000 times, where am I? Put in your
+journal that you made a FOMO trade. Track them and see if they pay.. <b>
+The goal is to make money. Are you a business man? Is this a hobby
+that’s filling a need for excitement / exhilaration? </b></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Selling too Soon</li>
+</ol>
+<p><b> Buying right solves a lot of your problems. </b></p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Special Session #1: Batting Avg, Whipsaw
+Markets, &amp; Following Rules</span><br> <em>Dec 2, 2021</em></p>
+<p><audio src="audio/SpecialSession1.mp3" controls=""><a
+href="audio/SpecialSession1.mp3">Audio</a></audio> <audio
+src="audio/SpecialSession1a.mp3" controls=""><a
+href="audio/SpecialSession1a.mp3">Audio</a></audio></p>
+This recording is GOLD for dealing with whipsaw markets!
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>If you’re not doing well, either your criteria/discipline is flawed
+or the market is poor. That’s it.</p>
+<ol style="list-style-type: decimal">
+<li>Batting Average</li>
+</ol>
+<p>You have no control over your batting average. In trading, you will
+be wrong often. The trick is not figuring out how to be right all the
+time (or improve your batting avg), it’s figuring out how to be
+profitable while knowing that you will be wrong often. <b>During tough
+periods, your batting avg may only be 20%, this is where you have to
+figure out how not to lose money.</b> One way to do this, finance risk
+ASAP (even at 1:1) and free roll the rest. It’s learning how to adapt
+the factors that you can control (position sizing, avg loss) while
+knowing that your batting average will be low and you cannot control
+it.</p>
+<p>If you can figure out how not to lose during tough periods, you’re
+going to do really well during the easy dollar periods. Either figure
+out how to finance risk quickly or exercise <b> sit out power.</b></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Whipsaw Markets</li>
+</ol>
+<p>Don’t worry about profitability. Just worry about breaking even and
+getting feedback from the market. Recall “Mind blowing math” if you can
+break even during the bad periods and be there for the good periods, you
+can make a fortune. You don’t need to be making money every day, it
+comes in bunches. You don’t need much time, you just need to NOT
+lose.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Following Rules</li>
+</ol>
+<p>Have very clearly defined and established protocols. Get very
+mechanical. If new, keep it very basic and limit yourself to a very
+select set of circumstances from which you buy. As minimal # of moving
+parts as possible. Narrow it down to top 5 or 10% RS names. Always stay
+within your own emotional limits.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Buy / Sell Tutorial</span><br> <em>Aug
+14, 2014</em></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Always ask yourself where you would be if you made ‘X’ decision 100
+times. It’s all about risk-to-reward. The stock market presents
+tremendous opportunity and it also presents tremendous risk. However,
+the beautiful thing about the stock market, unlike anything else, is you
+can choose to keep risk very small and sell out as soon as you want. You
+can be wrong a huge # of times and still make a fortune.</p>
+<p>On a breakout to new highs, very often (between 40-60% depending on
+the market), the stock will pullback to the breakout point. Be careful
+setting a breakeven stop too soon. A pullback to the buy point is less
+likely on pullback buys. Several ways to manage risk after a breakout,
+one way is to cut stop in half, from -5% to -2.5% for example, <b>or to
+wait until it clears the high of the first natural reaction.</b></p>
+<p>After buying a breakout, Mark looks for: follow through on volume.
+The sooner the better. Then, if it pulls back, look for support on 3
+lower low’s ideally on light volume. 3-4 lower low’s. We want high
+volume out and low volume in. Getting support on the 3rd lower low is a
+sign of institutional support and ‘tennis ball action.’</p>
+<p>Violations to consider after the breakout: Does it close below the
+20-DMA? High volume coming back into the breakout area? You should be
+reducing your position (even before it hits the stop) if you see
+violations piling up and don’t stubbornly hang in there.</p>
+<p>Marks average loss is generally 3.5-6%. Mark buys post-earnings gaps
+or PEG’s. Looks at this like a short stroke and must have all the usual
+characteristics. SANM during ~Aug 2014 is an example of a solid PEG
+setup.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Trading vs. Investing</span><br> <em>Jan
+15, 2014</em></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>As a trader, your goal is not to get the high; it’s simply to make
+more money than you risk and do that as many times as possible.</p>
+<p><a href="figures/tutorials/TradingvsInvesting1.png#round"><img
+src="figures/tutorials/TradingvsInvesting1.png#round"
+class="img-thumbnail" /></a></p>
+<ol style="list-style-type: decimal">
+<li><p>Stock runs up 2-5%, DO NOT move stop to breakeven. That’s too
+tight and will likely choke the trade off.</p></li>
+<li><p>Once you’re up 8-12% (or around that average gain), Mark regards
+that as a decent sized gain. Now you want to look to protect the gain,
+or at the very least, you’re breakeven point. Once the stock surpasses
+the high of the natural reaction, that is the time to move the stop up
+to breakeven or near breakeven.</p></li>
+</ol>
+<p><b>When &amp; how to think like an ‘investor’:</b></p>
+<p><u>When:</u></p>
+<p>The time to think like an ‘investor’ is at the beginning of a new
+bull market, just after a long bear. This is where you can get much
+longer, sustained moves. If you’re on a key leader, upside could be huge
+and it’s worth considering holding a small piece (at least) for a large
+move. Realize that by doing this, however, you’ll have to hold through
+major corrections, undercuts of significant lows and several
+base-building phases.</p>
+<p>When entering a PowerPlay setup or when buying from an IPO base.
+Powerplay is a velocity setup. IPO base is a magnitude setup. Both have
+potential to make huge moves.</p>
+<p><u>How:</u></p>
+<p>One way to manage the position while holding for a larger move is
+using the <b>breakeven or better rule</b> where you use the 50-day MA as
+a trailing stop. That is, once the 50-day MA is at the same level/price
+as your buy point, you switch over to using a close below the 50-day MA
+as a trailing stop. This helps you stay in there and hold for a larger
+move. Your breakeven stop turns into a trailing stop.</p>
+<p><a href="figures/tutorials/TradingvsInvesting2.png#round"><img
+src="figures/tutorials/TradingvsInvesting2.png#round"
+class="img-thumbnail" /></a></p>
+<p>How many times in 120 days can you find a 40% gainer? How many times
+in 120 days can you find a 10% gainer?</p>
+<p><b>Trading Around Your Position</b></p>
+<ol style="list-style-type: decimal">
+<li>Sell half - maintain stop</li>
+<li>Sell half - raise stop to breakeven</li>
+<li>Sell half - cut stop in half </font></li>
+</ol>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Post-Buy Tutorial</span><br> <em>Nov 20,
+2013</em></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Very important to watch the stock immediately after placing the
+trade. <b> The best sign that you’re going to make money on the trade is
+when you have the breakout followed by at least 2-3 additional days of
+buying. These get away from the breakout quickly and are “hard to buy”.
+</b> It’s all about know what to expect. REFERENCE POINTS.</p>
+<p><u>Bullish Signals</u></p>
+<ol style="list-style-type: decimal">
+<li>2-3 follow through buying days</li>
+<li>Quiet price action subsequent to breakout</li>
+<li>Reversal recovery from “squat”</li>
+</ol>
+<p><u>Bearish Signals</u></p>
+<ol style="list-style-type: decimal">
+<li>Close below 20-day soon after breakout lowers odds of success</li>
+<li>3 consecutive down days with NO SUPPORTIVE ACTION on day three
+lowers odds of success</li>
+<li>Wide price action (increased volatility) on volume lowers odds of
+success</li>
+</ol>
+<p>We don’t want the stock to be whipping around after breakout. Alpha
+not beta. We want it to breakout, get quiet, and pull-in on low volume
+and then to shortly thereafter move higher. “Tennis Ball Action” after a
+“Natural Reaction”. It will very often (~50%) pull back and retest the
+breakout area. <b>Be OK with having a 4-7% gain vanish as it retests the
+breakout area for a few days. This is where judging the theme/health of
+the market will pay off. Are stocks moving higher or failing after the
+initial breakout? Always pay attention to the theme as many of these
+signals will happen together or across many names.</b></p>
+<p>Quiet action following the b/o is ok. During a reversal or squat,
+look for it to take out the high within a few days to a week or two.
+Beware of violations or “bearish signals”. <b>Also consider – is there a
+theme in the market? Noticing one or several of these things happening
+over and over? </b></p>
+<p>How many stages or bases has the stock already gone through? Many of
+the stocks Mark is highlighting during this period (late Nov. 2013) are
+somewhat suspect because it’s late in the market and things are getting
+volatile. Keep this in mind – longer time frames at the beginning of a
+new bull and shorten time frame as see warranted as market has been in
+uptrend for some time. Volatility major clue.</p>
+<p>Additional Notes:</p>
+<p>David Ryan clarification: three lower low’s doesn’t apply (become as
+concerning) if they are very minor price moves. Everything in
+context.</p>
+<p>Mark does not apply these signals to the general market. Is the
+market distribution or accumulation dominant? That’s about all he cares
+about and keeps it as simple as possible. FOLLOW THE STOCKS.</p>
+<p>You’ll oftentimes get a “flight to quality” as the bull gets later
+stage. This is where money goes into big caps and it’s a defensive play
+(as we’ve seen for much of 2023). Don’t worry about stocks getting
+downgraded by analysts. Many great names get downgraded and it shouldn’t
+phase you - just follow price action.</p>
+<p>Mark was mentioning how around this time the market was feeling like
+a grind and not easy to make money. At this same time, I noticed the %
+NAS stocks above 200-day was also deteriorating - failed to break higher
+and had shortly thereafter put in a couple lower low’s.</p>
+<p>MPA is NOT A MODEL PORTFOLIO. Mark will generally own the first few
+that breakout up to 10-12 names maximum. Generally between 4-6
+names.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Position Sizing Tutorial</span><br>
+<em>Oct 30, 2013</em></p>
+<p><audio src="audio/MPA_psn_size.mp3" controls=""><a
+href="audio/MPA_psn_size.mp3">Audio</a></audio> <audio
+src="audio/MPA_psn_size1.mp3" controls=""><a
+href="audio/MPA_psn_size1.mp3">Audio</a></audio></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p><a href="figures/tutorials/psn_sizing_2013.png#round"><img
+src="figures/tutorials/psn_sizing_2013.png#round" class="img-thumbnail"
+style="width:49.0%" /></a> <a
+href="figures/tutorials/psn_sizing_2013a.png#round"><img
+src="figures/tutorials/psn_sizing_2013a.png#round" class="img-thumbnail"
+style="width:49.0%" /></a></p>
+<p>How do you know which stocks to buy?</p>
+<ol style="list-style-type: decimal">
+<li>Don’t have favorites</li>
+<li><b> Buy in order of breakout </b></li>
+<li>Don’t keep adding positions if trades are stopping you out.</li>
+<li>Don’t keep trading the same size if trades are stopping you
+out.</li>
+<li>When things are working step up your exposure - build on
+success.</li>
+<li>When things are not working scale back.</li>
+<li>Use forced displacement to add names when a stock is sold.</li>
+</ol>
+<p>What if you’re at a decent gain (~20%) within just a few days?</p>
+<p>Very often what Mark will do is sell half into the strong move
+upward. Selling half is a win-win. At that point, it is a free trade
+even with the stop in the same place as it was originally. You don’t
+want to move the stop up too quickly, and you want to let the stock go
+through a natural reaction. Sometimes Mark will add it back as it breaks
+out above the high of the natural reaction, then at that point, you can
+raise your stop to breakeven or your initial buy point (NOT necessarily
+the low of the natural reaction). Now your first half is nailed down and
+second half is free rolled. This way you can hold through a second
+natural reaction unless it makes a very accelerated move. If it moves up
+significantly, Mark will just sell right into that.</p>
+<p><a href="figures/tutorials/MPA_psn_size2.png#round"><img
+src="figures/tutorials/MPA_psn_size2.png#round" class="img-thumbnail"
+style="width:49.0%" /></a> <a
+href="figures/tutorials/MPA_psn_size3.png#round"><img
+src="figures/tutorials/MPA_psn_size3.png#round" class="img-thumbnail"
+style="width:49.0%" /></a></p>
+<p>Notice how the buys and add buys are still within the base. Mark is
+only adding a 2nd buy if the stock is still within the base and actually
+improving. Don’t do this to stocks that are running up and extended from
+the base.</p>
+<p>Here’s an example: <a
+href="figures/tutorials/MPA_psn_size4.png#round"><img
+src="figures/tutorials/MPA_psn_size4.png#round"
+class="img-thumbnail" /></a></p>
+<p>Mark lost almost nothing on this trade despite doubling his size on
+the 2nd ‘Add’ buy. He did this by raising his full stop to below the
+pivot of the handle. This locked in the gains from the 1st buy and he
+took a normal, acceptable loss on the add. <b>Through these methods,
+Mark effectively achieved asymmetrical leverage by increasing size to
+win big if it works but lose almost nothing if it doesn’t.</b> ALWAYS
+look to increase size and build larger positions while NEVER increasing
+risk along with it. Do just the opposite: increase size without
+increased risk.</p>
+<p>When you add to an existing trade, how much do you add on the 2nd buy
+(same size or smaller)?</p>
+<p>It depends. Generally what I’ll do is double up on a position if I
+add to it. Mark is big on going in with a smaller positions than normal
+until things are working. <b>Once things are working, I don’t waste any
+time. I go right in at a full position.</b> Once I have some traction
+and I can see in the market that things are acting right, I go straight
+in with a full-position. <b>If the market isn’t easy dollar, generally,
+I’ll go in with a quarter or half position and double up each
+time.</b></p>
+<p>You don’t EVER have to be fully invested to make a big return. In
+fact, Mark is oftentimes 50% in cash. Consider this - if in any given
+year you can only make 100 trades, it doesn’t matter if you’re 100%
+invested or 0% invested at times, or if you stay 25% invested at all
+times with 75% cash at all times, either way it doesn’t matter. Your
+results are the same either way, regardless of total exposure. <b>
+Therefore, it is not necessary to have the feeling that you need to be
+fully invested! </b></p>
+<p></font></p>
+</div>
+</div>
+<hr />
+</div>
+<div id="qa-sessions" class="section level3">
+<h3>Q&amp;A SESSIONS</h3>
+<div class="box">
+<center>
+<span style="color:#FFFF99">Q&amp;A Session June 26, 2023</span><br>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Mark: Many people think the breakout is the key. It’s not. The
+quietting of price action around the supply area, is the key. It’s
+telling you that supply has stopped coming to market. We don’t want a
+stock with supply, that’s what leads to volatility. We want no supply
+and a shit load of demand. This imabalance is what Jesse Livermore
+called the ‘Line of least resistance.” It gets defined as the supply
+gets weeded out of the market. Once you make this determination of a
+stock setting up and supply being chewed through, then you want to watch
+the stock after it breaks out. If it pulls back to the breakout area,
+you want to watch for the stock to catch support, confirming the demand
+for the stock. If it doesn’t catch support, it’s telling you that all
+you have is retail buying and there’s no ’real’ demand for the stock.
+This explains why after stocks breakout that have actually gone through
+supply/demand dynamics, move very quickly. They can either move up or
+down quickly, but it’s because of this imbalance. A little buying can
+move it up quickly, but even a little selling will bring it right back
+down.</p>
+<p>After the breakout, you must assess- is this real institutional
+demand or just retail traders breaking it out just from the chart?
+That’s where you look for the follow through. The tennis balls/natural
+reactions. If you get the setups, they’re breaking out, they’re
+following through.. Now you know there’s an appetite for risk out
+there.</p>
+<p>Going into each day with a clear plan is what Mark Ritchie does to
+stay in check and no overtrade. Have a plan each day and go into the day
+ready to execute on nothing but YOUR plan. If that means only looking at
+1-2 stocks, that’s all you look at. You have to figure out what works.
+Try being more stringent with your rules- only certain RS stocks, only 1
+setup, etc.</p>
+<p>I need to be better at going into each day with a comprehensive plan
+and LET NOTHING come into my mind that day. Have a complete plan and
+have the discipline to follow it. Mark M. even said, you shouldn’t be
+getting your ideas from ‘this’ service..</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<span style="color:#FFFF99">Q&amp;A Session June 2, 2023</span><br>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>The way to calculate RS (if you didn’t have access to RS) is take the
+12-month ROC and sort the list from highest to lowest. Meaning, the
+stocks that have gone up the most over the last 12-months are the
+highest RS.</p>
+<p>Mark M. rereads his own Mindset book while on the toilet.. lol. Very
+important to keep these ideas fresh. Read a section each time you use
+the bathroom..</p>
+<p>You’ll likely never scale in perfectly during a new bull market or
+scale out perfectly at the end of a bull. Just look to minimize
+mistakes.. Don’t get hung up on being perfect.</p>
+<p>PCVX, top winning stocks don’t look like this. Skewed out to the
+right. Not ideal but maybe tradable.</p>
+<p>Short base is 4-5 weeks minimum. 6-8 is what Mark likes to see,
+minimum. Unless, PP, then 2-3 weeks.</p>
+<p>Always think risk vs reward.</p>
+<p>No prejudice in the market. If you’re great, you’ll get rewarded. If
+you’re not getting rewarded, you either don’t have the skill or the
+market is bad. Mark Ritchie made more money on year 7 of his journey
+than he did in the prior 6. Mark M. said the same. Develop the skill and
+it will pay you for life.</p>
+<p>If a stock has great fundamentals on the table, the only real
+difference that makes in Mark Ritchies tactics is that he might play the
+name for a larger move..</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<span style="color:#FFFF99">Q&amp;A Session May 26, 2023</span><br>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Historically, Mark Minervini will typically do 250-500 trades per
+year, minimum. Never done less than 125-150 trades in a year.</p>
+<p>Mark Ritchie averages several hundred trades per year.</p>
+<p>When it comes to trading negligible size positions in a tough
+environment - the effect on your portfolio might be meaningless, but
+it’s not meaningless if it’s giving you valuable information.</p>
+<p>A close below the 20-day MA just after a breakout, historically not
+the best sign. 50-day MA even more ominous.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<span style="color:#FFFF99">Q&amp;A Session May 22, 2023</span><br>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Q: Is FIX late stage base? <br></p>
+<p>Don’t read into base counting too much. It’s mainly relevant after a
+long drawn out bull market. But David Ryan said, be careful with base
+counting b/c it can be subjective. Also, sometimes you can get climax
+runs when late stage so don’t worry too much about late stage or not.
+You’ll get stopped out either way. Remember what Ed Sykota said: “Go
+where the momentum is.”</p>
+<p>During good periods, Mark R. will oftentimes sell in thirds. But it
+depends. The main thing is thinking about going in and out
+incrementally. Half is great for psychological reasons.</p>
+<p>Remember when adding, “Would I buy it here if I didn’t own it
+already?” Also, it’s no problem to add more shares than the original buy
+if the setup improves and you went in with a starter position.</p>
+<p>Mark has learned over the years that, SMALL GAINS ADD UP. Happens
+more often, less volatility in those original moves. As trade
+progresses, it gets more volatile. Shorter-term helps with consistency,
+but it’s a lot of work and requires more trading, when compared to
+longer term trading / investing.</p>
+<p>NVDA was an “if you can’t beat em, join em” type of trade.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<span style="color:#FFFF99">Q&amp;A Session May 19, 2023</span><br>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p><u>Goals to set in Market:</u></p>
+<ol style="list-style-type: decimal">
+<li><p>Not Losing Money</p></li>
+<li><p>Consistent application of discipline</p></li>
+</ol>
+<p>Thinking about something Mark said in the Q&amp;A session on Friday..
+One of your main goals in the market should be to apply your discipline
+consistently. Even if your discipline is not perfect, it’s important
+that you apply it consistently. Then, after doing that for some time,
+you can go through and critique / improve your discipline to achieve
+superperformance. This is super relevant b/c last week I was questioning
+my decision to sell 1:1 to finance risk, thinking, “we’ll it only
+reduces my risk by $12 and I already have a small position.” This,
+however, is not congruent with my goal. I need to be less concerned with
+having perfect rules than I am about doing something consistently. It’s
+ok if financing risk 1:1 isn’t perfect, I already know it will improve
+my numbers, but it’s ok if not perfect. Just do it and do it
+consistently. Then, after a few months, look back and critique it. You
+should do this over and over and eventually you will have ‘critiqued’
+everything about your strategy.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session May 4,
+2023</span><br></p>
+<p><audio src="audio/MPA_QA_5_5_2023.mp3" controls=""><a
+href="audio/MPA_QA_5_5_2023.mp3">Audio</a></audio> <audio
+src="audio/MPA_QA_5_5_2023a.mp3" controls=""><a
+href="audio/MPA_QA_5_5_2023a.mp3">Audio</a></audio></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Comments about earnings:</p>
+<p>On an earnings gap up while at a multiple of risk, even in an easy
+dollar environment, Mark Ritchie will generally lighten up into that
+strength. If many names are being sold and consistently moving higher
+(costing you $ but great sign), then he might sell less to hold more for
+a bigger move. <b>NEVER HOLD A LARGE POSITION INTO EARNINGS.</b> MR
+holds into earings fairly regularly (with light position) when he’s at a
+profit. If no profit, almost never holds into earnings.</p>
+<p><u>MPA handling of GRBK (classic execution):</u></p>
+<p><a href="figures/GRBK-MPAtactics.png#round"><img
+src="figures/GRBK-MPAtactics.png#round" class="img-thumbnail" /></a></p>
+<p>Pilot buys for Mark Ritchie are generally 1/10th of his full
+position. In that case, 2.5% position. The goal isn’t to make money,
+it’s “to see if I can make any money, or find any footing”. Like
+sticking a mirror around the corner in old western movies.</p>
+<p><u>Question:</u> If the market is selling off, do you start selling
+positions and/or adjusting risk based on volatile market?</p>
+<p><u>Answer:</u> I always default to the stocks. I never get my cue
+from the market, always the stocks that I’m in. Now, if I’m feeling a
+lot of pressure and am near my accepted portfolio dollar risk, I may
+start lightening up or synching up stops, but never selling just because
+general market is going down. STOCKS LEAD. Just like prior to 2020 COVID
+crash.. We were stopped out of names several weeks before the market
+really opened up (to the downside) that is because the stocks lead!
+Never let the general market lead you.</p>
+<p><b>Want to hold for a bigger move?</b></p>
+<p>Wait to sell at a weekly close below the 10-week OR for three weekly
+lower low’s and this will keep you in the best names that can make huge
+moves. The best names won’t do this until the bulk of the move is over /
+needs time to consolidate.</p>
+<p><u>Example:</u> AXON back in 2003-2004, one of Mark’s great trades.
+Notice how on weekly it never even closed before the 10-week MA during
+its entire move up.</p>
+<p><u>Mark: A batting average in the 20’s-30’s is about the worst it
+gets.</u> Mine is just under 10%. This tells me I NEED TO BE MORE
+SELECTIVE. This seems right considering I made several mistakes so far
+this year that I’ve learned from and corrected: (1) realizing that MPA
+isn’t a model portfolio and that Mark’s only buy a handful. Follow the
+“trade blocks” template on the home page. I had in my head that Mark
+“buys 90% of all names on the platform” and later realized that simply
+isn’t true. (2) FOMO.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session May 1,
+2023</span><br></p>
+<p><audio src="audio/MPA_QA_5_1_2023.mp3" controls=""><a
+href="audio/MPA_QA_5_1_2023.mp3">Audio</a></audio></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>You cannot lean on open profits unless you have a backstop to
+guarantee a set amount of profit. Must be essentially closed or
+guaranteed for you to lean on them.</p>
+<p>Mark Ritchie’s long term numbers: almost 3:1 and just under 40%
+batting average.</p>
+<p>In bear markets, it’s institutional selling into retail buying. Bull
+market is retail selling and institutional buying.</p>
+<p>Always buy in the order of breakout.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session April 24,
+2023</span><br></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>When Mark Ritchie wants to get 20-25% invested, he will typically do
+that with 1-2 positions. This rally, he’s “taken more of a shotgun
+approach” and has bought 4-5 names to get to 20-25%. The MPA platform
+has 17-18 positions on and this is only to show what’s breaking out and
+how they’re doing. This is supposed to be contrasted or compared with
+our own trading so we can get an overall feel for the performance of our
+strategy. Mark says that even though they have nearly 20 names on, the
+most he would personally have is 4 to 5 or perhaps 6-8 partials
+depending on conditions. MAX 8 names to start. They will NEVER actually
+own this many names.</p>
+<p>When it comes to fundamentals, the code 33 is the best b/c it is how
+institutional investors operate. They look for earnings surprises,
+breakout years on earnings, 3 quarters of accelerating earnings, sales,
+margins; 2 quarters, etc. It’s all in the chapter “Fundamentals to focus
+on” in Marks first book. These institutions have programs that pick out
+companies with these fundamentals on the table. When it comes to shorter
+time frame where you’re looking to get 10-15% gains, fundamentals don’t
+really matter. However, if you want the key leaders and want to hold for
+large moves, fundamentals become very important.</p>
+<p>Recall the book, “How I made 2,000,000 in the stock market” by
+Nicholas Darvas. He had a rule, the DOW must be in an uptrend for at
+least 6-months before he would even consider buying.. <b> We’re not
+looking to get the low. We’re looking to not lose money and wait for the
+periods where we can get very aggressive and make a lot of money. The
+low is meaningless! </b></p>
+<p>When it comes to bad closes, using CBAY as an example, MONALERT was
+showing nearly 2:1 violations to confirmations that were mostly the
+result of poor closes prior to breakout. Mark say’s these ‘violations’
+are mainly something he watches post-breakout and that they aren’t too
+concerning to not buy because closes were tight, volume was drying up.
+It certainly has the look so don’t get too worried about the closes
+prior to breakout if everything else looks good.</p>
+<p>HUBS made a huge correction. It’s just starting to turn up, has a
+short little base. This is why it doesn’t make the cut.</p>
+<p>AQUA had a proposed merger (shown as PM on Marketsmith chart) and
+with this you need to be very careful. Could fall through. This has kept
+Mark away from the name and is not even considering it.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session April 17,
+2023</span><br></p>
+<audio src="audio/MPA_QA_4_17_2023.mp3" controls=""><a
+href="audio/MPA_QA_4_17_2023.mp3">Audio</a></audio>
+</center>
+<div class="box1">
+<p><font color="black"> It’s a career full of mistakes. You can’t force
+the experience. 12-15% are typical swing trading gains.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session April 3,
+2023</span><br></p>
+<audio src="audio/MPA_QA_4_3_2023.mp3" controls=""><a
+href="audio/MPA_QA_4_3_2023.mp3">Audio</a></audio> <audio
+src="audio/MPA_QA_4_3_2023_2.mp3" controls=""><a
+href="audio/MPA_QA_4_3_2023_2.mp3">Audio</a></audio>
+</center>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session March 23,
+2023</span><br></p>
+<audio src="audio/MPA_QA_3_23_2023.mp3" controls=""><a
+href="audio/MPA_QA_3_23_2023.mp3">Audio</a></audio> <audio
+src="audio/MPA_QA_3_23_2023_2.mp3" controls=""><a
+href="audio/MPA_QA_3_23_2023_2.mp3">Audio</a></audio>
+</center>
+<div class="box1">
+<p><font color="black"> In regards to a reversal day on a breakout: “If
+it breaks out and then reverses, we want to see it go inside and stay
+tight and over the next few days to a week, take out the high of the
+reversal day. This is called a reversal recovery and precisely what you
+want to see. It means supply has been cleared out.” <b>YUMC on 3/17 and
+subsequent action is perfect example of reversal recovery.</b></p>
+<p>It is very important that the volume comes down in the pivot. <b>The
+combination of tight price action and low volume tells you that supply
+is no longer coming to the market.</b> It doesn’t mean that supply will
+come into the market, but it’s a good indication and gives you your best
+shot at an explosive situation. The odds are in your favor. There could
+always be sellers who come out of the woodwork who weren’t there at
+lower prices.</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session March 21,
+2023</span><br></p>
+<audio src="audio/MPA_QA_3-21-2023.mp3" controls=""><a
+href="audio/MPA_QA_3-21-2023.mp3">Audio</a></audio><br>
+</center>
+<p><a href="figures/TH_daily_PBbuy.png#round"><img
+src="figures/TH_daily_PBbuy.png#round" class="img-thumbnail" /></a></p>
+<div class="box1">
+<p><font color="black"> Is TH a PB buy here?</p>
+<p>It is technically a pullback buy if it takes out the high of the
+previous day, but because of the recent market action, it’s not perfect
+and not the best buy. Be more of a stickler during these periods and
+recognize the nuance of this pullback buy that makes it less than ideal.
+“It is acting pretty good though.” </font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+<center>
+<p><span style="color:#FFFF99">Q&amp;A Session February 23, 2023</span>
+<br></p>
+<audio src="audio/MPA_QA_23Feb.mp3" controls=""><a
+href="audio/MPA_QA_23Feb.mp3">Audio</a></audio> <audio
+src="audio/MPA_QA_23Feb2.mp3" controls=""><a
+href="audio/MPA_QA_23Feb2.mp3">Audio</a></audio> <audio
+src="audio/MPA_QA_23Feb3.mp3" controls=""><a
+href="audio/MPA_QA_23Feb3.mp3">Audio</a></audio>
+</center>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

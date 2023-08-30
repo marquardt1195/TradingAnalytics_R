@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Results.knit</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="site_libs/react-17.0.0/react.min.js"></script>
+<script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+<script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/reactable-0.4.4/reactable.css" rel="stylesheet" />
+<script src="site_libs/reactable-binding-0.4.4/reactable.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="figures/Rstudio_logo.png" style="float: left;" width="80px"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Positions.html">
+    <span class="fas fa-chart-line"></span>
+     
+    POSITIONS
+  </a>
+</li>
+<li>
+  <a href="Trades.html">
+    <span class="far fa-file-alt"></span>
+     
+    TRADES
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="far fa-chart-bar"></span>
+     
+    ANALYTICS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Results.html">Results</a>
+    </li>
+    <li>
+      <a href="Plots.html">Plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fas fa-seedling"></span>
+     
+    STUDY
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PTA.html">PTA</a>
+    </li>
+    <li>
+      <a href="Models.html">Models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: 74%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 91%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box2 {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+<center>
+<div id="key-metrics" class="section level3">
+<h3>Key Metrics</h3>
+<div class="box">
+<div id="htmlwidget-97e4e9cc063c4e2343c3" class="reactable html-widget " style="width:650px;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-97e4e9cc063c4e2343c3">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"avg_percent_gain":[8.97863359388228],"avg_percent_loss":[-3.79591406885597],"batting_average":[0.196428571428571],"win_loss_ratio":[2.36534163603664],"adjusted_win_loss":[0.464620678507197]},"columns":[{"id":"avg_percent_gain","name":"Avg % Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"style":{"color":"#00cc00"}},{"id":"avg_percent_loss","name":"Avg % Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"style":{"color":"#ff3333"}},{"id":"batting_average","name":"Batting Avg","type":"numeric","align":"center","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"id":"win_loss_ratio","name":"W/L","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"adjusted_win_loss","name":"Adj W/L","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}}],"highlight":true,"outlined":true,"bordered":true,"striped":true,"width":"650px","theme":{"color":"hsl(233, 9%, 87%)","backgroundColor":"hsl(233, 9%, 19%)","borderColor":"hsl(233, 9%, 21%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"7f8182cd9f634a4325ba30f6d2254d0b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+<div id="total" class="section level3">
+<h3>Total</h3>
+<div class="box1">
+<div id="htmlwidget-44356dd61ca8327e6125" class="reactable html-widget " style="width:800px;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-44356dd61ca8327e6125">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"closed_pl_dollar":[-633.6422],"principal_change_percent":[-4.15121986373166],"total_wins":[11],"total_losses":[45],"total_trades":[59],"largest_winner":[17.9113018597997],"largest_loser":[-14.0706658472916],"avg_win_hold_time":[18.2727272727273],"avg_lose_hold_time":[7.52173913043478]},"columns":[{"id":"closed_pl_dollar","name":"P/L $","type":"numeric","align":"center","format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"width":90,"style":[{"color":"#ff3333"}]},{"id":"principal_change_percent","name":"P/L %","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":80,"style":[{"color":"#ff3333"}]},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":70},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":70},{"id":"total_trades","name":"Total Trades","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_winner","name":"LG % Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loser","name":"LG % Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold_time","name":"Avg Win Hold","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}}},{"id":"avg_lose_hold_time","name":"Avg Loss Hold","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}}}],"highlight":true,"outlined":true,"bordered":true,"striped":true,"width":"800px","theme":{"color":"hsl(233, 9%, 87%)","backgroundColor":"hsl(233, 9%, 19%)","borderColor":"hsl(233, 9%, 21%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"17fd8ce9dd10f7e59dbd815713e63365"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+<div id="monthly" class="section level3">
+<h3>Monthly</h3>
+<div class="box2">
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c02e3a0ff4ea577da21f" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c02e3a0ff4ea577da21f">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"month":["January","February","March","April","May","June","July","August"],"pl_dollar_month":[-52.4831000000004,-300.1895,-1.38129999999997,-227.5396,-51.4066999999999,37.6315000000006,-38.2735000000002,0],"monthly_percent_change":[-0.343835822851161,-1.97343566702411,-0.00926342747996467,-1.52609270666646,-0.35012448402106,0.257203885683884,-0.363367916950783,0],"batting_avg":[0.222222222222222,0,0.25,0,0.222222222222222,0.428571428571429,0,"NA"],"avg_gain":[14.4881559818019,"NA",4.98149127445797,"NA",6.52059569242322,8.62766248496615,"NA","NA"],"avg_loss":[-3.32436184691609,-3.76176446416824,-3.11997815643624,-4.60395831462705,-3.48414701481351,-3.86556942241054,-1.41624182954313,"NA"],"monthly_win_loss":[4.35817659116806,"NA",1.59664299706124,"NA",1.87150417726338,2.23192537558567,"NA","NA"],"adj_win_loss":[0.968483686926235,"NA",0.39916074926531,"NA",0.415889817169641,0.956539446679574,"NA","NA"]},"columns":[{"id":".details","name":"More","type":null,"align":"center","sortable":false,"resizable":false,"filterable":false,"searchable":false,"width":60,"details":[{"name":"Reactable","attribs":{"data":{"month":["January"],"total_wins":[2],"total_losses":[7],"trade":[9],"largest_gain":[17.9113018597997],"largest_loss":[-6.42057237660722],"avg_win_hold":[26],"avg_loss_hold":[12]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"0aa14b683e9caa35a2e2a85da4543245","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["February"],"total_wins":[0],"total_losses":[7],"trade":[7],"largest_gain":["NA"],"largest_loss":[-7.0449907686328],"avg_win_hold":["NA"],"avg_loss_hold":[3.28571428571429]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"8d625d42a397849a7395b53d7baa6036","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["March"],"total_wins":[1],"total_losses":[3],"trade":[4],"largest_gain":[4.98149127445797],"largest_loss":[-4.44085570469798],"avg_win_hold":[24],"avg_loss_hold":[6]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"bfea405b05be6c097122019052bbd833","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["April"],"total_wins":[0],"total_losses":[12],"trade":[13],"largest_gain":["NA"],"largest_loss":[-14.0706658472916],"avg_win_hold":["NA"],"avg_loss_hold":[6.58333333333333]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"ef071492ecc8fe5ee159e28fefda6d0c","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["May"],"total_wins":[2],"total_losses":[7],"trade":[9],"largest_gain":[7.4857730624321],"largest_loss":[-6.45973707035484],"avg_win_hold":[20],"avg_loss_hold":[5.28571428571429]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"5f732f886fa8d92ce727d0e1801bf0bf","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["June"],"total_wins":[6],"total_losses":[8],"trade":[14],"largest_gain":[14.2928521556991],"largest_loss":[-9.78681999115435],"avg_win_hold":[14.1666666666667],"avg_loss_hold":[10.125]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"1d4201c5f5b416a5753f4b8363071cb7","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["July"],"total_wins":[0],"total_losses":[2],"trade":[2],"largest_gain":["NA"],"largest_loss":[-1.54025346597003],"avg_win_hold":["NA"],"avg_loss_hold":[6]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"5028c9e22d08add859d99b52ae2ff475","static":false,"nested":true},"children":[]},{"name":"Reactable","attribs":{"data":{"month":["August"],"total_wins":["NA"],"total_losses":["NA"],"trade":[1],"largest_gain":["NA"],"largest_loss":["NA"],"avg_win_hold":["NA"],"avg_loss_hold":["NA"]},"columns":[{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"total_wins","name":"Wins","type":"numeric","align":"center","width":80},{"id":"total_losses","name":"Losses","type":"numeric","align":"center","width":80},{"id":"trade","name":"Total","type":"numeric","align":"center","format":{"cell":{"digits":0},"aggregated":{"digits":0}},"width":80},{"id":"largest_gain","name":"LG Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"largest_loss","name":"LG Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_win_hold","name":"Avg Hold Win","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90},{"id":"avg_loss_hold","name":"Avg Hold Loss","type":"numeric","align":"center","format":{"cell":{"digits":1},"aggregated":{"digits":1}},"width":90}],"outlined":true,"theme":{"color":"hsl(233, 9%, 95%)","backgroundColor":"#336699","borderColor":"hsl(233, 9%, 22%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"ae474a8631ffbb750ec02efc1e60a957","static":false,"nested":true},"children":[]}]},{"id":"month","name":"Month","type":"character","align":"center","width":100},{"id":"pl_dollar_month","name":"P/L $","type":"numeric","align":"center","format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"style":[{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"gray90"}]},{"id":"monthly_percent_change","name":"P/L %","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":90,"style":[{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"gray90"}]},{"id":"batting_avg","name":"Batting Avg %","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}}},{"id":"avg_gain","name":"Avg % Gain","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":100},{"id":"avg_loss","name":"Avg % Loss","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":100},{"id":"monthly_win_loss","name":"W/L","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":80},{"id":"adj_win_loss","name":"Adj W/L","type":"numeric","align":"center","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"width":90}],"resizable":true,"showPageSizeOptions":true,"highlight":true,"bordered":true,"striped":true,"showSortable":true,"theme":{"color":"hsl(233, 9%, 87%)","backgroundColor":"hsl(233, 9%, 19%)","borderColor":"hsl(233, 9%, 21%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"545dd3ac21b001f453a2449318cdc7a8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</center>
+<p><br></p>
+<p>CLOSED TRADES only. Does not include partials or open positions.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

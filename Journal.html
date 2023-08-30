@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Journal.knit</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="figures/Rstudio_logo.png" style="float: left;" width="80px"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Positions.html">
+    <span class="fas fa-chart-line"></span>
+     
+    POSITIONS
+  </a>
+</li>
+<li>
+  <a href="Trades.html">
+    <span class="far fa-file-alt"></span>
+     
+    TRADES
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="far fa-chart-bar"></span>
+     
+    ANALYTICS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Results.html">Results</a>
+    </li>
+    <li>
+      <a href="Plots.html">Plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fas fa-seedling"></span>
+     
+    STUDY
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PTA.html">PTA</a>
+    </li>
+    <li>
+      <a href="Models.html">Models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+img[src$="#round"] {
+  margin: 0px;
+  border-radius: 5px;
+}
+img:hover {
+  opacity: 0.9;
+}
+.box {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 20%);
+  color: hsl(233, 9%, 95%);
+  padding: 30px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 5%, 95%);
+  color: hsl(233, 9%, 95%);
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box2 {
+  height: auto;
+  width: 100%;
+  background-color: #3d688f;
+  color: hsl(233, 9%, 95%);
+  padding: 30px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+details > summary {
+    list-style-type: none;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details > summary::before {
+    content: '▶️';
+}
+
+details[open] > summary::before {
+    content: '🔽';
+}
+
+details {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+details[open] > summary {
+    margin-bottom: 0.5rem;
+}
+</style>
+<div class="figure" style="text-align: right">
+<img src="figures/orange.png" alt="Stock Feedback" width="11.5%" />
+<p class="caption">
+Stock Feedback
+</p>
+</div>
+<div class="box2">
+<div class="box1">
+<p><font color="black" size=3></p>
+<center>
+<b><u>DAILY REMINDERS</u></b>
+</center>
+<p><b>(1)</b> The point of a strategy is to prompt you to take action in
+the market. Nothing else should be responsible for prompting you to take
+action. If you take action without first being prompted, either you
+don’t believe in the strategy or you don’t have the discipline to follow
+it. Which is it?</p>
+<p><b>(2)</b> Your strategy has been time-tested for decades by proven
+champions in the market. You already have everything you need to
+succeed.</p>
+<p><b>(3)</b> TRUST the strategy. FOLLOW the strategy. CONSISTENTLY
+APPLY the strategy. It’s the only reference point you have in the
+market. Without it, you are simply guessing/gambling and uncertainty
+will reign.</p>
+<p><b>(4)</b> NO FOMO. This is a business. What business would succeed
+if the owner was giving into short-term desires/excitement instead of
+executing according to plan? Would you work for him/her?</p>
+<p><b>(5)</b> The market is already chaotic enough and the strategy, at
+it’s best, is only right 60% of the time. Why add more uncertainty?</p>
+<p><b>(6)</b> How have trades been going?</p>
+<p></font></p>
+</div>
+</div>
+<hr />
+<div class="box">
+
+<p><span style="color:#FFFF99"><em>8/10/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>9 down days in a row on the IWO, wow! Things feel and look worse than
+I had expected on this pullback. Is this just forming the left side of a
+scary looking shakeout?</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>8/7/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Decent action from Focus List today. Several names put in solid days
+and firmed up. CRVL, NFLX, PERI, MGNI, ONON, SGH, ESE. Not entertaining
+anything right now. Just watching. Feels like mid-week we could see some
+pivot failures in these names but well see.</p>
+<p>Underneath the surface things continued to deteriorate today. Perhaps
+this will be more than just a light pullback. Light volume on indexes.
+Most were green today but on light volume. New highs/new lows registered
+more new lows on the nasdaq today. Breadth readings showing declining %
+above ma’s. Wait and see mode. Feeling the pulse of the market..</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>8/6/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p><b> Right now the market is telling me to be cautious. I recently got
+stopped out of positions, TML’s are getting loose and/or looking
+vulnerable, indexes are under distribution, New highs/new lows is
+deteriorating along with most breadth readings. From a contrarian
+perspective, sentiment is getting slightly bearish but nothing major to
+make me take a contrarian stance. Ideally, we’d see sentiment continue
+to deteriorate, while stocks hold up underneath the surface and the
+indexes pullback on lighter volume and get support at key areas. Watch
+that Russell 2000. Even more importantly that stocks are setting up and
+buyable. Are there lots of names on Focus list? </b></p>
+<p>It’s been a weird week. I think I understand what depression is and
+what it feels like. First time that happened was when I moved to SLC and
+then again while here. Much easier this time around being with Adriana.
+Learning that I have mental / emotional weaknesses that I need to work
+on. I recently, within the past two days or so, made some mental shifts
+or adjustments that have helped me navigate the move: be patient and
+treat yourself with grace. Moving is tough. Starting a business is
+tough. The stock market is tough. Be patient with yourself and make
+necessary adjustments. Everything is new and I needed to make some
+mental adjustments to help me cope with no current income and a home
+that doesn’t feel like home. On to the market..</p>
+<p>TML’s look tired. Some earnings blowups: HUBS &amp; RMBS. Most of the
+names recently starting to see reversals and volatility. SMCI is the
+standout exception. Many names look vulnerable to more downside: MNDY,
+GLBE, UBER, ORCL. SOFI lost entire earnings move. Will be interesting to
+see if we get support in these names around the 50dma, like: NVDA, UBER.
+Strongest looking TML’s: SMCI, PLTR, NVDA, ELF, with plenty more having
+just blasted off and extended, like: NIO, UPST. Taking a look at the
+weekly’s of these names, they reiterate recent volatility, however, some
+names like NVDA, GLBE, UPST, MRVL look fine on weekly chart. Just might
+need time..</p>
+<p>QQQ, SPY, DJI all saw distribution last week. Several weeks
+distribution on QQQ. Look for support at 370 level, 50dma, or at 355
+level. Russell 2000 growth saw distribution Wednesday, Thursday, and
+Friday. IWM pulling in on light volume. Will be interesting to see if
+Russell can hold up as this could indicate relative outperformance in
+the near-term.. Looking for this.. Nearly every breadth reading shows
+momentum leaving the market over the intermediate-term: ST and LT %
+above ma’s generally declining, new highs new lows deteriorating.
+Sentiment moving slightly bearish. Look to see if new low’s begin to
+outpace new highs.. Either way, I would expect the pullback to show less
+new lows and for a shorter amount of time than the previous pullback
+from March-June. Right now I’m viewing this as a pullback within a
+greater uptrend. Pullbacks are buyable. Looking to enter the Russell on
+a pullback. Let’s see if a pivot will develop. VIX also spiked up.</p>
+<p>Another hole in my system has to do with DeepVue. I realize I have no
+clue how group moves have been manifesting. It’s been tough to notice
+group info with my DeepVue setup. I’ve made some changes (more needed)
+to my setup to help show group info. It includes showing the Industry
+Group Rank next to the name in the screener and viewing my screens
+ranked by Industry group first and RS second. So far this is helping.
+Noticing homebuilders, industrial services, technology services,
+Finance, steel, oil and gas, non energy minerals, have many names that
+have made big advances.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>7/31/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Added to MRVL today and started a position (1/4) in MNDY today.
+Looking at new RS10 screen past two days and plenty of stocks doing well
+and continuing their advances. Being super selective but taking setups
+as I see them. Will not play into the volatility. Keeping things tight
+on these recent buys until they work.</p>
+<p>Stalking NVDA to see if it breaks out or breaks down. Staying tight
+and looks like it wants higher. Is this a good way to gauge the market?
+Will MRVL behave similarly and likely be influenced by NVDA? I think
+yes. Come back to this… NVDA, SNPS, MRVL, AVGO, etc. look similar. What
+% of a stocks move is the result of the group move?</p>
+<p>Note: add more info in a nested table in the Open positions table so
+that you can see entries- price, quantity, date.</p>
+<p></font></p>
+</div>
+<hr />
+<div class="box">
+
+<p><span style="color:#FFFF99"><em>7/31/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Earnings season and with recent portfolio pressure, took it easy
+today.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>7/30/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p><u>JOURNAL</u></p>
+<p>Lots of names with earnings coming up. Risk elevated. Not seeing many
+names setup. Not the time to get aggressive with new buys. General
+market saw minor distribution last two weeks.</p>
+<p>Looking at some of the clearly defined leaders like: SMCI, NVDA,
+UBER, PLTR, GLBE, HUBS. They ALL pulled back and had bad days on 7/14
+and 7/19. Just like my portfolio.. Considering what happened to my
+portfolio on 7/14, it would be wise to be cautious when you see the
+leaders begin to falter.. 7/19 as well as following days I saw my
+profits vanish and stops starting to get hit. Watch the leaders, if they
+get clobbered, watch out! On the flip side, the leaders have all
+recovered and look very solid to continue higher. This indicates more
+upside to the market. Continue to monitor and look for setups. Be very
+selective and cautious but it’s certainly ok to entertain new buys.</p>
+<p>Started an ‘RS 10’ scan. Monitor the top 10% RS names in the market
+and scan daily. Only scan needed to run daily. Constant 364 names. Will
+be much easier to gauge the pulse of the market with a constant # of
+names to look at.</p>
+<p><u>LEARNING LESSONS:</u></p>
+<p>Lots has happened since the last entry. Had written some entries in
+real-time in the latter half of July but lost them all due to Windows 10
+malfunction. Not a big deal. Re-writing some stuff below.</p>
+<p>I learned some very important lessons during this past rally- looking
+at my results you see green. More wins than I’ve had in some time. I had
+5 winning trades clustered together; yet, when looking at my NAV you see
+I made virtually no progress now with the market pulling back. This
+highlights some very important mistakes: I was progressively buying and
+increasing exposure right into the market pullback. Classic. I believe
+this is a clear sign that I’m still in the ‘mechanical stage’ where I’m
+simply executing when prompted without much intuition/experience to
+override the mechanics. One essential intuitive feel I need to develop
+is understanding when momentum is beginning to stall and the market / my
+portfolio is likely to pullback. Ideas on “how” to develop this feel
+below. In my experience, when the market pullback, so will your account.
+To take Mark’s advice of ‘ignoring the market’ totally literally would
+be a mistake. Simply, ignore the indexes during the trading day and
+don’t look at them until the market is closed. I definitely took this
+too literally in the past and didn’t consider the market pulling back in
+my execution. It absolutely should be considered and if you have reason
+to believe the market will pullback, you have to ask yourself, “am I
+willing to let X stock stop me out or would I rather guarantee profits?”
+Because usually half will stop you out on the pullback, so it’s very
+much a reality and should be baked into the cake. It happens ~50% of the
+time. FACT. What’s the plan? This is also important because it should
+influence you to stop buying or reduce the exposure of “late” buys. If
+you start to see squats, reversals, pressure on portfolio, market is
+extended, leaders are extended, would this warrant exercising caution?
+Using a single RS screen will help make this so much clearer as long as
+it’s analyzed every day. Alternatively, if you’re coming off of a market
+correction, leaders are setting back up/ basing, stock ideas setting up
+and buyable, would this be THE RIGHT time to start heavy (provided that
+things had been working previously)? YES. These are the ‘outside’
+factors that need to be considered!</p>
+<p>One way to gauge this momentum and stay in-tune with MY market of
+stocks- use RS6 or some other RS scan as your main ‘pulse’ of the
+market. I like this because it always shows you the same # of stocks.
+Top 6% RS is around 200 stocks on DeepVue. Want to see more, check top
+10 RS, for example. This way I can quickly get a pulse of the best
+stocks in the market and quickly check them each day to note the
+changes. Many looking extended? Breaking down? WHAT ARE THE BEST STOCKS
+DOING? With the 5-month uptrend as my main screen, it was too difficult
+as the # always changed and quickly became 600+ names. Too many and too
+much delta. Mark Ritchie uses this as his main screen too and I’m
+learning why..</p>
+<p>Another issue that happened as a result of this ‘transition’ from
+bear to bull (or when experiencing stocks working on avg that are in my
+universe) is that I went from pilot positions (~$20 risk) to increasing
+my account size to nearly 20k and going in 10-12.5%. Risking 100 or
+more. I got to that size just before the market started pulling back.
+Two things to note about this: you can’t just wake up and buy everyday
+and you shouldn’t.. “It was never the buying that made the big money, it
+was the sitting.” Sound familiar? The second thing is that now that I’ve
+seen a successful rally and stocks working, I will go in heav(ish)
+(~12.5%) right off the bat and look to scale to 25%. This needs to be
+done when momentum is just coming back into the market, not way later
+after several stocks have worked and I’m up on several names. That’s the
+time to slow the buying. Honestly, I think this will take care of MANY
+problems b/c when I actually have that much exposure on I won’t be
+looking to add names (“b/c now stocks have proven themselves and now I
+need to find a name to get heavy in”). I will already be heavy and it
+will be in the first to work (or not work). Additionally, by having this
+much size on, it will allow me to scale out more incrementally, and
+actually hold a piece for a larger move. Previously, I had so little
+that it felt pointless to continue to hold. This will by default force
+me to hold less names for longer and be in the better names heavier that
+breakout early in the rally.</p>
+<p></font></p>
+</div>
+<hr />
+<div class="box">
+
+<p><span style="color:#FFFF99"><em>6/29/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought BLMN today. Up immediately. All positions green mid-day with
+strong action coming from mid- and small-cap stocks.</p>
+<p>QQQ’s continuing their pause while stocks on focus list are breaking
+out and holding up. IWM and IWM up over 1% midday, meanwhile, the QQQ’s
+are red. Many big tech names like UBER, GOOGL, also pausing. Seems like
+this could be exactly as Mark described where we initially had the
+big-tech, more mature companies get bids off the market lows and it’s
+not until later that institutions move out on the risk curve. Appears we
+could be right there. Some unknown names definitely getting bids and
+feels like its spreading out. If I can get traction with current list of
+names, I will be bringing portfolio money back.</p>
+<p>Weird canary in the coal mine is the yields. 1-yr and 2-yr just put
+in new high’s today. How does this factor in?</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/28/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought CMG yesterday and SMCI, TMDX today. Stopped on AXSM today
+after it gapped down huge. Glad I took profits on the way up! Last two
+times I’ve decided to ‘hold for bigger moves’ they have come all the way
+back from +15% gains to stop me out. Something to consider for next
+time. Will likely just take profits. I’m buying more this week as stocks
+on focus list are working and market internals have been improving
+nearly all week. I can’t tell if I’m jockeying for positions or
+overtrading at this point. Either way I accept the relatively small risk
+but it’s tough. Buying solid setups. TMDX was perfect VCP and SMCI was
+bottomfishing a power pivot. I saw it working and went for it. 1 share.
+Time to gauge market feedback. WILL BE SURE TO SELL ON THE WAY UP.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/26/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stopped on PCVX today. Quite a few names broke hard to the
+downside.</p>
+<p>BE SUPER SELECTIVE. FINANCE RISK WHEN AVAILABLE. COME IN WITH A
+PLAN.</p>
+<p>Going through my June trades, there are 3 names that account for $73
+of losses that I should have never bought: MBLY, ASML, MRVL. It’s not
+that they were terrible setups (MBLY was), but they’re so-so. Why buy
+anything but ideal setups in a shitty market? I need to be more
+selective and get less excited when things are working for a couple of
+days. Be more patient. Things take time to play out in the market.</p>
+<p>I need to go into each day with a COMPLETE PLAN. That plan should
+focus on choosing stocks with tighter risk b/c the upside has been
+limited on average. Be more selective than average. Look to finance risk
+at 1:1. Many stocks have been slowly chugging up only to give it all
+back within a day when the market starts pulling in. As the stock moves
+up, look to sell some into strength to finance the risk. If you happen
+to get on one that is moving quickly and you want to give more slack
+(AXSM, for example) consider selling a small portion but still looking
+to finance a portion of risk asap. This is always tough b/c when it
+happens this quickly, you’re forced to make a decision quickly. I find
+that selling the smallest amount possible to finance nearly all of risk
+makes the most sense. B/c in the moment, you don’t want to sell too much
+of a stock that’s making a nice move, so simply look to sell as little
+as possible. If the stock is slowly chugging up, however, consider
+looking to sell half around 1:1 so you can cushion any 1-day drop which
+happens so frequently.. It might not be the perfect plan. That’s
+perfectly ok. Just have a plan, stick to it, and you can go back later
+and critique through PTA. Even if you did have the perfect plan, you
+wouldn’t know it until PTA confirms it anyway… Until you can go back and
+confirm with PTA that you’re selling too soon, you shouldn’t be
+concerned about capturing the ‘big move.’</p>
+<p>Capturing the majority of the upside is one of my emotional
+weaknesses. It’s almost more difficult for me to sell a winner and watch
+it continue than it is take a loss. Taking a loss and it continues lower
+= “glad I had a stop”, loss that comes back = “but managing risk is #1”.
+Sell a winner and it moves lower = “I’m a genius. Beauty in the rearview
+mirror.” Sell a winner and it moves higher = “I knew it. I missed out.”
+Why is it so much easier to take a loss? That means I’m assigning more
+emotional turmoil to making money than losing it. That’s stupid. I start
+my unfortunate loser thought with a ‘but’. So, one way to think when
+selling a winner and it continues higher is, “but I got a multiple of my
+risk and successfully turned over my edge. What happens after I sell
+means nothing. It’s a win becuase I made a multiple of my risk, not b/c
+it went down after I sold. That’s the mental shift that needs to
+happen.</p>
+<p>I’m not very good at interpreting the feedback of my stocks. I find
+that I will buy a couple of names, they’ll work, but not really enough
+to allow me to cushion myself. Meanwhile, on balance things appear to be
+working and I proceed to buy another name or two. Perhaps one will stop
+me out but I think, “3 of 4 doing well, things are working on balance.”
+Until, in a matter of 1-2 days, it all stops working. If I’m lucky, I’ll
+get 1 or 2 names that work. At best, I have cushioned my losses, but on
+average, I’m unable to cushion them all and I’m losing money on balance.
+It’s tough to interpret b/c conditions are never the exact same as time
+advances and my plan is now influenced by the feedback/information that
+I’ve received between my initial purchases and my most recent
+purchases.</p>
+<p>Remember what MM said, “The most common reason for overtrading is
+when people are buying good setups in a bad market.” The setups must be
+working!</p>
+<p>Mark stated today that, “Most traders lose money.” Most traders do
+not beat the S&amp;P500.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/25/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Fewer stocks on Focus list this week but still more than usual. Many
+names either already moved up and extended or have started correcting
+after moves up. Names like AVGO, ONTO, look like they may have put in
+short to intermediate-term tops.</p>
+<p>There are several group moves to note: homebuilders, semiconductors,
+packaged tech., trucking, materials, auto stores. Seeing good action
+coming from many names in these groups. That said, participation has
+been lackluster and many of these names have been challenging to get on.
+They also moved out first with little to no confirmation of things
+working beforehand. Semiconductors look ready to pause for a little
+while longer. Some names have little PB’s forming but weekly charts look
+extended and things haven’t been working on balance. Additionally,
+market internals confirming individual stock feedback with breadth
+deteriorating and new high’s decreasing, etc. It’s time to be
+cautious.</p>
+<p>We need to see stocks hold up during this pullback as well as more
+setups emerging. Right now we’re seeing a correction in the general
+market and individual names are still selective. Several names on focus
+list got clobbered last week: AVDL, APLS, VYGR, AI, ROIV, BLMN, HKIT
+just to name a few. This highlights the risky environment but we also
+need to stay engaged and diligent. Do things crumble underneath the
+surface or will we see a normal pullback followed by more stocks
+continuing as well as breaking out? I’m optimistic of the latter, but we
+must wait and see. Certainly feels like a new bull is here.. but still
+challenging and quite selective. Hoping things will begin working on
+balance soon. Looking for a spot to buy into this pullback with ‘401k’
+money.</p>
+<p>Going into this week my focus is to simply follow the rules and go
+into each day with a plan that I follow. If this is a new bull, there is
+plenty of time. For now, things haven’t been working too well, but also
+haven’t been terrible. I would likely be slight above b/e if it weren’t
+for my MRVL and ASML trades. Both of which were a stretch at a time when
+getting cute isn’t worth while.</p>
+<p>Message of market: money is going mainly to big cap, defensive names.
+Much less appetite for risk right now. IWM lagging way behind. Look for
+support on IWM around 200-day during this correction. IF IWM breaks
+down, look out! This would be surprising to me considering the buying
+that came in a couple of weeks ago… IWO looks slightly better..</p>
+<p>Watching weekend study session- up/down volume ratio went to neutral
+today. This surprised me. Noticed IWM volume went red last week and SPY
+at 1.1. Things definitely getting worse but most readings are still blue
+besides the IWM and IWO ratios. Just something to note for analysis
+purposes.</p>
+<p>Last Friday was “Russell 2000 Rebalancing” day. This explains the
+major volume in many names on that day.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/21/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Marks largest winners are between 30-50%. Usually takes profits
+between 8-12%. If playing very short term, might take profits at 3, 5,
+or 6%. Just depends on what the market is providing at any given
+time.</p>
+<p>Mark’s number 1 indicator is feedback from HIS stocks. Number 2 is
+feedback from stocks on the Buy Ready list. These are stocks in our
+universe- how are they acting? These two things account for ~90% of
+Mark’s ‘feel’ for how the market is. The other 10% is how are the
+indexes doing, up/down volume, new highs/lows, etc. The other 10% is
+usually just confirming what he’s seeing in the individual stocks.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/17/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Reflection on week:</p>
+<p>Several things to note: Looking at my paper trading account, I can
+see a shift from purchases made in middle of May to beginning of
+June.</p>
+<p>Middle of May, I bought LVS, TJX, DUOL, MA, LTH, MRK.</p>
+<p>Spoke with my dad today and believe I had a very important
+epiphany:</p>
+<p>When doing PTA, I oftentimes conduct mini-studies, as if I can find
+some magic piece of information that would have warned me or given me a
+heads up about the result of the trade. This seems logical but it’s a
+terrible mindset b/c it opens the doors to infinitely many possibilities
+and leads to over analyzing and trying to be perfect. Instead of
+developing a new theory every week to back-test my results against, <b>
+the only thing I need to ask is if I followed my rules of not. </b> When
+I think in the frame of mind that “I must have missed something and need
+to do PTA to find my mistakes.” This leads to a general feeling of
+uncertainty. Simply because I’m asking the completely wrong question.
+Eliminate feeling uncertain. Are you certain you followed your
+rules?</p>
+<p>Why is it true that this is the only necessary question?</p>
+<p>Even during an easy dollar environment, the most you can expect your
+batting average to be is ~60%. That means that even at it’s best, this
+strategy is correct barely 50% of the time. Therefore, just because a
+trade didn’t work, doesn’t mean it’s necessary or even possible to go
+back and nitpick it to provide any clarity. It just simply doesn’t work
+all the time. If you don’t follow your rules, you open yourself up to
+the possibility that something (that occurs at high probability) IS
+there and that something truly IS faulty and worthy of inspection.
+Instead of opening that door of infinitely many possibilities, close it
+by simply following your rules. When the rules are followed, rules that
+have been time-tested for decades by proven champions in the market, it
+becomes the judge and the jury. There’s nothing else to consider because
+I TRUST MY STRATEGY. Did you follow the rules? Yes. Then listen to the
+feedback and act accordingly. No. Then correct your mistake ASAP or
+recognize the mistake and vouch to never make it again. If you don’t
+follow rules, you don’t have a strategy. If you don’t have a strategy,
+you’re doomed in the market. Sometimes rules get bent, and that’s an
+area that will simply take time and experience to master. As a newbie,
+the more rules the better.</p>
+<p>This is indisputable proof that the ONLY THING THAT MATTERS IS
+FOLLOWING YOUR RULES.</p>
+<p>Another issue that I’m encountering as I’m at a new part of the
+market continuum is FOMO. I experience FOMO because it feels like my
+strategy is limiting me from buying stocks that are moving and look
+great. Stocks like UBER, MNDY, SHOP, for example. I guess I want action
+and I don’t want to miss out. I need to, at a subconscious level,
+realize that thinking risk first and following my rules is more
+important than filling my short-term desire to get excited about new
+merchandise. I need to remind myself of these points as the week
+progresses. I do a good job thinking this way Sunday, Monday.. Come
+Thursday, I typically haven’t done a ton of work during the week except
+for my daily scans, and I need to make habit to check in and remind
+myself of these bigger picture ideas more frequently. Is this why Mark
+say’s he wakes up every day and looks in the mirror to remind himself
+that “he has the ability to do great harm to himself today.” It’s a
+daily thing. Make it this way.</p>
+<p><b>CREATE A LIST OF THINGS TO REMIND YOURSELF OF ON A DAILY BASIS.
+Must read this list before each trading day. Absolute must. What do I
+struggle with and need to be reminded of?</b></p>
+<ol style="list-style-type: decimal">
+<li>Close the door of uncertainty by FOLLOWING THE RULES.</li>
+<li>NO FOMO. This is a business. What business would succeed if the
+owner was giving into short-term desires/excitement instead of executing
+according to plan? Would you work for him/her?</li>
+<li>What has been happening to you in the market?</li>
+<li>Buying stocks that don’t meet the criteria is proof of FOMO, desire
+for excitement, and/or thinking reward first. Otherwise, what’s the
+purpose of the strategy?</li>
+<li>Be a professional.</li>
+</ol>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/12/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>ALWAYS REMEMBER WITH PB BUYS: Look for the good close the day before.
+Didn’t get it on PCVX. Watch for this!</p>
+<p>Forcing trades is very normal early on in your career, b/c you want
+to be in there and to make money, and the number of forced trades will
+decrease as you gain more experience but recognize that YOU WILL ALWAYS
+BE FORCING TRADES to some degree. It’ll never be perfect. Because we’re
+dealing with incomplete information. You’re not looking to get it
+perfect, and you almost never will. That’s why we use progressive
+exposure and have many tactics (cheats, low cheats, handle, etc.) to get
+onboard.</p>
+<p>Getting the base is just step 1. Next, and VERY IMPORTANTLY, you need
+to see follow-through. I went back and noticed both VC and VTYX had
+several days of buying after the breakout. How many stocks did I own
+that brokeout but lacked multiple days of follow through? Did the
+majority end up stopping me out? Very important thing to ascertain and
+MARK emphasizes this frequently.. This time it registered.</p>
+<p>The STEM model on Orange is sort of where Mark feels it lives the
+vast majority of the time. He also trades like the orange model
+describes, being very selective and some will work. He’s always thinking
+in this way. Always cautious. Even when green, still cautious but being
+aggressive with sizing.</p>
+<p>Mark Ritchies take: 50% to 66% of time you’re on orange, or “riding
+the break.” The other times ~25% or less, you’re in red, or in “park.”
+Or either stomping on the accelerator, only 10-20% of the time.</p>
+<p><b> Your goal as a trader is to get 1-2 opportunities per year to
+make big money and simply manage the risk the rest of the time. Every
+now and again, 4-5 years, you’ll have a standout year where you’ll make
+100’s of % points. And then you have years where you’re up 30%, 50%, 70%
+or so and some where you’ll be down slightly. You can make HUGE money
+this way over time. The main goal is to not be down while things are not
+working. Mitigating risk takes out HUGE problems that you’d encounter by
+just trying to return to breakeven if you had large drawdowns. </b></p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/11/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>I need to go in with a more robust plan. I rely too much on MPA and
+make decisions mid-day. Developing a bad habit of dependency and I’m
+realizing I’m not coming up with a solid, executable plan prior to the
+market opening. BE MORE INDEPENDENT. It’s ok to check Focus list with
+Mark’s but shouldn’t be taking ideas and executing mid-day without
+having thought about them in advance. HAVE A PLAN. Consider turning
+notifications off for MPA.</p>
+<p>Jim Roppel stated that you want to see Net New Highs vs Lows around
+100-200 for several days in a row to give conviction that things are
+really getting going.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/10/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>I think I have a problem with over trading.. I’m looking at my two
+losers on the week and they were two of the sub optimal setups I chose
+to buy. I also realize I have a tendency to make decisions on the spot,
+mid-day. I look for the MPA focus list and let that influence my buy
+candidates.. Not to a major degree, but I’m realizing I have this
+tendency in my process and it’s not good. I should have a plan going in
+and it’s ok to check that with the MPA plan, but it’s not ok to buy just
+because one of the Mark’s pointed it out and I dont want to miss out. I
+need to be more methodical in my approach and trust my approach. It’s
+better to have a less-than-perfect vacuum packed process than try and do
+everything perfectly on the fly.</p>
+<p>Another issue I’m realizing in my process that seems to happen over
+and over again.. I will buy stock setups and some work and some dont.
+What about those setups that are working that I didn’t buy? I let these
+‘other’ stocks work their way into my thinking / conviction about how
+things are going. I have a tendency to ignore the couple that didn’t
+work / ignore the effect on my portfolio.. meanwhile, I’ll have a couple
+that are working that are keeping my portfolio near breakeven.. Then,
+most don’t work and in hindsight I realize that I jumped in too soon. I
+need to have a more vaccuum packed and preplanned process where I have a
+select # of names I can put on. I put them on and ignore the rest. All
+that matters is what’s in my portfolio and the feedback I get from them.
+If they don’t work, go back and double check your criteria. If you made
+good buys, and they aren’t working on balance, you know you need to be
+cautious. I must have a predetermined amount of money that I’m willing
+to risk and a plan - should I use a shotgun approach to reach that risk
+or be more concentrated? These must be planned in advance and until you
+have back stopped or booked profits, YOU CANNOT LET OTHER THINGS
+INFLUENCE YOU.</p>
+<p>Jim Roppel stated that you want to see Net New Highs vs Lows around
+100-200 for several days in a row to give conviction that things are
+really getting going.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/8/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>My Focus list is full of names in Biotech, Software Technology,
+Health Technology, Pharmaceuticals.</p>
+<p>Added to TGTX today and bought ASML. ASML was bought in the
+afternoon, around 1pm. Stopped on MBLY early morning on news of
+secondary public offering of $42 per share. Seeing some traction in
+names and all positions are green except ASML which is basically even.
+ASML closed low in range yesterday.. would like to have seen it close
+high the day before. Still great setup.</p>
+<p>Today seemed to confirm that yesterday was just a needed pullback.
+Everything opened low and continued lower early morning. I was down
+slightly all morning on VERX and TGTX. It felt like it slowly clawed its
+way back all day and by the close all my positions closed strong as well
+as the general market. IWM and IWO got a pullback this morning and
+recovered slowly all day as well. Closed just below yesterdays close and
+strong action overall.</p>
+<p>Several objective measures have improved: General market - both NAS
+and IWM. % stocks above 200-day improving. It spiked up this week. VIX
+at levels that it hasnt been since Feb. 2020 - just before COVID! It’s
+hard not to feel like an easy dollar environment is just right around
+the corner. Day by day. Patience and progressive exposure is key. If I
+can backstop or log profits in the names I currently own, and if we see
+more waves of setups and current breakouts holding, I will double my
+position sizes.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/7/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought TGTX and VERX today. Both closed down very slightly from
+purchase price. Was up nearly the whole day on TGTX and down nearly the
+whole day on VERX.</p>
+<p>Check out weekly chart of APLS. WOW! How does it play out from
+here?</p>
+<p>I wrote / thought that VERX was “riding both 20 and 50 DMA” and that
+this was cause for concern. Check back on the result and if this
+potentially did hint at a problem.</p>
+<p>VERX was bought after the breakout squatted on a late morning
+reversal. It remained above pivot but squatted ~6-7%. Should this have
+forced me to stay out or was it wise to buy the squat reversal?</p>
+<p>Tons of downside reversals today. Feels like many extended names got
+a needed correction and then some… Feels like today could be the first
+warning sign that the market is still the same as it has been.. Still
+selective but definitely feels like its broadening.</p>
+<p>Breadth CLEARLY moving out on the risk curve. IWM excellent action
+with 3 huge pillars of volume during last 4 sessions. Just what we want
+to see. And while the QQQs and SPY have already run up and are now
+taking a little break. JUST WHAT WE WANT TO SEE. Now, see if my recent
+buys can hold and my other names continue. Paper trading acct mostly
+green and names looking great. Along with more stocks setting up and
+follow through. If these names can hold up and we see another wave of
+setups emerge, I will bring money in from LiveOak Bank and increase
+portfolio size &amp; position size.</p>
+<p>Paper trading account summary: green on 5, b/e on 3, down on 2.</p>
+<p>Last two days there has been a positive divergence between the QQQ’s
+and NASD % stocks above 200.. First time it hasnt either been a negative
+divergence or in lock-step for quite sometime. Small positive
+developments.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/6/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>STEM Model &amp; Stock Feedback Model improve to orange today.</p>
+<p>Sold 1/3 DUOL for</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/4/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>After running through weekend screens - participation definitely
+looks to be broadening. Seeing leadership qualities in Semiconductors,
+biotech, healthcare, and several technology-related sectors. Lots of
+ideas on deck, where they caught support last week and are forming
+cheats in handles or look like they could start forming cheats within
+handles. Next week will be huge. How do these setups act? How do recent
+breakouts act? Paper trading account has 6 names, in the green on 4 and
+great looking breakouts in VRRM &amp; LECO. IMGN and AME very solid. GLD
+doing its thing.. looks like it could breakdown.SWAV looks OK. <b>VRRM,
+LECO, AME all had nice breakouts recently and have held up 1-2 days.
+We’ve seen MANY stocks “pop and squat” for 1-3 days. Will these do the
+same or will they point to a change in theme? </b></p>
+<p>If setups and recent breakouts can hold up and/or improve into early
+next week, some buys and small positions are warranted. Futhermore, IWM,
+IWO had great days on Friday. Breadth made a nice jump. VIX put in
+2-year low. And most importantly, some new leadership appears to have
+made itself known (semi’s) and are holding up, and more names are
+showing up. Still too early to jump in but could be right around the
+corner if we continue to see supportive action. Am I too eager? That’s
+what usually happens. How many more setups / waves of setups until we
+have enough conviction? Observing and listening to Mark’s closely. That
+said, Stock Feedback Model still on Red. Need to see stocks breakout for
+more than 1-3 days. Still waiting to hear Mark’s take… <b>Mark
+understands that things take longer than 1-week to develop in the
+market. The reality is that 37% of stocks are above their 200-day MA yet
+the NAS is running up. He is short-term bearish on the market because of
+this trend. What has happened in the past when the general market pulls
+back? I get stopped out! It’s time to be CAREFUL and be patient. Nothing
+has changed yet and participation is still thin.</b></p>
+<p>TGTX 30% decline after huge runup but looks like it’s turning up
+here. Keep an eye on this- does it work?</p>
+<p>Refresh on PowerPlay rules: Stock advances 100% or more in less than
+8 weeks. Subsequently, the stock moves sideways in a relatively tight
+range, correcting no more than 20-25% over a period of 3-6 weeks. 2
+weeks minimum. Lastly, stock must develop a pivot that moves within a
+trading range of 10% or less.</p>
+<p>Realized today that I still somehow have access to Stockcharts.com
+(follow this link [<a
+href="https://stockcharts.com/h-sc/ui?s=%24COMPQ&amp;p=D&amp;yr=2&amp;mn=0&amp;dy=0&amp;id=p01078549976&amp;a=1391899692&amp;listNum=33"
+class="uri">https://stockcharts.com/h-sc/ui?s=%24COMPQ&amp;p=D&amp;yr=2&amp;mn=0&amp;dy=0&amp;id=p01078549976&amp;a=1391899692&amp;listNum=33</a>].
+Turns out % Nas stocks above 200-day is only 37%. Huge divergence
+between major averages.. Mark says he’s short-term bearish if this
+continues.</p>
+<p>Random Note: Mark started trading at 18 years old, in the 1980’s.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>6/2/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Nearly 1000 names on Up on Volume scan today. 10% have RS &gt; 90,
+90% have RS &lt; 90. I think this is how it should be and makes perfect
+mathematical sense. Check in on this idea on future days.</p>
+<p>risk &gt; traction &gt; chart &gt; fundamentals</p>
+<p>VRRM example of perfect handle. Why you start a position on PB buy
+and add on BO.</p>
+<p>Tiny breakout on NCTH breaking above downward trend line. IDT this
+means much at all as the % of stocks above 200-day is still very low,
+but the BO above the trendline is interesting. Does this lead to
+anything?</p>
+<p>IWM, IWO, FFTY all gap ups today. IWM up over 3% midday! Will these
+hold? VIX put in 2-year low today.</p>
+<p>Trading plan: Go into Monday next week with pause. Can stocks hold up
+after Monday morning? Tuesday morning? If so, consider buying
+breakouts.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/31/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Terrible action again today. Wouldn’t be surprised if I got stopped
+out of DUOL and LTH soon. Just letting them work. Financed most of risk
+on DUOL and already sold 2/3 of LTH. Waiting for a pullback in the
+market. Mark says, if we get a breather in the market, it would not
+surprise him if stocks started acting well during or subsequent to a
+pullback.</p>
+<p>Not seeing setups. Volatility around breakouts still too high. Would
+be down on pretty much everything in paper trading account.. Same
+shit.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/30/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>The handle of a base should only correct 8-12% with price drifting
+downwards towards the lows on decreasing volume. Beware of handles that
+drift or wedge upwards and/or that have high volume in handle. First
+couple</p>
+<p>Shit load of reversals today. Terrible action. Stock Feedback Model
+firmly on red. RS in BHVN, GPI, NFLX, ARLO. Leadership incredibly thin.
+Few names that have been working are now extended. Will they remain
+extended and will participation broaden?</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/22/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stock Feedback Model returned to red today. Stopped on MRK, MA, and
+TJX not looking good. Market pulling in and rubber is meeting the road.
+DUOL only position that has acted strong. So far ok on this pullback but
+well see.</p>
+<p>Big negative divergence on NASDAQ stocks above 200-day MA and QQQ’s.
+Russel 2000 lagging big time and still hanging around bear market low’s.
+Staying away until see something change. Not worth risking any capital
+in this market.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/22/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Corrected my mistake from last week and sold 1 share of DUOL almost
+immediately at open just above 1:1. Now I just need to ensure I
+consitently apply these rules. Is the perfect tactic? Probably not, but
+it will help me improve and I can critique it later. Also, if this is
+indeed a transitional phase, let the market tell me first. It takes more
+than one small win in NVDA to gain enough conviction. Have patience.
+Things take time..</p>
+<p>IRON huge breakout that squatted in morning. Can it recover?</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/21/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Still maximum defensive posture. Should have sold 1 share of DUOL
+into strength at 1:1. <b>Didn’t follow my rules.</b> Looking to correct
+this mistake on Monday if 1:1 still available.</p>
+<p>After taking some time this weekend to think and reflect about my
+activity in the market last week, I feel like, once again, I got a
+little too excited and eager to enter the market and put on exposure. I
+let the market indexes pressure me once again. This time, breakouts from
+6-week consolidations and all looks good, however, THE INDEXES DONT
+MATTER. I must be more patient and less inclined to add exposure until
+things truly are working, which takes more than 1-2 names to work to
+determine. PATIENCE. PATIENCE. PATIENCE.</p>
+<p>I have $75 of risk in the market. This is too much considering how
+poorly the feedback has been for me. Selling 1 share of DUOL at 1:1
+would bring the risk down to 63.</p>
+<hr />
+<p><u>Goals to set in Market:</u></p>
+<ol style="list-style-type: decimal">
+<li><p>Not Losing Money</p></li>
+<li><p>Consistent application of discipline</p></li>
+</ol>
+<p>Thinking about something Mark said in the Q&amp;A session on Friday..
+One of your main goals in the market should be to apply your discipline
+consistently. Even if your discipline is not perfect, it’s important
+that you apply it consistently. Then, after doing that for some time,
+you can go through and critique / improve your discipline to achieve
+superperformance. This is super relevant b/c last week I was questioning
+my decision to sell 1:1 to finance risk, thinking, “we’ll it only
+reduces my risk by $12 and I already have a small position.” This,
+however, is not congruent with my goal. I need to be less concerned with
+having perfect rules than I am about doing something consistently. It’s
+ok if financing risk 1:1 isn’t perfect, I already know it will improve
+my numbers, but it’s ok if not perfect. Just do it and do it
+consistently. Then, after a few months, look back and critique it. You
+should do this over and over and eventually you will have ‘critiqued’
+everything about your strategy.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/18/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought LTH and bought back TJX. LTH maybe slightly early but very
+strong action and reaction to earnings, and some of these names have
+‘just been going’ so I started a posn here. Did I buy right into the
+volatility? TJX moving back through the pivot and I added back. Mistake?
+More semi’s blasting off today.</p>
+<p>DUOL RS blue dot today. DUOL hit 1:1 today, I only had 3 shares and
+decided to hold on. I’m feeling guilty immediately post-market b/c I
+didn’t follow the rules of financing risk ASAP, but my posn size is
+already so low it would have booked me ~$6 and reduced risk to 6,
+instead of 18. 12 dollar difference. It’s such a small dollar amount it
+hardly feels worth making all these moves. General market broke out of 6
+week tight consolidation. And NVDA just continued higher on volume after
+I sold. For all these reasons, I decided to hold on and NOT finance risk
+asap. Is this just another example of me feeling like “this time is
+different” and I get spanked AND don’t sell at 1:1 to finance risk? We
+will see. Either way, I accept the risk and feel it is very small.
+Perhaps I shouldn’t have some blanket rule to sell everything 1:1 when
+my posn size is already so small (that’s the predicament I face when
+financing risk). Maybe it would be better to employ that rule when I’m
+not doing well but only during a small correction where posn size may be
+relatively light, but not micro like they are now. IDK we will see.</p>
+<p>FISV looks amazing but it’s a regional bank stock and it’s been
+riding the 20-day SMA. Hasn’t rode the 20 like this since the start of
+the year. Is this a warning sign or am I reading into this ‘riding’ too
+much?</p>
+<p>Update to Deepvue so now Minervini Trend templates are much more
+accurate along with my uptrend screens. Pretty sweet and happy with
+Deepvue so far.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/17/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought TJX, DUOL, and MA today. TJX mid-day retraced entire breakout
+on earnings. Sold ~1/2 as it retraced entire move. Will it recover?
+Notice on weekly chart: greater down volume on left side of base than
+right. Was this a warning?</p>
+<p>Sold remainder of NVDA into strength at 3R. Total trade just over 2R.
+Very small win but much needed psychologically. Covered a couple of
+small losses. With more exposure on, now we need to see.. will these
+positions work too? If so, could be time to bring more $ into portfolio.
+One step. One day at a time. No FOMO. In the front of my mind is: “What
+has been happening lately?” Not what I want to happen as I get excited
+about buying…</p>
+<p>Semi’s as a whole have been blasting off and getting huge bids.
+Couple days in a row now. Great sign!</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/16/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>NVDA RS blue dot today.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/15/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>PTA so valuable! Did PTA over the weekend and realized I should be
+financing risk ASAP (even 1:1). Today, I sold 1/2 NVDA slightly above
+1:1 and now I can hold remainder for bigger move. Felt wrong selling at
+~3.5% gain but you have to adjust as Mark says. And as I’ve come to
+understand, avg gain doesn’t mean shit when you’re losing $! Finance
+risk is priority #1.</p>
+<p>Breadth has been absolutely atrocious. Not playing any games. Maximum
+caution posture.</p>
+<p>Marketsmith ends today and I’m officially using Deepvue from here on
+out for screens.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/12/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Had a revelation today:</p>
+<p><b> DON’T WORRY ABOUT THE % GAIN, FINANCE THE RISK ASAP </b></p>
+<p>This idea that I want to sell at “a decent gain” is what keeps me
+from financing my risk ASAP. In the moment, I always think: “I don’t
+want to sell at 2, 3, 5% gain, that’s too low!” In a market like this,
+forget about the % gain and finance risk when available. Free trade is
+the most important thing right now, not average gain! Only after you
+notice that financing your risk is costing you money should you switch
+to holding for a larger (normal size) move.</p>
+<p>In a bear market, financing risk should be #1 priority. Average gain
+does not matter. NEW BEAR MARKET RULES: finance risk at 1:1 and free
+roll remainder, or stay out. I will forever live by these rules. All it
+takes is one wave of setups to continue higher (where financing risk
+costs you money) to be able to hold for normal (bigger) moves. But until
+you see that happening, you MUST finance risk at 1:1. Either way you
+should be smaller posn., so what are your other options? Do nothing
+different? Short? No, it only makes sense to adjust your expected
+upside.</p>
+<p>Going back to Special Session #1 in PTA (audio 1, ~7 mins): when it’s
+not working, you’re being summoned to sit out or adjust. If you’re new,
+don’t adjust too much. Minimal moving parts.</p>
+<hr />
+<p>Stopped on LVS today. Tons of early morning reversals. Much of the
+same. Had considered selling 1/2 LVS with poor action all day yesterday
+and <u>with close below 20-day MA</u> and I should have. This has worked
+more often than not and should be a rule that is adhered to unless very
+tight action and barely below MA.</p>
+<p>Seeing quite a few stocks setting up or on the “On Deck” list. Could
+be buyable here soon but market action and stock participation has been
+poor. Can’t get any real traction going. Feeling like I should have
+financed risk on NVDA sooner with even a 1:1 trade. Tough to take any
+profits at 2.5% though.</p>
+<p>I need to be taking winners sooner. The upside just isn’t there. My
+avg gain is quite high, but this is why my batting average is scary low
+(8.6%). How often does a +10% winner come along? Clearly very
+infrequently. I need to be using this more as a gauge to help make
+decisions.</p>
+<p>Some reflection on my results: be very short-term or stay out; either
+way be very small and conservative. After going through my ~30 trades, I
+can conclusively say this is a ping-pong market with no real traction
+happening from breakouts. If you don’t shorten your timeframe and sell
+quickly to finance risk, you’re losing money. Stocks setup and either
+move sideways for a while, fail shortly after, or provide you with
+little gain that shortly evaporates. VERY few names have actually broken
+out and worked. The problem I can see is that I’m not altering my
+strategy to account for this shorter-timeframe. I don’t want to alter
+too many things from the way Mark has taught me. I feel this is the
+right call, but I need to be even smaller. It seems each time things
+start moving, I find a reason to risk ~20 per trade, which after taking
+2-3 positions, stings a little. This death by a thousand cuts still
+leads to death..</p>
+<p>Experiencing a good period and seeing/feeling what it’s supposed to
+be like when it works is everything I need. In hindsight, I can
+speculate as to why things didn’t work, but in real-time, each new wave
+of setups is as appealing as the last. And even though I always tell
+myself I’ll be super conservative (and I am), it still hurts to go
+through this several times. I’m down like $600 and its been a slow,
+light bleed for months. I’m ultimately down ~2% on my overall portfolio
+and I think this is very acceptable. No one wants to lose money, but
+without much experience, I’m just applying myself and sticking to the
+tactics. It’s tough because stocks ~50% of the time will return to the
+breakout and kind of dick around a little bit. When I’m in these trades,
+I stay hopeful and think about how frequent it is for them to return to
+the b/o and simply look for violations. Is there any way to know things
+are going south without actual violations? I don’t think so. I don’t
+think it possible to have a solid “feel” while looking at things so
+myopically like that. I think it has more to do with, “What have stocks
+been doing?” Have they been working, or not? Are you up on your account,
+or not? I think these are the “Umbrella” type gauges I need to focus on.
+No one trade will ever tell me enough. So when in a trade, don’t be so
+myopic and hopeful. Have things been working? If not, look outside the
+trade and act accordingly. Look outside/beyond the trade and adjust
+accordingly. Just like you can’t “know” to exit a trade because it isn’t
+doing X, Y, and Z in some particular order (can only respond to
+violations); you can’t enter trades and get overly hopeful just because
+it did X, Y, or Z. When market is bad, it can all turn around very
+quickly. Be patient and assess, what is happening to me on average?</p>
+<p><u>Even Mark still has to apply himself and simply act as the
+caboose. He doesn’t know things aren’t working based on 1-2 days of
+action so how can I? He doesn’t necessarily shorten timeframe and make
+tons of adjustments. Apply yourself.. be micro or be out.. don’t make
+too many adjustments.. when the results start speaking to you, listen..
+adjust when necessary.</u></p>
+<p><b> Noticing many names that are riding the 20-day MA</b> Names like
+LVS, ONON, KNSL, WSO, PODD, likely many more. Is this an early warning
+sign or not a big deal? Check back later.</p>
+<p>Check out QQQ and SPY weekly. 7-weeks tight in a row. WOW!</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/11/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>On NVDA and LVS. Both stocks came in today but doing nothing wrong.
+Up on NVDA, down on LVS. Breadth of market deteriorating and negative
+divergence occurring between QQQ and NCTH. Concerning that market is
+being held up by few names. How long can this last? Feels like I could
+be getting stopped out soon. Considered selling 1/2 of LVS today w/
+close below 20-day.</p>
+<p>Quite a few pullback buy setups: ONON, IR, PTGX, BMEA. Really like
+the idea of playing PTGX and BMEA, serious HP under the hood, but likely
+won’t b/c market condition. Maybe if I don’t get stopped or if they set
+up perfectly. KNSL setting up nicely. Being patient and remaining
+disciplined.</p>
+<p>Starting to like Deepvue as a screener at least. Luckily I still have
+access to TV. started using “Up on volume” and “Down on volume” screens
+today to gauge market action. Was insightful (more down all day) and
+easy to use.</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/9/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>Recently started Deepvue membership. A lot of dicking around.</p>
+<p>KNSL like the setup but weekly looks broken with two large selling
+weeks. Keep an eye on this one. EWW daily looks good but extended. Mark
+bought and put on buy alert today again. Looks extended on weekly and
+ready for pullback. Will it get it? AMAM looks amazing on daily but too
+wide to protect risk. Watch this one. Does it work?</p>
+<p></font></p>
+</div>
+<hr />
+<p><span style="color:#FFFF99"><em>5/5/2023</em></span></p>
+<div class="box1">
+<p><font color="black"></p>
+<p>My “Minervini RS 5% NH” scan is picking up some great names that I
+haven’t seen elsewhere. INCLUDE IN ROUTINE.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>5/5/2023</em></span>
+<center>
+<p><audio src="audio/MPA_QA_5_5_2023.mp3" controls=""><a
+href="audio/MPA_QA_5_5_2023.mp3">Audio</a></audio></p>
+</center>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stock Feedback model moved to orange today.</p>
+<p>Bought NVDA and LVS today. Both pullback buys with low risk &lt;3%.
+Both half positions. Sold 1/2 LVS before close as it closed low in range
+and being extra conservative. Now quarter position.</p>
+<p>ONON looking PERFECT according to Mark: <a
+href="figures/ONON-MPA.png#round"><img src="figures/ONON-MPA.png#round"
+class="img-thumbnail" alt="ONON" /></a></p>
+<p><u>Comment from Mark M. yesterday:</u></p>
+<p>The market looks like it’s about to make another move lower, however
+Open Positions are holding up just fine. This looks like a little
+shakeout on the right side of the general market (happened in 1990 and
+2000) and is ultimately just building out the right side. SPY and QQQ’s
+look perfectly fine and many stocks as open positions are up and holding
+up. LOOK FOR MORE SETUPS and watch the open positions. This looks like
+the start of a transition in the market.</p>
+<p>Added ONON to Paper account: TJX, GLD, NVDA (@ 280.91), NKE, ONON.
+Stop Loss:</p>
+<p>NVDA: 2.50% GLD: 3.65% TJX: 3.65% ONON: 8% NKE: 3.75%</p>
+<p>AVG: 4.31%</p>
+<p><b>NAV chng: -0.25% total equity (from NKE)</b></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>5/4/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Recently instituted the “Paper” trading watchlist. So far, had NKE,
+TJX, NVDA, GLD. As of yesterday’s close, I was down on 3 of 4. GLD being
+the only one in the money. Stopped on NKE today.</p>
+<p>Mark’s perfect execution on RETA:</p>
+<p><a href="figures/tutorials/Minervini-RETA.png#round"><img
+src="figures/tutorials/Minervini-RETA.png#round" class="img-thumbnail"
+alt="RETA" /></a></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/30/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>So many names on my Primary list got clubbed. Very few setups working
+despite the general market indexes powering ahead. Too much risk out
+there and the odds are not on my side. Time to utilize the paper trading
+watch list to ‘put on’ trades and interpret the feedback.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/24/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stock Feedback model moved to RED today.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/24/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Lot’s of decisions today. In hindsight, I was too impatient and eager
+and wound up putting on more risk than I was comfortable with. I start
+with micro positions but as things progress, they turn to small
+positions. These small positions, when they all come in at once, end up
+amounting to more risk than I’m comfortable with. I should have never
+added to MBLY, AGYS, PODD, HUBS. I should have sat with my original
+micro position. Mark never posted an ‘add’ buy on any of these stocks.
+I’m too impatient and I want things to happen too fast. That said, I
+learned something very important today about the MPA platform: Mark does
+not “buy 90% of the stocks that are on the platform” like he said he
+does. He stated today that while there are currently 17-18 open
+positions on the platform that, himself and Mark Ritchie, are only in a
+handful of them. Typically 4-5 names at once.</p>
+<p><b>I 100% have been over interpreting the MPA platform. I let the
+buys on the platform influence how I feel (or how ‘aggressive’ I should
+be getting) but now that I know that Mark isn’t over here buying up all
+these names, I need to tone it down and truly become vacuum packed.
+Listed strictly to the feedback from the stocks. Ensure the criteria is
+good and get the feedback. If they aren’t working, stop buying. Don’t
+find ways to add to positions or think it’s time to step on the gas just
+because the platform is putting on buys. MPA is simply highlighting good
+setups for us (students) to identify. It all comes down to personal
+portfolio feedback and personal risk tolerance. There will be plenty of
+time. I will not miss a thing!</b></p>
+<p>Institutions are still selling right into the pop to ATH on many
+names. No apatite for risk. Retail traders buy these breakouts and
+institutions take the easy $.</p>
+<p>Looking back in my journal from previous weeks, SOOOO many names
+broke down that had either just broken out or were setting up. Always
+pay attention to recent breakouts. <b> When things are setting up and
+I’m considering buying, continue to make lists of good setups /
+breakouts and monitor them. Add them to the new watchlist in tradingview
+called “Paper” as in a paper trading account. </b></p>
+<p>MBLY earnings coming out on 4/27 in morning!</p>
+<ol style="list-style-type: decimal">
+<li><p>HUBS bearish engulfing and sold all throughout the day. Breakeven
+result which I am happy with buy not so happy about how I got there: I
+only had one share so I couldn’t sell partial at 1R (though it was
+achieved) to finance risk. Under normal circumstances, I would still be
+holding a partial position in this stock with derisked. Either way happy
+with not losing money but tactics, tactics, tactics.</p></li>
+<li><p>Sold all of RETA today to simply take a win and cover a few of
+the many small losses I have taken. Very much needed psychologically.
+Very few stocks are actually holding up and I didn’t want to give any
+back. Small 5% gain but the market hasnt given me much more.</p></li>
+<li><p>Sold half of AGYS today as the volatility somewhat picked back up
+(although I added more shares right into the volatility last week). In
+hindsight, I shouldn’t have made that add. FOMO decision.</p></li>
+<li><p>Sold half of PODD today as the volatility in the pivot has been
+widening. Doesn’t look right and it was my largest position with 33
+risk. The right decision. Still holding half.</p></li>
+<li><p>Sold 1/3 of MBLY today to take a small, psychological win. Only
+~5.9% gain but I needed to take some off the table with the way my
+portfolio has been acting. Results say 4.3% gain because average cost
+but I looked at it as selling a portion of my original
+purchase.</p></li>
+<li><p>Sold the QQQ’s today as I was uncomfortable with the amount of
+risk I was carrying. Nasdaq breadth has been deteriorating (all last
+week was poor breadth) and I’m not prepared to stick around. The pivot
+basically went drifted down from where I bought and the volume was
+fairly heavy within the drifting area.</p></li>
+</ol>
+<p></font></p>
+</div>
+<hr />
+<details>
+<summary>
+Week of 4/16 - 4/22
+</summary>
+<span style="color:#FFFF99"><em>4/21/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Feedback from stocks has been a mixed bag. Portfolio is about half
+and half with stocks above and below my buy point. Stopped on ACLS and
+EXTR while others have held up but not giving much gain greater than 5%
+or so. Overall, an improvement from previous weeks but not enough to
+warrant getting aggressive. Market is still highly selective and there’s
+certainly no broad-based participation. Also, still highly rotational.
+Need to close some gains before taking on more risk. <b> According to
+Mark, market pullbacks will be very telling and this is where the rubber
+meets the road. Pay attention to the volatility, participation, and
+feedback from stocks. </b></p>
+<p>Mark has 18 open positions on the platform, yet he owns virtually
+none of them and is super conservative here. This is surprising and a
+reminder that the MPA platform is not a model portfolio.</p>
+<p>ASUR is a perfect example of why Mark say’s these run ups (non-power
+play) with short bases are ok for trades but not for longer holds.
+Oftentimes volatile after making such a large move up.</p>
+<p>QQQ’s 3 tight weekly closes in a row on lower than average volume.
+SPY 4 (fairly) tight weekly closes in a row on decreased volume. Appears
+to be very constructive!</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/19/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Mixed action today. Half my positions are up and doing well, half are
+down but not doing much wrong.</p>
+<p>Important Lesson: Many homebuilders were setting up and for whatever
+reason (the fact that they’re homebuilders?) I stayed away. They ALL
+brokeout and are making very nice moves: LEN, TOL, GRBK, MHO, MTH.
+<b>Never again will I pass on stocks when many names in the group are
+setting up.</b></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/18/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>~7% move today in MBLY. RETA moving up and closed above 99. Bought
+ACLS today and am down slightly - squatted. AGYS returned to b/o area on
+lighter volume than b/o - looks fine. EXTR looks like it could stop me
+out.. Base symmetry. HUBS looks like it’s setting up another buy point
+but b/c minimal traction I won’t be adding. PODD flat and doing nothing
+wrong.</p>
+<p>% stocks above 200MA decreasing today along with A/D, more decliners
+than advancers. Small caps doing the worst - is this surprising
+considering what Weinstein said in his book about the beginning of a
+bear market (money goes into more ‘trustworthy’ names)? New Highs vs New
+Lows continuing to improve. Overall, seeing some positive developments
+for sure but the market feels like a field full of land mines. Not an
+environment to get aggressive just yet. Could be right around the
+corner.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/17/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Good action today from individual names. Currently holding 6 stocks:
+PODD, AGYS, MBLY, RETA, HUBS, EXTR as well as both the SPY and QQQ.
+Total risk is 134 and I’ve already lost 113 in the month of April. $247
+total ‘risk’ so far in April. That’s nearly 2% risk of total equity.
+Disregarding the major indexes (SPY and QQQ), open individual stock risk
+is 87 or 200 total for the month of April.</p>
+<p>2 names that are VERY enticing: LSCC and ACLS. Top stocks in top
+groups.</p>
+<p>FFTY HUGE accumulation volume today.. Keep an eye on this for
+Adri.</p>
+<p></font></p>
+</div>
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 4/9 - 4/15
+</summary>
+<span style="color:#FFFF99"><em>4/13/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p><b> IGNORE THE INDEXES </b></p>
+<p>SNPS an example of why <b> you must buy right in a bear market. </b>
+Buying perfectly at 379 would have allowed for a 1:1 trade where I could
+have financed my risk. I bought slightly late at 382. B/c of this, my
+risk was slightly higher at ~4.5% and the gain I actually achieved over
+the first 2-days was only ~2.5%. Had I bought perfectly, it would have
+been ~3.5% both ways, enabling me to sell half to finance the risk.</p>
+<p>Another thing I’m realizing is that I haven’t had plans for selling
+partials into strength. I need to have set areas (with alerts?) where I
+am prompted to sell a portion if the market allows. My energy and focus
+has been finding new stocks to buy, with little regard for how to manage
+my positions IF THEY WORK. <b> Have a plan for every possible outcome.
+</b></p>
+<p>Good breakouts to watch. Follow through? INGR, MTD, FIVE</p>
+<p>I am learning why the “early turns” are less favorable to Mark and
+O’neill. Many of the names that formed mini VCP’s from early turns
+ultimately failed and needed more time.</p>
+<p>VIX at 1 year 3 month low!</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/12/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>HTHT another example of short base after run up. Will it recover?</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/11/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>CPI report tomorrow. Hoping I can hand on through the anticipated
+volatility. Bought tiny piece of BA today. A lot of stocks experienced
+pivot leakage and have since krept their way back up but on low volume.
+Can these recover or will they break lower?</p>
+<p>Started working in StockCharts today and think I might be able to
+replace Marketsmith with it.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/10/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Note: I chose not to buy MKTX on 4/4/2023 because the leaders of the
+group: IBKR, SNEX, both broke hard 3-days in a row on elevated volume on
+3/9/2023. This does indeed seem to have alluded to the trouble that MKTX
+ultimately got into. <b> Watch the leaders </b></p>
+<p>Compare the QQQ’s to the % of stocks above their 200-day &amp; 50-day
+moving averages. We can see that while the QQQ’s have been rallying, far
+less stocks have been participating recently. This divergence is a huge
+red flag especially for the stocks that we traffic in. FFTY RS made a
+new low.</p>
+<p>When to start getting aggressive? When you can look back at your last
+4-5 trades and they are doing well.</p>
+<p>RVNC another example of the danger of this market - gets clobbered as
+soon as it emerges from good buy point.</p>
+<p></font></p>
+</div>
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 4/2 - 4/8
+</summary>
+<span style="color:#FFFF99"><em>4/6/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p><b>After taking a step back, a few hours after the market closed, I
+realized that today I experienced FOMO because of the indexes. Recognize
+it and correct it.</b> Who cares if the Nasdaq is moving up, the stocks
+in my wheelhouse are not behaving well. Stay focused and don’t get
+distracted by this man-made index.</p>
+<p>I’ve done two experimental things over the last two days and curious
+how this plays out. EXTR was showing serious RS yesterday so I decided
+to risk $1 to keep an eye on it. Today, it’s lower that where I bought
+it and it’s not showing RS. The lesson is 1-day doesn’t mean much - I
+believe this is what Mark would tell me.</p>
+<p>The second experimental decision I made was to buy HUBS on a pullback
+to the breakout area today. This rarely works but as always, this time
+seems different: it’s starting a new stage 2 uptrend according to Stan
+Weinstein and has been among some of the better names during this rally.
+I missed the breakout on 3/29 and it was on my radar. The pullback looks
+fairly constructive so I decided to buy 1 share. It’s an older, big-cap
+tech company (QQQ doing the best of all indexes), showing a VCP, new
+stage 2 uptrend, and fundamentals are A+. I figured why not, but can’t
+deny that I feel very guilty. It’s not a pullback buy according to
+Minervini. The pattern looks so enticing and big tech has been
+outperforming.</p>
+<p>Other names that are starting stage 2 uptrends and are also very
+enticing: MELI, WDAY, FOUR, NEWR.</p>
+<p>I think to some degree I am feeling FOMO. There are many names that
+are setup and still look buyable, if not now very soon, like: RVNC,
+SGML, MNST, PODD, PMTS, GRBK, IRDM, LNTH, ASML, CROX, TMUS, GFS, HLIT,
+HSTM. I’ve been stopped out of 4 of 6 positions, although it feels like
+it should be 3 of 5 b/c ASUR shouldn’t have been bought. Is 2 for 5 is
+just under half.. Should I strictly listen to this and stop buying with
+many names still set up? Here’s what I think the answer is: yes, I
+should be listening to the feedback from open positions and stop buying.
+I have a feeling we’ll be seeing more volatility in names like HUBS,
+MELI, FOUR, and that perhaps I just bought into the snapback rally to
+the breakout. I will likely get stopped out of SNPS and RETA. There have
+been enough names that have broken down to make me think they’ll get em
+all eventually. If that doesn’t happen however, I believe this would
+allude to the fact that you have to stay on the ball. Half might stop
+you out (as Mark says) and you have to keep watching to see if more
+stocks break down than hold up.. Only time will tell, but lessons will
+be learned for a small fee.</p>
+<p>Will I learn to never do this again or are these new stage 2 uptrends
+really under accumulation as they appear?</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/5/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stock feedback Model leaning closer to red. Still holding SNPS and
+RETA but down slightly on both. Bought 1 share of EXTR to keep an eye on
+this stock that was showing serious RS today in a sea of red. Slightly
+early but developing a low cheat. Many stocks were volatile today and
+overall I’d say the action was concerning. My list of names that are
+setup and ready to buy is expanding, which is feeling contradictory. I’m
+basically down on 50% of names. ASUR wasn’t the best buy.. Mark says
+this is normal to see some (half) of your stocks experiencing volatility
+during a pullback in the market. This makes me think I should be very
+selective and cautious but to still pay very close attention b/c buying
+some breakouts could be worthwhile if the market can hold up. Tomorrow
+the rubber will meet the road for many stocks.</p>
+<p>That said, the SPY has been very orderly. QQQ distribution day but
+overall fairly constructive. IWO low volume pullback so far. VIX still
+below 20.</p>
+<p><b>Stocks showing RS:</b> IRDM, LNTH, PODD, LEN, MHO, MNST, TMUS, TR,
+GLD, EXTR, PMTS, RVNC, RMBS.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/4/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Tried ASUR today and got stopped mid-day. Stopped on WING &amp; ASO
+too. <b> For this current rally, I’m only up on 2 of 6 stocks. </b>This
+feedback, along with the volatility in many names today feels like a
+shot across the brow. Have seen this too many times to not take
+seriously. Glad I was conservative with 1% total equity risk. Two
+thoughts on this rally / my stocks: was WING really that great of a
+setup to warrant double the risk from my other positions? ASUR was a
+short base in a continuation move with 99 RS. Maybe buying the day after
+a perceived shakeout wasn’t the best idea. Looking back at FIVE, which
+had a shakeout confirmed by Mark, you can see it shookout on 3/24/2023
+and remained tight and constructive. He bought it days later on 3/31.
+Either way, idt there’s anything wrong with a small starter position in
+ASUR today (which is what I placed) but it’s a good reminder to let the
+trade come to you and be patient. Only thing I would change is to take
+half the position in WING that I took. This would have been ~$25 risk
+which is what I took on my other positions.</p>
+<p>IWM and FFTY wide down days. IWM looks terrible and makes me think
+focusing on liquid big-caps is the best way to go. Many liquid names
+look best as well as QQQ’s being one of the best indexes. I think it’s
+very well still possible that most indexes have bottomed as there are
+plenty of names that broke out and are holding up, but it may be that
+were early and the market is still very selective. Time will tell. Need
+to see potential leaders continue to hold up.</p>
+<p>Names with volatile action today: BDC, DCI, FIX, RELL, MTSI, ESE,
+FCFS, TFII, ESAB, AQUA, PMTS, EME, WIRE, TGLS, WING, ASO, CRUS, MHO,
+COHU.</p>
+<p>Noticing many liquid names that are in relatively new uptrends and
+came from nice consolidations that have held up well: FOUR, MELI, HUBS,
+CSCO.</p>
+<p>Looking back in my journal from late Feb to mid March, many of the
+names that were setting up and looking great are breaking down. I
+spotted 5 big movers on 2/26 and all, with the exception of TMDX, made
+big moves and subsequently broke down from ATH or 52-week highs. Same
+thing happening over and over. Need another list of breakdowns to
+confirm? Check the lists mentioned on 2/27 too. They set up and get sold
+into at new highs.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>4/3/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stock Feedback Model turned to orange today. Added 2 new positions:
+WING, MBLY and added to an existing position: RETA. WING was a pullback
+buy in the handle of a large base. MBLY isn’t fully developed and
+position was small at 2%, a starter. Would like to see this develop and
+tighten a bit more. Will be adding if that happens. RETA wasn’t a bad
+add but it was slightly above the ideal spot. I learned a lesson on this
+one as it was brought up in the QA session: I incorrectly added at the
+high of the left-side of the base (52-week high) around 95. I should
+have added around 93.50 (highest) as it was the high of the pivot (~2%
+lower). Currently up on: SNPS, ASO, WING. Down slightly on MBLY, RETA
+but neither stock is doing anything wrong. Looking to add exposure if
+warranted, have ~$30 more risk until at 1% total equity.</p>
+<p>Overall stock action has been encouraging and improving. ISEE and
+APLS both gapped up huge today from excellent buy points. Stocks that
+have recently broke out from good buy points are holding up: RMBS, FIVE,
+BDC, CSCO, MSI, AXON, PANW, MHO, AXON, HROW, MNST, TRI, EXTR, ANET,
+THMC. VIX below 19.</p>
+<p></font></p>
+</div>
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 3/26 - 4/1
+</summary>
+In Tampa, FL all week.
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 3/19 - 3/25
+</summary>
+<p><span style="color:#FFFF99"><em>3/23/2023</em></span></p>
+<p>RETA displaying a picture perfect Power Play setup:</p>
+<p><a href="figures/models/PP/RETA-daily-pre.png#round"><img
+src="figures/models/PP/RETA-daily-pre.png#round" class="img-thumbnail"
+style="width:49.0%" alt="RETA" /></a> <a
+href="figures/models/PP/RETA-weekly-pre.png#round"><img
+src="figures/models/PP/RETA-weekly-pre.png#round" class="img-thumbnail"
+style="width:49.0%" alt="RETA" /></a></p>
+<p>Notice the volume over the last 2 days.</p>
+<hr />
+<span style="color:#FFFF99"><em>3/22/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>“The U.S. banking system is strong and resilient.” J. Powell eased
+any concerns of a worsening banking crisis. He believes it is mostly
+contained and due to (SVB) being among a riskier bank without enough
+federal oversight. Market volatile all afternoon. IWM, SPY, QQQ, DJI,
+all closed lower on huge bullish engulfings. Just terrible action.</p>
+<p>Got stopped on ISEE. Tested the waters lightly and found out very
+quickly what I need to know - STAY OUT. Individual names were volatile
+today. Many bearish engulfings in individual names too. Very few names
+even look appetizing and based on stock feedback they’re not worth
+entertaining. Sit out power and cash reign.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/21/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Position in ISEE staying tight. Not doing anything wrong but I’d be
+surprised if the volatility over the next few days doesn’t stop me out.
+FOMC meeting tomorrow and anticipating volatility. COHU, GRBK, nice
+setups that squatted today. STN full-on pivot failure today. Volatile
+down day from nice tight (but short) pivot.</p>
+<p>Not many names setup. Few names in buyable position: RETA, COHU,
+TSCO, and TH. Few names that could be setup soon: FTNT, GRBK, SGML, BJ,
+HROW, MHO, MCHP, PMTS, MSI, MSCI. Some older names like HLIT, MAXN, SMCI
+made nice moves today. Primary list building up a little as week
+progresses. Will see how things unfold remainder of week.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/20/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Bought a micro-position in ISEE today as sort of a ‘mental health
+buy’ as David Ryan would put it. Will do the same with COHU if it acts
+right. SGML took off today from a decent pivot - went inside one day and
+blasted off ~11%. Not many names out there and the best moves have been
+in precious metals. Risking $6 on ISEE just to keep my eye on the ball
+and see how this name behaves. Coming from a pretty good VCP setup.
+Also, whether I get on it or not, if COHU can’t work, I shouldn’t
+entertain the market. It’s in the same group as AEHR, ACLS, CVV. Best
+names out there and it’s coming from a textbook VCP.</p>
+<p>Low-volume on the general market today. QQQ’s look the best. SPY as
+well as many stocks, have ‘bear flags’ or ‘bearish pennants’ on their
+right sides. Will the SPY break to the downside? The daily range of the
+VIX has been huge.</p>
+<p>Stock feedback red and guiding decisions to be micro.</p>
+<p><a href="figures/ISEE-daily-pre.png#round"><img
+src="figures/trades/2023/ISEE-daily-pre.png#round" class="img-thumbnail"
+style="width:49.0%" alt="ISEE" /></a> <a
+href="figures/COHU-daily.png#round"><img
+src="figures/COHU-daily.png#round" class="img-thumbnail"
+style="width:49.0%" alt="COHU" /></a></p>
+<p></font></p>
+</div>
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 3/12 - 3/18
+</summary>
+<span style="color:#FFFF99"><em>3/18/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>After doing some PTA (which will henceforth be logged <a
+href="PTA.html">here</a>), noticing that many of my buys were spot-on
+but they were near 52-week highs. My buys sometimes marked the top or
+were at a breakout level that subsequently moved sideways in a volatile
+manner. Markets simply aren’t bidding up most stocks into ATH or 52-week
+high territory; and if they do it doesn’t last long. Few stocks have
+stood out and look obvious in hindsight, but with no real trend and the
+majority of setups not working, it’s been very tough to make money all
+year. Made perfect buys on XLE, QSR, VC, VTYX, AXON, RXDX, IBB, BIIB,
+PRDO, and OIH. That’s 10 of 16 buys that were excellent in hindsight.
+I’ve come a long way in my selection and timing. Money and portfolio
+management also making serious improvements. Down 2.31% on the year.
+Right there with both Mark’s. Feeling no FOMO.</p>
+<p>I did a great job managing my winning trades, despite only really
+having two. Held them for an average of 26 days! As of this writing, my
+numbers are: avg gain - 14.49%, avg loss - 3.54%, BA - 12.5%, W/L -
+4.09, aW/L - 0.51. Results are telling me to be very selective and
+conservative. A few problems during this last rally: (1) reaction time
+to poor results in the market. (2) Over reacting to breath thrust
+indicator (3) Slight FOMO near the end of the rally.</p>
+<p>A few stops were hit early on in names like SLGN, QSR, and RXDX. At
+that same time, I had 4 solid names with open profits: XLE, VC, VTYX,
+AXON. I leaned on these open profits and took on more risk. Next time,
+coming from 100% cash and a bear market, <b>I shouldn’t lean so heavily
+on open profits coming from a correction unless the gains are locked in
+with a backstop.</b> In XLE, VC, AXON, I had no more than 7% gains
+(which I leaned on) and this later came back to bite me. XLE and AXON
+both stopped me out. After getting stopped out on SLGN, QSR, RXDX, XLE,
+and AXON with only VC and VTYX working, I should have held off on buying
+and let the names I had play out. Instead I kept on buying without
+making any real traction. On balance I was around break-even and I
+noticed more names setting up. For this reason, it’s ok to continue
+buying, but I should have had more alarm bells going off and should have
+been SUPER selective and small. Buying should be very small and only the
+best of the bread. I think I was blinded by a couple of names that had
+double-digit profits, the breadth thrust, the general market, and
+optimism from both Mark’s.. It ended up being that every name thereafter
+stopped me out and I lost money on every trade. FOLD and XENE were
+full-on FOMO trades.</p>
+<p>Overall, I’m happy with my trading, but a few too many names due to a
+slow reaction to stock feedback and slight FOMO took me down $200 or so
+more than I believe I should have lost. My solution is the advent of the
+daily journal entries and stock feedback model. I believe this will keep
+me more in-tune and force me to take a more honest and thorough review
+of my portfolio and the markets each day.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/17/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Breadth terrible today, on a Friday. Nearly entire primary watchlist
+was red. VIX at 25. IWM huge distribution today and looks bad. Stocks
+volatile and nothing setup in a clean and orderly fashion. TXRH, VRTX,
+RETA, and TSCO only few that were decently set up and all retraced prior
+days advance.</p>
+<p>Some names look like they could be ready by as early as next week if
+they act right: <b>SGML, FTNT, ISEE, BJ, AEHR, TH, RETA, MCHP, TSCO,
+MSI, TRI, VRTX.</b> TH was short but tight and moved to the downside on
+increased volatility today.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/16/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>First Republic Bank announced they were struggling this morning. The
+list now includes: SVB, Silvergate Capital, Signature Bank, Credit
+Suisse, and First Republic. The explanation according to Mark, “The FED
+has been aggressively tightening rates and this has caused many
+depositors to wake up and realize that they can earn far more yield in
+treasuries than leaving them deposited at their local bank, thus causing
+a run on deposits. The FED has since created its BTFD program to help
+stem any liquidity issues banks may be having, but the headlines
+continue to be unsettling.”</p>
+<p>Support has been coming in on the indexes but it’s from an oversold
+condition (QQQ’s weren’t oversold and look best). Not much out there
+that looks appetizing. We saw a decent setup and move in TSCO this
+morning. ANET, CDNS, and TXRH all made nice moves (to new high’s) from
+decent bases today. Expecting near-term volatility.</p>
+<p>Noticing big declines in groups that were previously outperforming:
+machinery, manufacturing, and industrial services. Updated weekly charts
+to watch on index page.</p>
+<p><a href="figures/QQQ-3-16-2023.png#round"><img
+src="figures/QQQ-3-16-2023.png#round" class="img-thumbnail"
+style="width:49.0%" alt="QQQ" /></a></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/15/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Stocks that I traffic look sloppy and volatile. Hardly anything to
+entertain. Biggest movers today came from junk off the lows.</p>
+<p>Seeing some supportive volume on the SPY and QQQ the last 2-3 days.
+IWM not looking as good. Crude oil prices broke a 6-month channel to the
+downside and dropped to its lowest level since January 2022. Seeing some
+technology stocks getting bids. However, some blowups as well. LUNA is
+an example. Contrarily, names like BJ and TSCO looking good and clearly
+getting bids. I think this points to the uncertainty of the market right
+now. No real trends, lots of rotation. Sidelined and 100% cash.</p>
+<p><a href="figures/USO_2023-03-15.png#round"><img
+src="figures/USO_2023-03-15.png#round" class="img-thumbnail"
+style="width:33.0%" alt="USO" /></a> <a
+href="figures/FebCPI.png#round"><img src="figures/FebCPI.png#round"
+class="img-thumbnail" style="width:33.0%" alt="CPI" /></a> <a
+href="figures/VIX_3-15-2023.png#round"><img
+src="figures/VIX_3-15-2023.png#round" class="img-thumbnail"
+style="width:33.0%" alt="VIX" /></a></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/14/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>CPI release this morning and the market opened on a gap. Volatility
+is the word of the week for the stock market and I am practicing extreme
+caution in these uncertain times. Here’s a note from Mark this morning
+which provides more color:</p>
+<p>Mark:</p>
+<p>In panic fashion, the 2-year yield fell 100bps in just the last three
+trading sessions, the fastest drop in over 35 years since the Black
+Monday Crash of 1987. As a result - like Nomura - some have drastically
+changed their economic and Fed forecasts.</p>
+<p>While it’s premature to predict whether the recent banking crisis
+will trump CPI and PPI data coming out this week and influence the Fed,
+the expectation for a rate hike has indeed shifted slightly on the side
+of a pause. One thing is pretty certain, economic data due out over the
+next two days will likely fuel more volatility.</p>
+<p>Follow <a
+href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html">this
+link</a>, which estimates the probabilities of Fed Funds Rate.</p>
+<p>In an effort to contain the spread of contagion from the SVB
+collapse, the Fed launched a new lending program late Sunday. The
+creation of the Fed’s new Bank Term Funding Program (BTFP) is designed
+to halt bank runs of stressed financial institutions. Eligible
+depositories can now borrow for up to one year pledging Treasurys and
+agency MBS, which will be valued at par. That plugs a $620 billion hole
+created by the unrealized losses on securities holdings.</p>
+<p>The structure is similar to those rolled out during the pandemic and
+during the GFC. The Treasury will provide $25 billion in capital from
+the Exchange Stabilization fund as a backup. As has been done
+previously, any losses to the Deposit Insurance Fund will be covered by
+a special assessment on banks, not taxpayers. Additionally, the
+government will fully protect both insured and uninsured depositors of
+SVB and of Signature Bank, which was closed on Sunday. Reminiscent of
+the Bear Stearns rescue by J.P. Morgan in March 2008, this should help
+limit the collateral damage to the economy and allow companies to meet
+payroll and other obligations.</p>
+<p>The big question is, does the collapse in the 1-year and 2-year
+yields indicate the tightening cycle is over as I have long been
+predicting is the “canary in the coal mine.” I doubt it. And if so, for
+the wrong reasons.</p>
+<p><a href="figures/US01Y_2023-03-15.png#round"><img
+src="figures/US01Y_2023-03-15.png#round" class="img-thumbnail"
+style="width:49.0%" alt="1-year yield" /></a> <a
+href="figures/US02Y_2023-03-15.png#round"><img
+src="figures/US02Y_2023-03-15.png#round" class="img-thumbnail"
+style="width:49.0%" alt="2-year yield" /></a></p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>3/13/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Have taken some time away from the markets. Sold the last of VC on
+2/28 just before trip with the boys and it turned out to be a great time
+to be away. The market saw major volatility during the past two weeks
+and individual stocks have been breaking down. Many pivot failures and a
+considerable amount of base failures. Looking back on my recent trades,
+stop losses have saved me from a lot of turmoil. Everything is lower
+than my sell points with the exception of: AXON, RXDX, and FRHC. <b>That
+means 13 of 16 stocks broke down after setting up.</b> This tells the
+whole story.</p>
+<p>Some interesting and mostly negative developments include: Major
+distribution in the major averages. IWM, SPY, QQQ, and FFTY all got hit
+hard and the prospect of the indexes going lower doesn’t seem far
+fetched. VIX spiked up again. SVB collapse and many banking stocks
+getting hit hard. Is this the start of something more serious? XLF has
+gotten clobbered; along with many other industries including XLE, XBI,
+XLE, XLB, and XME. FFTY barely above its lows. Interestingly, the yields
+have all taken big hits over the past 2-days. The 1-year got wrecked
+today. Would love to see this break down long-term. TAN coiling on the
+weekly. Will it break to the upside? <b>FSLR, MAXN, ARRY</b> all look
+pretty good. Metals, steels, precious metals,</p>
+<p>Sitting on the sidelines for the time being. Not interested in being
+the first to this party. Feels like we have a ways to go with this bear
+market. Staying engaged and ready.</p>
+<p>Focus list: AEHR, FSLR, ARRY, PODD, EPAC, AAON, CECO, BOWL, ACLS,
+HROW, ESP, TMUS, MSI, MNST, TH, TRI, AQUA, LMB, MCHP, ADI, STM, WING,
+COCO. List added to index page today.</p>
+<p><a href="figures/XLF_2023-03-15.png#round"><img
+src="figures/XLF_2023-03-15.png#round" class="img-thumbnail"
+style="width:49.0%" alt="XLF" /></a> <a
+href="figures/XSD_2023-03-15.png#round"><img
+src="figures/XSD_2023-03-15.png#round" class="img-thumbnail"
+style="width:49.0%" alt="XSD" /></a></p>
+<p></font></p>
+</div>
+</details>
+<p><br></p>
+<details>
+<summary>
+Week of 2/26 - 3/4
+</summary>
+<span style="color:#FFFF99"><em>2/27/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>A lot of reversals today with a small list of names setting
+up/breaking out. Also noticing a lot of bearish looking flags on the
+right sides of bases. Notable reversals on focus list include: CECO,
+TMUS, AXON, UPFT, GPC, VTYX, OCN, AGCO. Worth noting that both the SPY
+and QQQ’s closed low in their range.</p>
+<p>Interested to see what happens in these ‘bearish flags’ like: SANM,
+HROW, KLAC, TMUS, FLEX, . Are they tightening and consolidating or
+bracing to move lower? Feels like they’ll go lower considering how
+poorly stocks have been acting. Lots of names breaking down/experiencing
+volatility: BELFB, BDC, IT, ALNY, TH, RELL, GILD, BIIB, ARRY, APH, PODD,
+IMCR. It’s hard to get excited in this market. Rotation is fierce and
+breakouts to new highs simply aren’t working. The bids dry up. Sometimes
+within minutes. Watching AEHR, MTZ, OCN, EPAC, ATRO, AGCO, and BOWL
+closely for anything promising. Earnings coming up in quite a few
+names.</p>
+<p></font></p>
+</div>
+<hr />
+<span style="color:#FFFF99"><em>2/26/2023</em></span>
+<div class="box1">
+<p><font color="black"></p>
+<p>Personal STEM model created and set to red today. This is influenced
+by the recent change to red (on 2/23/2023) on the MPA platform but is,
+and will continue to be, based on my personal ‘feel’ of the market. My
+feel for the market is based primarily on feedback and amount of
+pressure from recent trades. Thus far, 2023 has been very similar to
+2022 in that breakouts are not working. Volatility is too high for
+low-risk entries. Discipline and sit-out power will reign.</p>
+<p>Big moves: FIX, TMDX, EME, ATKR, ALG</p>
+<p><u>2023 Reflection:</u> My portfolio saw some volatility early on in
+SLGN and QSR. These were the first warning signs that I didn’t take
+seriously enough. At that time, my largest position was XLE which began
+working immediately and looked promising. With 1 of 3 names working and
+more names setting up, I decided to buy VC on 1/17 which went
+down-to-sideways for a few days post-buy. That same day and on 1/18, I
+got stopped on both QSR and SLGN. I let XLE and VC work and by 1/23 I
+was up on both positions and green on balance; with that, I decided to
+buy VTYX and AXON on 1/23. Both worked immediately.</p>
+<p>I then added RXDX, IBB, and BIIB over the 26th and 27th. I got
+stopped on RXDX same day and sold a portion of VTYX for 2R on the 27th.
+Things were looking up for the most part. By 1/30 BIIB closed below
+50-day and I sold half. IBB put me under pressure immediately but acted
+normal. On balance things were good until the end of the first week in
+February when I got stopped on ADEA, PRDO, and AXON. PRDO was the first
+real shot across the bow. Beautiful breakout that came all the way
+back.. all too familiar. Note: I tried buying more PRDO when it came in
+early morning post-b/o and it hit me harder when it underwent a pivot
+failure. This hasn’t worked and shouldn’t be done again. AXON was acting
+perfectly (though subject to pullback) until it broke over 14% in one
+day and stopped me out. This should have been a glaringly obvious sign
+to stop buying and go into protective mode. However, I kept buying and
+added FOLD and FRHC. A week later I added OIH, APH, and XENE. OIH was
+the only acceptable buy of those final 5. Otherwise, FOLD, FRHC, APH,
+and XENE were all <u>BAD BUYS</u> and can be attributed to FOMO. I need
+to be quicker to adjust and interpret the feedback the market is giving
+me.</p>
+<p>In hindsight I can see how the ‘breadth thrust’ and new wave of
+setups made me overly eager to get into the market. Both Mark’s were
+buying and admit to being down slightly (1-2%) so far this year. I’m
+right there with them, so I’m not too upset about the performance
+because I remained conservative and adhered to stops. But this latest
+run taught me that I’m not reflecting/synthesizing the market feedback
+enough each day. Hence, the advent of my STEM model and journal.</p>
+<p>Down about 2.5%, or ~$360, as of this writing.</p>
+<p><a href="figures/AXON.png#round"><img src="figures/AXON.png#round"
+class="img-thumbnail" style="width:49.0%" /></a> <a
+href="figures/PRDO.png#round"><img src="figures/PRDO.png#round"
+class="img-thumbnail" style="width:49.0%" /></a></p>
+<p></font></p>
+</div>
+</div>
+</details>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
