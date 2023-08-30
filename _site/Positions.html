@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Positions.knit</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="site_libs/react-17.0.0/react.min.js"></script>
+<script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+<script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/reactable-0.4.4/reactable.css" rel="stylesheet" />
+<script src="site_libs/reactable-binding-0.4.4/reactable.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src="figures/Rstudio_logo.png" style="float: left;" width="80px"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Positions.html">
+    <span class="fas fa-chart-line"></span>
+     
+    POSITIONS
+  </a>
+</li>
+<li>
+  <a href="Trades.html">
+    <span class="far fa-file-alt"></span>
+     
+    TRADES
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="far fa-chart-bar"></span>
+     
+    ANALYTICS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Results.html">Results</a>
+    </li>
+    <li>
+      <a href="Plots.html">Plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fas fa-seedling"></span>
+     
+    STUDY
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PTA.html">PTA</a>
+    </li>
+    <li>
+      <a href="Models.html">Models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: 800px;
+  background-color: hsl(233, 9%, 19%);
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 600px;
+  background-color: hsl(233, 9%, 19%);
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+<center>
+<div id="open-positions" class="section level2">
+<h2>Open Positions</h2>
+<div class="box">
+<div id="htmlwidget-53281a720b6d7bc9d59a" class="reactable html-widget " style="width:762px;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-53281a720b6d7bc9d59a">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"trade":[58,59],"stock_name":["MRVL","MNDY"],"posn_size":[49.4899551822971,30.7431965624773],"qty":[35,8],"weight_avg_buy":[65.04384,177.94],"stop_loss_dol":[62.452,169.45],"stop_loss":[3.98475858743888,4.7712712150163],"actual_drawdown":[-90.7144000000002,-67.9200000000001],"1R":[68.18768,186.43],"2R":[71.33152,194.92],"3R":[74.47536,203.41]},"columns":[{"id":"trade","name":"#","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"width":40},{"id":"stock_name","name":"Stock","type":"character","align":"center","footerStyle":{"fontWeight":"bold"},"width":65},{"id":"posn_size","name":"Posn %","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2},"aggregated":{"digits":2}},"footer":"80.23","width":70},{"id":"qty","name":"Qty","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"width":45},{"id":"weight_avg_buy","name":"Cost Basis","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"width":75},{"id":"stop_loss_dol","name":"Stop Loss $","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"currency":"USD"},"aggregated":{"currency":"USD"}},"width":90},{"id":"stop_loss","name":"Stop Loss %","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2},"aggregated":{"digits":2}},"footer":"4.38","width":75},{"id":"actual_drawdown","name":"Risk","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"footer":"$-158.63","width":75,"style":[{"color":"#F78379"},{"color":"#F78379"}]},{"id":"1R","name":"1R","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"width":75,"style":[{"color":"#d9bb50"},{"color":"#d9bb50"}]},{"id":"2R","name":"2R","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"width":75,"style":[{"color":"#d9bb50"},{"color":"#d9bb50"}]},{"id":"3R","name":"3R","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"width":75,"style":[{"color":"#d9bb50"},{"color":"#d9bb50"}]}],"highlight":true,"bordered":true,"striped":true,"width":"762px","theme":{"color":"hsl(233, 9%, 87%)","backgroundColor":"hsl(233, 9%, 19%)","borderColor":"hsl(233, 9%, 21%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"96a15c5a7488f7ff4a488fdef0357159"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+<div id="recent-trades" class="section level2">
+<h2>Recent Trades</h2>
+<div class="box1">
+<div id="htmlwidget-dde726f1091894528b06" class="reactable html-widget " style="width:550px;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-dde726f1091894528b06">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"trade":[58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1],"stock_name":["MRVL","MCD","PSTG","BLMN","TMDX","SCMI","CMG","FTI","MRVL","AXSM","PCVX","PCVX","ASML","VERX","TGTX","MBLY","MRK","LTH","MA","DUOL","TJX","LVS","MDGL","LVS","NVDA","ACLS","PODD","AGYS","MBLY","QQQ","QQQ","BA","SPY","HUBS","EXTR","ASUR","MBLY","WING","ASO","SNPS","RETA","ISEE","XENE","APH","OIH","FRHC","FOLD","PRDO","ADEA","BIIB","IBB","RXDX","AXON","VTYX","VC","QSR","XLE","SLGN"],"purchase_date":["7/25/2023","7/20/2023","6/30/2023","6/29/2023","6/28/2023","6/28/2023","6/27/2023","6/21/2023","6/15/2023","6/14/2023","6/12/2023","6/9/2023","6/8/2023","6/7/2023","6/7/2023","6/6/2023","5/19/2023","5/18/2023","5/17/2023","5/17/2023","5/17/2023","5/10/2023","5/8/2023","5/5/2023","5/5/2023","4/18/2023","4/17/2023","4/17/2023","4/14/2023","4/13/2023","4/12/2023","4/11/2023","4/10/2023","4/6/2023","4/5/2023","4/4/2023","4/3/2023","4/3/2023","3/31/2023","3/31/2023","3/31/2023","3/20/2023","2/16/2023","2/16/2023","2/14/2023","2/7/2023","2/3/2023","2/3/2023","2/2/2023","1/27/2023","1/26/2023","1/26/2023","1/23/2023","1/23/2023","1/17/2023","1/13/2023","1/13/2023","1/13/2023"],"pl_percent":[-1.54025346597003,-1.29223019311623,-1.12384987092075,8.00172405318855,12.9305488491872,14.2928521556991,2.25512596899224,4.90121112929623,-4.10444874274661,9.38451275343361,-2.33534839325484,-2.28203627852546,-2.26279752200846,-9.78681999115435,-4.17620788417282,-4.85304669650107,-1.90743100081705,-4.56124385269888,-3.57978820624243,7.4857730624321,-2.56790782656053,-3.77670675783683,-6.45973707035484,-1.53621438918398,5.55541832241434,-6.26339969372128,-0.953902253183832,-3.20862956125536,-4.28815684486491,-1.21279934716425,-0.976087437217669,-5.27175180779099,-0.720631081142767,-0.249475739388234,-14.0706658472916,-5.07709333351438,-9.19738201860145,-4.00700054977613,-3.38930705361993,-1.52977171099083,4.98149127445797,-4.44085570469798,-1.64060497308383,-0.747475369458143,-4.86325100992015,-2.44992295839753,-4.93966817496229,-7.0449907686328,-4.64643799472297,-2.93404537569306,-3.14717354355287,-6.42057237660722,-5.36221217537587,17.9113018597997,11.0650101038041,-2.08019294543263,-1.92403984286984,-1.40229666888111],"pl_dollar":[-15.0276,-38.2735000000002,-16.9779999999996,42.328,32.135,32.7535,46.5457999999999,18.7165,-20.3712,35.8723,-18.3499999999999,-11.7,-32.9649999999997,-22.128,-27.6664000000001,-20.561,-17.6304,-13.8335,-13.7689,32.3857,-16.3706999999999,-23.579,-20.1013,-9.54450000000008,31.0359,-16.36,-12.2688999999998,-16.3377,-18.8099999999999,-15.4564,-9.26999999999998,-11.3,-20.6469999999999,-2.06999999999994,-2.6789,-22.434,-28.035,-51.8716999999999,-4.3678,-5.85000000000002,14.1300000000001,-5.29349999999999,-9.60000000000002,-6.06950000000006,-48.2149999999999,-23.85,-32.75,-126.875,-52.8300000000002,-34.5032000000001,-116.481899999999,-38.7,-30.5999999999999,125.2,144.01,-27.6000000000004,-51.6440000000002,-22.1640000000002],"pnl":[4615.3302,4630.3578,4668.6313,4685.6093,4643.2813,4611.1463,4578.3928,4531.847,4513.1305,4533.5017,4497.6294,4515.9794,4527.6794,4560.6444,4582.7724,4610.4388,4630.9998,4648.6302,4662.4637,4676.2326,4643.8469,4660.2176,4683.7966,4703.8979,4713.4424,4682.4065,4698.7665,4711.0354,4727.3731,4746.1831,4761.6395,4770.9095,4782.2095,4802.8565,4804.9265,4807.6054,4830.0394,4858.0744,4909.9461,4914.3139,4920.1639,4906.0339,4911.3274,4920.9274,4926.9969,4975.2119,4999.0619,5031.8119,5158.6869,5211.5169,5246.0201,5362.502,5401.202,5431.802,5306.602,5162.592,5190.192,5241.836]},"columns":[{"id":"trade","name":"#","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"width":40},{"id":"stock_name","name":"Stock","type":"character","align":"center","footerStyle":{"fontWeight":"bold"}},{"id":"purchase_date","name":"Buy Date","type":"character","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"date":true},"aggregated":{"date":true}}},{"id":"pl_percent","name":"P/L %","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2},"aggregated":{"digits":2}},"style":[{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"gray90"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"}]},{"id":"pl_dollar","name":"P/L $","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"footer":"$-648.67","style":[{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"gray90"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"}]},{"id":"pnl","name":"NAV","type":"numeric","align":"center","footerStyle":{"fontWeight":"bold"},"format":{"cell":{"digits":2,"currency":"USD"},"aggregated":{"digits":2,"currency":"USD"}},"style":[{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"gray90"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#00cc00"},{"color":"#00cc00"},{"color":"#ff3333"},{"color":"#ff3333"},{"color":"#ff3333"}]}],"highlight":true,"bordered":true,"striped":true,"width":"550px","theme":{"color":"hsl(233, 9%, 87%)","backgroundColor":"hsl(233, 9%, 19%)","borderColor":"hsl(233, 9%, 21%)","stripedColor":"hsl(233, 12%, 22%)","highlightColor":"hsl(233, 12%, 24%)","inputStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"selectStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonHoverStyle":{"backgroundColor":"hsl(233, 9%, 25%)"},"pageButtonActiveStyle":{"backgroundColor":"hsl(233, 9%, 28%)"}},"dataKey":"0db16dd5953fc0811713d8d5b75eef72"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+10 most recent trades.
+</center>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
