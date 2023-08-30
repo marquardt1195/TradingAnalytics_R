@@ -1,0 +1,372 @@
+---
+output: 
+  html_document:
+    theme: darkly
+---
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: 800px;
+  background-color: hsl(233, 9%, 19%);
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 600px;
+  background-color: hsl(233, 9%, 19%);
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+
+```{r, include=FALSE}
+trade_results_final <- read.csv("Trade_Results_2023-copy-csv.csv", na.strings = c("", "NA"))
+```
+
+
+```{r Library, include = FALSE}
+library(ggplot2)
+library(reshape)
+library(kimisc)
+library(tidyverse)
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(devtools)
+```
+
+
+
+```{r Open_posn_Data, echo=FALSE}
+start_bal <- 5264    #Update start balance at start of each year
+
+df_open_pos1 <- trade_results_final %>% 
+  select(trade, stock_name, entries, 
+         entry_price, exits, exit_price, 
+         stop_loss_dollar, adjusted_stop) %>% 
+  group_by(trade) %>% 
+  mutate(entries = coalesce(entries, 0),
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0), 
+         stop_loss_dollar = coalesce(stop_loss_dollar, 0),
+         adjusted_stop = coalesce(adjusted_stop, 0)) %>% 
+  mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+  mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+  mutate(weight_avg_sell = coalesce(weight_avg_sell, 0)) %>% 
+  mutate("max_drawdown" = -(sum(entries*entry_price)/sum(entries)-(stop_loss_dollar))*sum(entries)) %>% 
+  mutate("stop_loss_dol" = ifelse(adjusted_stop > stop_loss_dollar, adjusted_stop, stop_loss_dollar)) %>% 
+  mutate("stop_loss" = ((weight_avg_buy-stop_loss_dol)/weight_avg_buy)*100)
+  
+
+df_open_pos2 <- df_open_pos1 %>% 
+  group_by(trade) %>% 
+  mutate("total_bought" = sum(entries)) %>% 
+  mutate("total_sold" = sum(exits)) %>% 
+  mutate("qty" = total_bought-total_sold) %>% 
+  select(trade, stock_name, weight_avg_buy, 
+         stop_loss, stop_loss_dol, 
+         total_bought, total_sold, qty, max_drawdown,
+         entries, entry_price, weight_avg_sell) %>% 
+  filter(total_bought != total_sold) %>% 
+  drop_na()
+
+df_open_pos3 <- df_open_pos1 %>% 
+   select(trade, stock_name, 
+          entries, exits, weight_avg_buy, 
+          weight_avg_sell, stop_loss, 
+          max_drawdown) %>% 
+   group_by(trade) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>%
+   drop_na() %>% 
+   filter(total_bought != total_sold) %>% 
+   mutate("partials" = (total_sold*weight_avg_sell) - (total_sold*weight_avg_buy)) %>% 
+   select(trade, stock_name, partials)
+
+df_open_pos4 <- merge(df_open_pos3, df_open_pos2, all=T) %>%
+                      merge(df_open_pos1, all = T) %>% 
+  select(trade, stock_name, 
+         total_bought, total_sold, 
+         weight_avg_buy, weight_avg_sell, 
+         stop_loss, stop_loss_dollar, stop_loss_dol, 
+         max_drawdown, partials) %>% 
+  filter(total_bought != total_sold)
+
+df_open_pos4$weight_avg_sell[is.nan(df_open_pos4$weight_avg_sell)] <- NA
+
+df_open_pos5 <- df_open_pos4 %>% 
+  mutate("actual_drawdown1" = (partials - (weight_avg_buy - stop_loss_dol)*(total_bought - total_sold))) %>% 
+  mutate("actual_drawdown2" = ifelse(actual_drawdown1>0, 0, actual_drawdown1)) %>% 
+  mutate("actual_drawdown3" = -(partials-max_drawdown)) %>% 
+  mutate("actual_drawdown_a" = -(weight_avg_buy - stop_loss_dol)*(total_bought - total_sold)) %>% 
+  mutate("actual_drawdown" = ifelse(actual_drawdown1>0, 0, actual_drawdown_a)) %>% 
+  mutate("1R" = weight_avg_buy + (weight_avg_buy - stop_loss_dollar)) %>% 
+  mutate("2R" = weight_avg_buy + (weight_avg_buy - stop_loss_dollar)*2) %>% 
+  mutate("3R" = weight_avg_buy + (weight_avg_buy - stop_loss_dollar)*3)
+
+
+  
+#(partials - (weight_avg_buy - stop_loss_dollar)*(total_bought - total_sold)
+
+df_open_pos5$max_drawdown <- ifelse(is.na(df_open_pos5$actual_drawdown), df_open_pos5$max_drawdown, df_open_pos5$actual_drawdown)
+
+df_open_pos6<- df_open_pos1 %>% 
+   select(trade, stock_name, 
+          entries, exits, weight_avg_buy, 
+          weight_avg_sell) %>% 
+   group_by(trade) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   filter(total_sold == total_bought) %>% 
+   drop_na() %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_bought))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate(Winners = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate(Losers = ifelse(pl_percent_trade<=-0.5, 1, 0))
+
+closed_pl_dollar <- sum(df_open_pos6$pl_dollar)
+end_bal <- closed_pl_dollar + start_bal
+
+df_open_pos7 <- df_open_pos2 %>% 
+  group_by(trade) %>% 
+  mutate("total_cost" = (total_bought)*weight_avg_buy) %>% 
+  mutate("posn_size1" = (total_cost/end_bal)*100) %>% 
+  mutate("partial_cost" = total_cost - (total_sold*weight_avg_sell)) %>% 
+  mutate("posn_size" = (partial_cost/end_bal)*100) %>% 
+  select(trade, stock_name, posn_size, qty)
+
+df_open_pos8 <- df_open_pos5 %>% 
+  select(trade, stock_name, weight_avg_buy, stop_loss_dol, stop_loss, actual_drawdown, "1R", "2R", "3R") 
+  #mutate(across(where(is.numeric), round, 4))
+  
+df_open_pos <- merge(df_open_pos7, df_open_pos8) %>% 
+  arrange(desc(posn_size))
+```
+
+
+<center>
+## Open Positions
+
+<div class="box">
+
+```{r Open_Positions_reactable, echo = FALSE}
+reactable(df_open_pos,
+          defaultColDef = colDef(
+            footerStyle = list(fontWeight = "bold"),
+            align = "center"),
+          columns = list(
+            trade = colDef(name = "#", 
+                           width = 40),
+            stock_name = colDef(name = "Stock", width = 65),
+            posn_size = colDef(name = "Posn %", width = 70,
+                               footer = sprintf(fmt = "%#.2f",
+                                         sum(df_open_pos$posn_size)),
+                               format = colFormat(digits = 2)),
+            qty = colDef(name = "Qty", width = 45),
+            weight_avg_buy = colDef(name = "Cost Basis", width = 75,
+                               format = colFormat(digits = 2, 
+                               currency = "USD")),
+            stop_loss_dol = colDef(name = "Stop Loss $", width = 90,
+                               format = colFormat(currency = "USD")),
+            stop_loss = colDef(name = "Stop Loss %", width = 75,
+                               format = colFormat(digits = 2),
+                               footer = sprintf(fmt = "%#.2f",
+                                         mean(df_open_pos$stop_loss))),
+            actual_drawdown = colDef(name = "Risk", width = 75,
+                                  format = colFormat(digits = 2,
+                                          currency = "USD"),
+                                  footer = sprintf(fmt = "$%.2f",
+                                         sum(df_open_pos$actual_drawdown)),
+                                  style = function(value, index) {
+                                     if (df_open_pos$actual_drawdown[index] > 0) {
+                                         color <- "#00cc00"
+                                   } else if (df_open_pos$actual_drawdown[index] < 0){
+                                         color <- "#F78379"
+                                    }else {
+                                        color <- "#00cc00"
+                                           }
+                                          list(color = color)
+                                                                  }),
+            "1R" = colDef(name = "1R", width = 75,
+                         format = colFormat(digits = 2,
+                                          currency = "USD"),
+                                  style = function(value, index) {
+                                     if (df_open_pos$actual_drawdown[index] > 0) {
+                                         color <- "#d9bb50"
+                                   } else if (df_open_pos$actual_drawdown[index] < 0){
+                                         color <- "#d9bb50"
+                                    }else {
+                                        color <- "#d9bb50"
+                                           }
+                                          list(color = color)
+                                                                  }),
+           "2R" = colDef(name = "2R", width = 75,
+                         format = colFormat(digits = 2,
+                                          currency = "USD"),
+                                  style = function(value, index) {
+                                     if (df_open_pos$actual_drawdown[index] > 0) {
+                                         color <- "#d9bb50"
+                                   } else if (df_open_pos$actual_drawdown[index] < 0){
+                                         color <- "#d9bb50"
+                                    }else {
+                                        color <- "#d9bb50"
+                                           }
+                                          list(color = color)
+                                                                  }),
+          "3R" = colDef(name = "3R", width = 75,
+                         format = colFormat(digits = 2,
+                                          currency = "USD"),
+                                  style = function(value, index) {
+                                     if (df_open_pos$actual_drawdown[index] > 0) {
+                                         color <- "#d9bb50"
+                                   } else if (df_open_pos$actual_drawdown[index] < 0){
+                                         color <- "#d9bb50"
+                                    }else {
+                                        color <- "#d9bb50"
+                                           }
+                                          list(color = color)
+                                                                  })),
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 87%)",
+            backgroundColor = "hsl(233, 9%, 19%)",
+            borderColor = "hsl(233, 9%, 21%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")),
+          striped = TRUE,
+          highlight = TRUE,
+          bordered = TRUE,
+          width = 762)
+
+```
+</div>
+
+<br>
+
+## Recent Trades
+
+<div class="box1">
+```{r Recent_Trades, echo=FALSE}
+df_recent_trades_1 <- trade_results_final %>% 
+  select(trade, stock_name, entries, 
+         entry_price, purchase_date, exits, exit_price, 
+         stop_loss_dollar) %>% 
+  group_by(trade) %>% 
+  mutate(entries = coalesce(entries, 0),
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0),
+         stop_loss_dollar = coalesce(stop_loss_dollar, 0)) %>% 
+  mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+  mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>%
+  mutate("total_bought" = sum(entries)) %>% 
+  mutate("total_sold" = sum(exits)) %>%
+  mutate("pl_percent" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+  mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+  mutate("stop_loss" = ((weight_avg_buy-stop_loss_dollar)/weight_avg_buy)*100) %>%
+  drop_na() %>% 
+  select(trade, stock_name, purchase_date, pl_percent, pl_dollar) %>% 
+  arrange(desc(trade))
+  #head(10)
+
+df_recent_trades_2 <- df_recent_trades_1 %>% 
+  group_by(trade) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  mutate("pnl" = start_bal + cumsum)
+
+df_recent_trades <- merge(df_recent_trades_1, df_recent_trades_2) %>% 
+  select(trade, stock_name, purchase_date, pl_percent, pl_dollar, pnl) %>% 
+  arrange(desc(trade))
+
+reactable(df_recent_trades,
+          defaultColDef = colDef(
+            footerStyle = list(fontWeight = "bold"),
+            align = "center"),
+          columns = list(
+            trade = colDef(name = "#", width = 40),
+            stock_name = colDef(name = "Stock"),
+            purchase_date = colDef(name = "Buy Date",
+              format = colFormat(date = TRUE)),
+            pl_percent = colDef(name = "P/L %",
+              format = colFormat(digits = 2),
+              style = function(value, index) {
+                if (df_recent_trades$pl_percent[index] >= 0.5) {
+                  color <- "#00cc00"
+                } else if (df_recent_trades$pl_percent[index] <= -0.5){
+                  color <- "#ff3333"
+                } else {
+                  color <- "gray90"
+                }
+                list(color = color)
+              } ),
+            pl_dollar = colDef(name = "P/L $",
+              format = colFormat(digits = 2, currency = "USD"),
+              footer = sprintf("$%.2f",
+                        sum(df_recent_trades$pl_dollar)),
+              style = function(value, index) {
+                if (df_recent_trades$pl_percent[index] >= 0.5) {
+                  color <- "#00cc00"
+                } else if (df_recent_trades$pl_percent[index] <= -0.5){
+                  color <- "#ff3333"
+                } else {
+                  color <- "gray90"
+                }
+                list(color = color)
+              }
+            ),
+            pnl = colDef(name = "NAV",
+              format = colFormat(digits = 2, currency = "USD"),
+              style = function(value, index) {
+                if (df_recent_trades$pl_percent[index] >= 0.5) {
+                  color <- "#00cc00"
+                } else if (df_recent_trades$pl_percent[index] <= -0.5){
+                  color <- "#ff3333"
+                } else {
+                  color <- "gray90"
+                }
+                list(color = color)
+              }
+                         )),
+         theme = reactableTheme(
+          color = "hsl(233, 9%, 87%)",
+          backgroundColor = "hsl(233, 9%, 19%)",
+          borderColor = "hsl(233, 9%, 21%)",
+          stripedColor = "hsl(233, 12%, 22%)",
+          highlightColor = "hsl(233, 12%, 24%)",
+          inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+          selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+          pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+          pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")),
+          striped = TRUE,
+          highlight = TRUE,
+          bordered = TRUE,
+          width = 550)
+
+
+```
+
+</div>
+
+10 most recent trades.
+</center>

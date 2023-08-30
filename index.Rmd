@@ -1,0 +1,260 @@
+---
+output: 
+  html_document:
+    theme: darkly
+---
+
+<style type="text/css">
+body{
+  font-size: 12pt;
+  font-family: Arial
+}
+.column{
+  column-width: auto;
+  column-count: 2;
+  column-gap: 96px;
+}
+.box1 {
+  height: 100%;
+  width: auto;
+  background-color: hsl(233, 5%, 95%);
+  color: hsl(233, 9%, 95%);
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box2 {
+  height: auto;
+  width: 100%;
+  background-color: #3d688f;
+  color: hsl(233, 9%, 95%);
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box3 {
+  height: auto;
+  width: 80%;
+  background-color: #3d688f;
+  color: hsl(233, 9%, 95%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box4 {
+  height: 100%;
+  width: 175%;
+  background-color: hsl(233, 5%, 95%);
+  color: hsl(233, 9%, 95%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+img[src$="#round"] {
+  margin: 0px;
+  border-radius: 5px;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+```{r STEM Model, echo=FALSE, out.width="11.5%", fig.cap="Stock Feedback", fig.align='right'}
+knitr::include_graphics("figures/orange.png")
+```
+
+```{r Library, include = FALSE}
+library(kableExtra)
+library(reactable)
+library(DT)
+library(data.table)
+library(tidyverse)
+library(shiny)
+```
+
+```{r, echo=FALSE, include=FALSE}
+#<div class="box2">
+#<div class="box1">
+#<font color="black" size=3>
+#<center><b><u>DAILY REMINDERS</u></b></center>
+#
+#<b>(1)</b> The point of a strategy is to prompt you to take action in the market. Nothing else should be responsible for prompting you to take action. If you take action without first being prompted, either you don't believe in the strategy or you don't have the discipline to follow it. Which is it?
+
+#<b>(2)</b> Your strategy has been time-tested for decades by proven champions in the market. You already have everything you need to succeed.
+
+#<b>(3)</b> Do you know how to follow the strategy Mark has outlined? Then simply execute and interpret the feedback. If you stretch the rules, you can't trust the fidelity of your results. YOU MUST CONSISTENTLY APPLY THE DISCIPLINE.
+
+#<b>(4)</b> TRUST the strategy. FOLLOW the strategy. CONSISTENTLY APPLY the strategy. It's the only reference point you have in the market. 
+
+#<b>(5)</b> NO FOMO. This is a business. What business would succeed if the owner was giving into short-term desires/excitement instead of executing according to plan? Would you work for him/her?
+
+#<b>(6)</b> How have trades been going?
+
+#<b>(7)</b> Do you know how to follow the strategy Mark has outlined? Then simply execute and interpret the feedback. If you stretch the rules, you can't trust the fidelity of your results. YOU MUST CONSISTENTLY APPLY THE DISCIPLINE.
+
+#</font>
+#</div>
+#</div>
+```
+
+
+<center>
+<div class="box3">
+<center><b>DAILY CHECKLIST</b></center>
+<div class="column">
+<div class="box4">
+<font color="black" size=3>
+
+
+<b>(1)</b> Place/adjust all stops
+
+<b>(2)</b> Screen Primary list
+
+<b>(3)</b> Run Daily scans
+
+<b>(4)</b> Organize Focus list
+
+<b>(5)</b> Set buy stop limits
+
+</font>
+</div>
+
+<div class="box4">
+<font color="black" size=3>
+
+<b>MARKET HEALTH</b>
+<br>
+
+General Market ✅ 
+
+Up/Down Volume &#128528;
+
+New Highs/New Lows ✅
+
+Stock Participation &#128528;
+
+```{r, echo=FALSE, include=FALSE}
+#✅ &#128528; &#10060;
+```
+
+```{r, echo=FALSE, include=FALSE}
+#✅ &#128528; &#10060;
+```
+</font>
+</div>
+</div>
+</div>
+
+</center>
+
+
+<center>
+<div class="box3">
+<center><b>WEEKEND CHECKLIST</b></center>
+<div class="column">
+<div class="box4">
+<font color="black" size=3>
+
+
+Run Weekend Scans
+
+Analyze Market Health
+<ul>
+  <li> General Market </li>
+  <li> Up/Down Volume </li>
+  <li> New Highs/Lows </li>
+  <li> Participation </li>
+  <li> RSI </li>
+  <li> Put/Call </li>
+</ul>
+
+Assess Risk Profile
+
+MPA Weekend Study Session
+
+</font>
+</div>
+
+<div class="box4">
+<font color="black" size=3>
+
+<b>Q&A</b>
+<br>
+
+Feedback from open positions?
+
+Feedback from Buy List?
+
+Feedback from stops?
+
+Current market message?
+
+Dominant theme(s)?
+
+Lots of setups?
+
+Stock Feedback model?
+
+
+</font>
+</div>
+</div>
+</div>
+
+</center>
+
+***
+
+<u>BEAR MARKET RULES:</u>
+
+(1) Priority #1 is financing risk. Do it ASAP. Forget average gain!
+(2) Trouble with Rule #1? Then sit out.
+(3) Think of your portfolio as 'blocks', able to be divided by 4, 2, or 1. (view posn sizing above)
+(4) Tighten stops. What % are b/o's getting on average? 
+(5) Buys must be spot-on.
+(6) No FOMO from indexes.
+(7) Only lean on profits that are booked or back stopped.
+
+<center>
+
+[![Position_Sizing_Template](figures/tutorials/position_sizing_template.png#round){.img-thumbnail}](figures/tutorials/position_sizing_template.png#round)
+
+
+```{r, echo=FALSE, include=FALSE}
+#Ignore
+
+#<center>
+#![](figures\Minervini-TweetResponse.jpg#round){width=45%}
+#![](figures\minervini-epic-tweet.png#round){width=45%}
+#<br>
+
+#![](figures\Marder-Tweet1.jpg#round){width=40%}
+#![](figures\Minervini-Tweet2.jpg#round){width=40%}
+#<br>
+
+#![](figures\Trader.jpg#round){width=40%}
+```
+
+
+
+***
+
+### STOCK FEEDBACK MODEL
+
+![green](figures/green.png){width=21%}![orange](figures/orange.png){width=21%}![red](figures/red.png){width=19%}
+</center>
+<br>
+
+<font color="green">GREEN</font>=Breakouts are working well, holding stops and following through - consider aggressive trading.
+
+<font color="orange">ORANGE</font>=Market is selective and/or highly rotational. Reversals, squats, and pivot failures more likely - can trade but exercise caution. 
+
+(1) What's the theme? Avg gain of positions?
+(2) FINANCE RISK near avg gain.
+
+<font color="red">RED</font>=Breakouts are not working well, risk is high - maximum caution advised! 
+<br>
+
+(1) Priority #1 - Finance risk ASAP (1:1).

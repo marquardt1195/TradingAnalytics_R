@@ -1,0 +1,31 @@
+name: "Results"
+navbar:
+  title: "<img src=\"figures/Rstudio_logo.png\" style=\"float: left;\" width=\"80px\"/>"
+  left:
+   # - icon: "far fa-calendar-check"
+   #   text: "JOURNAL"
+   #   href: Journal.html
+    - icon: "fas fa-chart-line"
+      text: "POSITIONS"
+      href: Positions.html
+    - icon: "far fa-file-alt"  
+      text: "TRADES"
+      href: Trades.html
+    - icon: "far fa-chart-bar"
+      text: "ANALYTICS"
+      menu:
+      - text: "Results"
+        href: Results.html
+      - text: "Plots"
+        href: Plots.html
+    - icon: "fas fa-seedling"
+      text: "STUDY"
+      menu:
+      - text: "PTA"
+        href: PTA.html      
+    #  - text: "MPA"
+    #    href: MPA.html
+      - text: "Models"
+        href: Models.html
+    #  - text: "Books"
+    #   href: Books.html

@@ -1,0 +1,331 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: 87%;
+  background-color: #3d688f;
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+
+```{r, include=FALSE}
+trade_results_final <- read.csv("Trade_Results_2023-copy-csv.csv", na.strings = c("", "NA"))
+```
+
+```{r, include = FALSE}
+library(ggplot2)
+library(reshape)
+library(kimisc)
+library(tidyverse)
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(devtools)
+library(ggthemes)
+```
+
+
+```{r NEW_plot_data, echo=FALSE, warning=FALSE}
+start_bal <- 15264
+
+df_plot_data1 <- trade_results_final %>% 
+   group_by(trade) %>% 
+   mutate(entries = coalesce(entries, 0),   # set na's of specific columns to 0 using coalesce
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0)) %>% 
+   mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+   mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate("winners" = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate("losers" = ifelse(pl_percent_trade<=-0.5, 1, 0)) 
+
+
+df_plot_data2 <- df_plot_data1 %>%   #PL % plot (NAV % Change)
+  select(trade, month, pl_dollar) %>% 
+  group_by(trade) %>% 
+  distinct(trade, month, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  mutate(pl_dollar = coalesce(pl_dollar, 0)) %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  mutate("end_bal" = start_bal + cumsum) %>% 
+  filter(pl_dollar != 0) %>% 
+  mutate("start_bal_trade" = end_bal - pl_dollar) %>% 
+  mutate("percent_change_trade" = ((end_bal - start_bal_trade)/start_bal_trade)*100) %>% 
+  mutate("cumsum" = cumsum(percent_change_trade)) %>% 
+  select(trade, cumsum) %>% 
+  #distinct(cumsum) %>% 
+  mutate_if(is.numeric, round, 2)
+
+
+df_plot_data3 <- df_plot_data1 %>%   #PL $ plot (NAV $ Change)
+  select(trade, month, pl_dollar) %>% 
+  group_by(trade) %>% 
+  distinct(trade, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  drop_na() %>% 
+  mutate("pl_dollar" = coalesce(pl_dollar, 0)) %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  select(trade, cumsum) %>% 
+  mutate_if(is.numeric, round, 2)
+  
+df_plot_data4 <- df_plot_data3 %>% #Principal balance $
+  mutate("balance" = start_bal + cumsum) %>% 
+  select(trade, balance) %>% 
+  mutate_if(is.numeric, round, 2)
+```
+
+### Profit/Loss %
+
+<div class="box">
+```{r DONE_pl_percent_plot, echo=FALSE, warning=FALSE}
+ggplot() +
+  geom_point(
+    data = df_plot_data2,
+    aes(trade, cumsum)
+  ) +
+  geom_line(
+    data = df_plot_data2,
+    aes(trade, cumsum),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data2,
+    aes(trade, cumsum, label = cumsum),
+        nudge_x = 0.01,
+        nudge_y = 0.01,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Profit/Loss %"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format(accuracy = 0.1,
+      scale = 1,
+      prefix = "",
+      suffix = "%",
+      big.mark = " ",
+      decimal.mark = ".",
+      trim = TRUE)
+   )+
+  theme(
+   plot.background = element_rect(fill = "#3d688f", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen")
+)
+```
+</div>
+
+<br>
+
+
+### Profit/Loss $
+
+<div class="box">
+```{r DONE_pl_dollar_plot, echo=FALSE, warning=FALSE}
+ggplot() +
+  geom_point(
+    data = df_plot_data3,
+    aes(trade, cumsum)
+  ) +
+  geom_line(
+    data = df_plot_data3,
+    aes(trade, cumsum),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data3,
+    aes(trade, cumsum, label = cumsum),
+        nudge_x = 0.25,
+        nudge_y = 0.25,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Profit/Loss $",
+    color = "Month"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+    labels = dollar_format()
+  ) +
+  theme(
+   plot.background = element_rect(fill = "#3d688f", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen")
+  )
+```
+</div>
+
+<br>
+
+
+### Principal Balance
+
+<div class="box">
+```{r DONE_Principal_bal_plot, echo=FALSE, warning=FALSE}
+ggplot()+
+  geom_point(
+    data = df_plot_data4,
+    aes(trade, balance)
+  ) +
+  geom_line(
+    data = df_plot_data4,
+    aes(trade, balance),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data4,
+    aes(trade, balance, label = balance),
+        nudge_x = 0.01,
+        nudge_y = 0.01,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Principal Balance"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+   # trans='log10',
+    labels = dollar_format()
+  ) +
+  theme(
+   plot.background = element_rect(fill = "#3d688f", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen")
+  ) 
+
+
+```
+</div>
+
+<br>
+<br>
+
+### Distribution of Gains & Losses
+
+<div class="box">
+```{r DONE_distribution_gains_plot, echo = FALSE, warning=FALSE}
+ggplot()+
+  geom_histogram(
+    data = df_plot_data1, 
+    aes(pl_percent_trade, ..count..),
+    breaks = seq(-12, 30, by=2),
+    fill = "cornflowerblue",
+    color = "black"
+    ) +
+    geom_vline(
+    aes(xintercept=0),
+    linetype = "dashed",
+    color = "Blue2",
+    size = 1.5
+    )+
+  scale_y_continuous(
+    breaks = seq(0, 100, by=4),
+    labels = paste(seq(0, 100, 4))
+  )+
+  scale_x_continuous(
+    labels = scales::percent_format(
+      accuracy = 0.1,
+      scale = 1,
+      prefix = "",
+      suffix = "%",
+      big.mark = " ",
+      decimal.mark = ".",
+      trim = TRUE),
+   breaks = seq(-12, 100, by=4)
+  )+
+  labs(
+    y = "Frequency",
+    x = "P/L %"
+  ) +
+  theme(
+   plot.background = element_rect(fill = "#3d688f", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen")
+    
+  )
+```
+</div>
+
+<br>
+Closed and open positions. Partials included.
+<br>
+<br>
+
+### Density Curve of Gains & Losses
+
+<div class="box">
+```{r DONE_density_curve_plot, echo = FALSE, warning=FALSE}
+ggplot() +
+  geom_histogram(
+    data = df_plot_data1,
+    aes(pl_percent_trade, y = ..density..),
+    breaks = seq(-12, 30, by=2),
+    fill = "cornflowerblue",
+    color = "black"
+    ) +
+  geom_density(
+    data = df_plot_data1,
+    aes(pl_percent_trade),
+    alpha = 0.3,
+    fill = "#FFEE58")+
+  geom_vline(
+    aes(xintercept=0),
+    linetype = "dashed",
+    color = "Blue",
+    size = 1.5
+    )+
+  scale_x_continuous(
+    labels = scales::percent_format(accuracy = 0.1,
+    scale = 1,
+    prefix = "",
+    suffix = "%",
+    big.mark = " ",
+    decimal.mark = ".",
+    trim = TRUE),
+ breaks = seq(-12, 30, by=4)
+  )+
+  labs(
+    y = "Density",
+    x = "P/L %"
+  ) +
+  theme(
+    plot.background = element_rect(fill = "#3d688f", colour = NA),
+    panel.background = element_rect(fill = "gray85", colour = NA),
+    axis.text = element_text(colour = "linen"),
+    axis.title = element_text(colour = "linen")
+    )
+```
+</div>

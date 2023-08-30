@@ -1,0 +1,109 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+img[src$="#round"] {
+  margin: 0px;
+  border-radius: 5px;
+}
+img:hover {
+  opacity: 0.9;
+}
+.box {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 20%);
+  color: hsl(233, 9%, 95%);
+  padding: 30px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 5%, 95%);
+  color: hsl(233, 9%, 95%);
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+details > summary {
+    list-style-type: none;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details > summary::before {
+    content: '▶️';
+}
+
+details[open] > summary::before {
+    content: '🔽';
+}
+
+details {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+details[open] > summary {
+    margin-bottom: 0.5rem;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<center>
+## MINDSET SECRETS FOR WINNING
+</center>
+
+<div class="box">
+<div class="box1">
+<font color="black">
+
+<u>Chapter 1 Takeaways:</u>
+
+(1) Beliefs are chosen. Are ALL of your beliefs serving you or crippling you?
+(2) You assign meaning / emotion to things. Without it, it's just raw data waiting to be interpreted.
+(3) Your circumstances are a reflection of your choices.
+(4) Get out of the past. Change your perspective about past experiences / circumstances if they don't serve you. Spend your time thinking about / imagining the perfect YOU. How does that person think & behave?
+(5) You have it all. right now. Live in it!
+
+From The Dalai Lama, "If you want to know what will happen to you in the future, look at what your mind is doing right now."
+
+We alone decide what our personal experiences mean to us. We are the creators of our feelings.
+
+
+<b>I have direct control over:</b>
+
+(1) My emotions
+(2) My response to everything I experience.. love, hate, winning, losing, etc.
+(3) My time
+(4) My beliefs
+(5) What I choose to focus on / tune into
+(6) How I think about my past
+(7) My future
+
+<b> I dont have control over: </b>
+
+(1) My past
+(2) The beliefs / actions of other people
+
+</div>
+</font>
+
+</div>

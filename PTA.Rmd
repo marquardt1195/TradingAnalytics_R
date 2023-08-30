@@ -1,0 +1,726 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+img[src$="#round"] {
+  margin: 0px;
+  border-radius: 5px;
+}
+img:hover {
+  opacity: 0.9;
+}
+.box {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 20%);
+  color: hsl(233, 9%, 95%);
+  padding: 30px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+details > summary {
+    list-style-type: none;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details > summary::before {
+    content: '▶️';
+}
+
+details[open] > summary::before {
+    content: '🔽';
+}
+
+details {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+details[open] > summary {
+    margin-bottom: 0.5rem;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2023 Q1
+
+<details>
+<summary>
+PTA
+</summary>
+
+Had a revelation today:
+
+<b> IN A BEAR MARKET, DON'T WORRY ABOUT THE % GAIN, FINANCE THE RISK ASAP </b>
+
+This idea that I want to sell at "a decent gain" is what keeps me from financing my risk ASAP. In the moment, I always think: "I don't want to sell at 2, 3, 5% gain, that's too low!" In a market like this, forget about the % gain and finance risk when available. Free trade is the most important thing right now, not average gain! Only after you notice that financing your risk is costing you money should you switch to holding for a larger (normal size) move. 
+
+In a bear market, financing risk should be #1 priority. Average gain is not priority, it's simply a gauge to help you.
+
+***
+
+3/18/2023
+
+After doing some PTA, noticing that many of my buys were spot-on but they were near 52-week highs. My buys sometimes marked the top or were at a breakout level that subsequently moved sideways in a volatile manner. Markets simply aren't bidding up most stocks into ATH or 52-week high territory; and if they do it doesn't last long. Few stocks have stood out and look obvious in hindsight, but with no real trend and the majority of setups not working, it's been very tough to make money all year. Made perfect buys on XLE, QSR, VC, VTYX, AXON, RXDX, IBB, BIIB, PRDO, and OIH. That's 10 of 16 buys that were excellent in hindsight. I've come a long way in my selection and timing. Money and portfolio management also making serious improvements. Down 2.31% on the year. Right there with both Mark's. Feeling no FOMO. 
+
+I did a great job managing my winning trades, despite only really having two. Held them for an average of 26 days! As of this writing, my numbers are: avg gain - 14.49%, avg loss - 3.54%, BA - 12.5%, W/L - 4.09, aW/L - 0.51. Results are telling me to be very selective and conservative. A few problems during this last rally: (1) reaction time to poor results in the market. (2) Over reacting to breath thrust indicator (3) Slight FOMO near the end of the rally. 
+
+A few stops were hit early on in names like SLGN, QSR, and RXDX. At that same time, I had 4 solid names with open profits: XLE, VC, VTYX, AXON. I leaned on these open profits and took on more risk. Next time, coming from 100% cash and a bear market, <b>I shouldn't lean so heavily on open profits coming from a correction unless the gains are locked in with a backstop.</b> In XLE, VC, AXON, I had no more than 7% gains (which I leaned on) and this later came back to bite me. XLE and AXON both stopped me out. After getting stopped out on SLGN, QSR, RXDX, XLE, and AXON with only VC and VTYX working, I should have held off on buying and let the names I had play out. Instead I kept on buying without making any real traction. On balance I was around break-even and I noticed more names setting up. For this reason, it's ok to continue buying, but I should have had more alarm bells going off and should have been SUPER selective and small. Buying should be very small and only the best of the bread. I think I was blinded by a couple of names that had double-digit profits, the breadth thrust, the general market, and optimism from both Mark's.. It ended up being that every name thereafter stopped me out and I lost money on every trade. FOLD and XENE were full-on FOMO trades.
+
+Overall, I'm happy with my trading, but a few too many names due to a slow reaction to stock feedback and slight FOMO took me down $200 or so more than I believe I should have lost. My solution is the advent of the daily journal entries and stock feedback model. I believe this will keep me more in-tune and force me to take a more honest and thorough review of my portfolio and the markets each day. 
+
+<u>Update 5/5/2023:</u>
+
+
+Think of portfolio as 4 blocks (full-positions). Each block is 25%. Want to enter the market from cash? You have three options: (1) buy 4 quarter positions, (2) two half positions, or (3) one full-size position. 4% stop loss on any one of these choices results in a 1% loss to total equity. Only expand from these parameters if you have gains locked in from a sale or with a backstop. ONLY AFTER THIS HAPPENS DO YOU STEP UP EXPOSURE. Much more systematic way to not over expose myself and keep it mechanical!
+
+</details>
+  
+### <span style="color:#FFFF99">*SLGN*</span>
+
+<i> Before BO
+[![](figures/trades/2023/SLGN-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/SLGN-daily-pre.png#round)
+[![](figures/trades/2023/SLGN-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/SLGN-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/SLGN-daily-post.png#round){.img-thumbnail}](figures/trades/2023/SLGN-daily-post.png#round)
+[![](figures/trades/2023/SLGN-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/SLGN-weekly-post.png#round)
+
+
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Good buy. Right into known area of supply. Could have required another day especially considering market but overall good buy and sell decisions. 
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*XLE*</span>
+
+<i> Before BO
+[![](figures/trades/2023/XLE-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/XLE-daily-pre.png#round)
+[![](figures/trades/2023/XLE-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/XLE-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/XLE-daily-post.png#round){.img-thumbnail}](figures/trades/2023/XLE-daily-post.png#round)
+[![](figures/trades/2023/XLE-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/XLE-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Notice how during and just following purchase it went up for several days and then bang, erased several days gain in one day.. twice.. the opposite of what you want to see. And I added during that volatility. It worked out short-term but ultimately not the best decision. Things weren't working, no need to rush to step it up.
+
+On 1/26/23 it closed at 4.6% above my buy point. I had a 2.9% stop. Should have sold half to finance risk. Instead, I lost $55. Makes all the difference. Always keep market environment in mind and HAVE A PLAN.
+
+Notice the weekly chart months after the purchase.. big break on the left side on larger volume than the short "right side". 
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*QSR*</span>
+
+<i> Before BO
+[![](figures/trades/2023/QSR-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/QSR-daily-pre.png#round)
+[![](figures/trades/2023/QSR-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/QSR-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/QSR-daily-post.png#round){.img-thumbnail}](figures/trades/2023/QSR-daily-post.png#round)
+[![](figures/trades/2023/QSR-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/QSR-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Great buy. Right side of weekly base was time compressed.. otherwise great buy. Volatility indicative of market.
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*VC*</span>
+
+<i> Before BO
+[![](figures/trades/2023/VC-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/VC-daily-pre.png#round)
+[![](figures/trades/2023/VC-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/VC-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/VC-daily-post.png#round){.img-thumbnail}](figures/trades/2023/VC-daily-post.png#round)
+[![](figures/trades/2023/VC-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/VC-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+A thing of beauty. One of the few that worked. Great buy AND great sells! Perfect pullback buy.. Support on third lower low and bought on break above.
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*VTYX*</span>
+
+<i> Before BO
+[![](figures/trades/2023/VTYX-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/VTYX-daily-pre.png#round)
+[![](figures/trades/2023/VTYX-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/VTYX-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/VTYX-daily-post.png#round){.img-thumbnail}](figures/trades/2023/VTYX-daily-post.png#round)
+[![](figures/trades/2023/VTYX-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/VTYX-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Textbook VCP. Notice the great weekly closes prior to buying. Grade of A on the trade. Maybe somewhat panicked on the 2nd sell. Should have expected some volatility around that time. Ok to be cautious. Awesome!
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*AXON*</span>
+
+<i> Before BO
+[![](figures/trades/2023/AXON-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/AXON-daily-pre.png#round)
+[![](figures/trades/2023/AXON-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/AXON-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/AXON-daily-post.png#round){.img-thumbnail}](figures/trades/2023/AXON-daily-post.png#round)
+[![](figures/trades/2023/AXON-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/AXON-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Excellent buy. Got shaken out. Bad fill.. The way it goes.
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*RXDX*</span>
+
+<i> Before BO
+[![](figures/trades/2023/RXDX-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/RXDX-daily-pre.png#round)
+[![](figures/trades/2023/RXDX-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/RXDX-weekly-pre.png#round)
+
+After BO</i>
+[![](figures/trades/2023/RXDX-daily-post.png#round){.img-thumbnail}](figures/trades/2023/RXDX-daily-post.png#round)
+[![](figures/trades/2023/RXDX-weekly-post.png#round){.img-thumbnail}](figures/trades/2023/RXDX-weekly-post.png#round)
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Good buy. Shitty market.
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*IBB*</span>
+
+<i> Before BO
+[![](figures/trades/2023/IBB-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/IBB-daily-pre.png#round)
+[![](figures/trades/2023/IBB-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/IBB-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*BIIB*</span>
+
+<i> Before BO
+[![](figures/trades/2023/BIIB-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/BIIB-daily-pre.png#round)
+[![](figures/trades/2023/BIIB-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/BIIB-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*ADEA*</span>
+
+<i> Before BO
+[![](figures/trades/2023/ADEA-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/ADEA-daily-pre.png#round)
+[![](figures/trades/2023/ADEA-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/ADEA-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*PRDO*</span>
+
+<i> Before BO
+[![](figures/trades/2023/PRDO-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/PRDO-daily-pre.png#round)
+[![](figures/trades/2023/PRDO-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/PRDO-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*FOLD*</span>
+
+<i> Before BO
+[![](figures/trades/2023/FOLD-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/FOLD-daily-pre.png#round)
+[![](figures/trades/2023/FOLD-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/FOLD-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*FRHC*</span>
+
+<i> Before BO
+[![](figures/trades/2023/FRHC-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/FRHC-daily-pre.png#round)
+[![](figures/trades/2023/FRHC-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/FRHC-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*OIH*</span>
+
+<i> Before BO
+[![](figures/trades/2023/OIH-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/OIH-daily-pre.png#round)
+[![](figures/trades/2023/OIH-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/OIH-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*APH*</span>
+
+<i> Before BO
+[![](figures/trades/2023/APH-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/APH-daily-pre.png#round)
+[![](figures/trades/2023/APH-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/APH-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*XENE*</span>
+
+<i> Before BO
+[![](figures/trades/2023/XENE-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/XENE-daily-pre.png#round)
+[![](figures/trades/2023/XENE-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/XENE-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*ISEE*</span>
+
+<i> Before BO
+[![](figures/trades/2023/ISEE-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/ISEE-daily-pre.png#round)
+[![](figures/trades/2023/ISEE-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/ISEE-weekly-pre.png#round)
+[![](figures/trades/2023/ISEE-IBD.png#round){.img-thumbnail}](figures/trades/2023/ISEE-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*SNPS*</span>
+
+<i> Before BO
+[![](figures/trades/2023/SNPS-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/SNPS-daily-pre.png#round)
+[![](figures/trades/2023/SNPS-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/SNPS-weekly-pre.png#round)
+[![](figures/trades/2023/SNPS-IBD.png#round){.img-thumbnail}](figures/trades/2023/SNPS-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*RETA*</span>
+
+<i> Before BO
+[![](figures/trades/2023/RETA-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/RETA-daily-pre.png#round)
+[![](figures/trades/2023/RETA-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/RETA-weekly-pre.png#round)
+[![](figures/trades/2023/RETA-IBD.png#round){.img-thumbnail}](figures/trades/2023/RETA-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*ASO*</span>
+
+<i> Before BO
+[![](figures/trades/2023/ASO-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/ASO-daily-pre.png#round)
+[![](figures/trades/2023/ASO-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/ASO-weekly-pre.png#round)
+[![](figures/trades/2023/ASO-IBD.png#round){.img-thumbnail}](figures/trades/2023/ASO-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+## 2023 Q2
+
+### <span style="color:#FFFF99">*WING*</span>
+
+<i> Before BO
+[![](figures/trades/2023/WING-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/WING-daily-pre.png#round)
+[![](figures/trades/2023/WING-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/WING-weekly-pre.png#round)
+[![](figures/trades/2023/WING-IBD.png#round){.img-thumbnail}](figures/trades/2023/WING-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*MBLY*</span>
+
+<i> Before BO
+[![](figures/trades/2023/MBLY-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/MBLY-daily-pre.png#round)
+[![](figures/trades/2023/MBLY-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/MBLY-weekly-pre.png#round)
+[![](figures/trades/2023/MBLY-IBD.png#round){.img-thumbnail}](figures/trades/2023/MBLY-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*AGYS*</span>
+
+<i> Before BO
+[![](figures/trades/2023/AGYS-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/AGYS-daily-pre.png#round)
+[![](figures/trades/2023/AGYS-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/AGYS-weekly-pre.png#round)
+[![](figures/trades/2023/AGYS-IBD.png#round){.img-thumbnail}](figures/trades/2023/AGYS-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*PODD*</span>
+
+<i> Before BO
+[![](figures/trades/2023/PODD-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/PODD-daily-pre.png#round)
+[![](figures/trades/2023/PODD-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/PODD-weekly-pre.png#round)
+[![](figures/trades/2023/PODD-IBD.png#round){.img-thumbnail}](figures/trades/2023/PODD-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*HUBS*</span>
+
+<i> Before BO
+[![](figures/trades/2023/HUBS-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/HUBS-daily-pre.png#round)
+[![](figures/trades/2023/HUBS-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/HUBS-weekly-pre.png#round)
+[![](figures/trades/2023/HUBS-IBD.png#round){.img-thumbnail}](figures/trades/2023/HUBS-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Had 1R trade but only had 1 share so I couldn't sell partial to finance risk. 
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*ACLS*</span>
+
+<i> Before BO
+[![](figures/trades/2023/ACLS-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/ACLS-daily-pre.png#round)
+[![](figures/trades/2023/ACLS-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/ACLS-weekly-pre.png#round)
+[![](figures/trades/2023/ACLS-IBD.png#round){.img-thumbnail}](figures/trades/2023/ACLS-IBD.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Started riding 50-day. 
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*NVDA*</span>
+
+<i> Before BO
+[![](figures/trades/2023/NVDA-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/NVDA-daily-pre.png#round)
+[![](figures/trades/2023/NVDA-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/NVDA-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*LVS*</span>
+
+<i> Before BO
+[![](figures/trades/2023/LVS-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/LVS-daily-pre.png#round)
+[![](figures/trades/2023/LVS-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/LVS-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*MDGL*</span>
+
+<i> Before BO
+[![](figures/trades/2023/MDGL-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/MDGL-daily-pre.png#round)
+[![](figures/trades/2023/MDGL-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/MDGL-weekly-pre.png#round)
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*TJX*</span>
+
+<i> Before BO
+[![](figures/trades/2023/TJX-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/TJX-daily-pre.png#round)
+[![](figures/trades/2023/TJX-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/TJX-weekly-pre.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***
+
+### <span style="color:#FFFF99">*MA*</span>
+
+<i> Before BO
+[![](figures/trades/2023/MA-daily-pre.png#round){.img-thumbnail}](figures/trades/2023/MA-daily-pre.png#round)
+[![](figures/trades/2023/MA-weekly-pre.png#round){.img-thumbnail}](figures/trades/2023/MA-weekly-pre.png#round)
+
+
+After BO</i>
+
+<details>
+<summary>
+ANALYSIS
+</summary>
+
+Analysis here
+
+</details>
+
+***

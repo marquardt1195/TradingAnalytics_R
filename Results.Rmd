@@ -1,0 +1,641 @@
+---
+output: 
+  html_document:
+    theme: darkly
+---
+
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: 74%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box1 {
+  height: auto;
+  width: 91%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+.box2 {
+  height: auto;
+  width: 100%;
+  background-color: hsl(233, 9%, 19%);
+  color: hsl(233, 9%, 87%);
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+</style>
+
+```{r, include=FALSE}
+trade_results_final <- read.csv("Trade_Results_2023-copy-csv.csv", na.strings = c("", "NA"))
+#trade_results_final <- read.csv(sprintf("Trade_Results_%s.csv", Sys.Date()))
+```
+
+```{r, include = FALSE}
+library(ggplot2)
+library(reshape)
+library(kimisc)
+library(tidyverse)
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(devtools)
+```
+
+```{r Main Dataframe, echo=FALSE, warning=FALSE, include=FALSE}
+df_open_pos1 <- trade_results_final %>% 
+  select(trade, stock_name, entries, 
+         entry_price, exits, exit_price, 
+         stop_loss_dollar) %>% 
+  group_by(trade) %>% 
+  mutate(entries = coalesce(entries, 0),
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0),
+         stop_loss_dollar = coalesce(stop_loss_dollar, 0)) %>% 
+  mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+  mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+  mutate("max_drawdown" = -(sum(entries*entry_price)/sum(entries)-(stop_loss_dollar))*sum(entries)) %>% 
+  mutate("stop_loss" = ((weight_avg_buy-stop_loss_dollar)/weight_avg_buy)*100)
+```
+
+<center>
+
+### Key Metrics
+
+<div class="box">
+```{r NEW_key_metrics_data, echo=FALSE, warning=FALSE, include=FALSE}
+df_total_data1 <- df_open_pos1 %>% 
+   select(trade, stock_name, 
+          entries, exits, weight_avg_buy, 
+          weight_avg_sell) %>% 
+   group_by(trade) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   filter(total_sold == total_bought) %>% 
+   drop_na() %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate(Winners = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate(Losers = ifelse(pl_percent_trade<=-0.5, 1, 0))
+
+df_total_data2 <- df_total_data1 %>% 
+  filter(pl_percent_trade >= 0.5)
+
+df_total_data3 <- df_total_data1 %>% 
+  filter(pl_percent_trade <=-0.5)
+
+df_total_data4 <- df_total_data1 %>% 
+  summarise("Batting_Avg_percent" = (sum(Winners))/(sum(Winners)+sum(Losers)))
+
+closed_pl_dollar <- sum(df_total_data1$pl_dollar)
+
+start_bal <- 15264    #Update start balance at start of each year
+
+end_bal <- closed_pl_dollar + start_bal
+
+principal_change_percent <- ((end_bal-start_bal)/start_bal)*100
+
+avg_percent_gain <- mean(df_total_data2$pl_percent_trade)
+
+avg_percent_loss <- mean(df_total_data3$pl_percent_trade)
+
+total_winners <- sum(df_total_data1$Winners)
+total_losers <- sum(df_total_data1$Losers)
+
+batting_average <- total_winners/(total_winners+total_losers)
+
+win_loss_ratio <- abs(avg_percent_gain/avg_percent_loss)
+
+adjusted_win_loss <- win_loss_ratio*batting_average
+
+df_total_data <- data.frame(avg_percent_gain,
+                            avg_percent_loss,
+                            batting_average,
+                            win_loss_ratio,
+                            adjusted_win_loss)
+```
+
+
+
+```{r NEW_key_metrics_table, echo=FALSE, warning=FALSE}
+options(reactable.theme = reactableTheme(
+  color = "hsl(233, 9%, 87%)",
+  backgroundColor = "hsl(233, 9%, 19%)",
+  borderColor = "hsl(233, 9%, 21%)",
+  stripedColor = "hsl(233, 12%, 22%)",
+  highlightColor = "hsl(233, 12%, 24%)",
+  inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+  selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+  pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+  pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
+))
+
+
+reactable(df_total_data,
+          defaultColDef = colDef(
+            align = "center"),
+          columns = list(
+            avg_percent_gain = colDef(name = "Avg % Gain",
+                                  format = colFormat(digits = 2), 
+                                  style = list(color = "#00cc00")),
+            avg_percent_loss = colDef(name = "Avg % Loss",
+                                      format = colFormat(digits = 2),
+                                      style = list(color = "#ff3333")),
+            batting_average = colDef(name = "Batting Avg",
+                                     format = colFormat(digits = 1,
+                                                        percent = TRUE)),
+            win_loss_ratio = colDef(name = "W/L",
+                                  format = colFormat(digits = 2),
+                                  ),
+            adjusted_win_loss = colDef(name = "Adj W/L",
+                                       format = colFormat(digits = 2))),
+          striped = TRUE,
+          highlight = TRUE,
+          outlined = TRUE,
+          bordered = TRUE,
+          width = 650)
+```
+</div>
+
+<br>
+
+### Total 
+```{r NEW_total_data, echo=FALSE, warning=FALSE, include=FALSE}
+df_total_table1 <- df_open_pos1 %>% 
+   group_by(trade) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate(Winners = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate(Losers = ifelse(pl_percent_trade<=-0.5, 1, 0)) 
+
+
+df_total_table2 <- df_total_table1  %>% 
+  mutate_if(is.numeric, funs(ifelse(is.na(.), 0, .))) %>% 
+  filter(stop_loss != 0)
+
+df_total_table3 <- trade_results_final %>% 
+  select(trade, stock_name, entries, 
+         entry_price, exits, exit_price, 
+         stop_loss_dollar, hold_time) %>% 
+  group_by(trade) %>% 
+  mutate(entries = coalesce(entries, 0),
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0),
+         stop_loss_dollar = coalesce(stop_loss_dollar, 0)) %>% 
+  mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+  mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+  mutate("total_bought" = sum(entries)) %>% 
+  mutate("total_sold" = sum(exits)) %>% 
+  mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_bought))) %>% 
+  mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100)
+
+df_total_table4 <- df_total_table3 %>% 
+  select(trade, stock_name, 
+         hold_time, pl_percent_trade) %>% 
+  filter(hold_time >= 0) %>% 
+  drop_na() %>% 
+  mutate("win_hold" = (ifelse(pl_percent_trade >= 0.5, hold_time, 1000))) %>% 
+  filter(win_hold<1000)
+
+df_total_table5 <- df_total_table3 %>% 
+  select(trade, stock_name, 
+         hold_time, pl_percent_trade) %>% 
+  filter(hold_time >= 0) %>% 
+  drop_na() %>% 
+    mutate("lose_hold" = (ifelse(pl_percent_trade <= 0.5, hold_time, 1000))) %>% 
+  filter(lose_hold<1000)
+  
+
+total_trades <- tail(df_total_table1$trade, n=1)
+
+total_wins <- sum(total_winners)
+
+total_losses <- sum(total_losers)
+
+largest_winner <- max(df_total_table2$pl_percent_trade)
+
+largest_loser <- min(df_total_table2$pl_percent_trade)
+
+avg_win_hold_time <- mean(df_total_table4$win_hold)
+
+avg_lose_hold_time <- mean(df_total_table5$lose_hold)
+
+
+df_total_table <- data.frame(closed_pl_dollar,
+                             principal_change_percent,
+                             total_wins, 
+                             total_losses,
+                             total_trades,
+                             largest_winner,
+                             largest_loser,
+                             avg_win_hold_time,
+                             avg_lose_hold_time)
+
+
+
+
+#CALCULATES AVG WIN AND LOSE HOLD TIMES WITHOUT USING HOLD TIME IN EXCEL. COULD REMOVE THREE LAST COLUMNS IN CSV FILE.
+#CURRENTLY: WORKS PERFECTLY AS LONG AS ALL "STOCK NAME" FIELDS ARE FILLED OUT (THIS CAUSES OTHER ISSUES WITH "RESULTS").
+#ISSUE: IF EXIT DATE ISN'T FIRST OR LAST IN GROUP 'TRADE', OR THE SAME DATE AS THE FIRST, THEN THIS WILL CAUSE A MISCALCULATION OF THE HOLD TIME. CURRENTLY, THE CODE CANNOT HANDLE A EXIT DATE THAT IS NOT THE FIRST OR LAST IN THE GROUP, AND IS DIFFERENT THAN THE FIRST.
+
+
+#df_entry_date <- trade_results_final %>% 
+#    select(trade, stock_name, 
+#         entry_date, exit_date) %>%  
+#    group_by(trade) %>% 
+#    filter(row_number()==1) %>% 
+#    select(trade, stock_name, entry_date)
+#
+#df_exit_date1 <- trade_results_final %>% 
+#    select(trade, stock_name, exit_date) %>% 
+#    group_by(trade) %>%
+#    filter(row_number()==n()) %>% 
+#    select(trade, stock_name, exit_date)
+#
+#df_exit_date1$exit_date[is.na(df_exit_date1$exit_date)] <- 0
+#
+#df_exit_date2 <- trade_results_final %>% 
+#    select(trade, stock_name, 
+#         entry_date, exit_date) %>% 
+#    group_by(trade) %>%
+#    filter(row_number()==1) %>% 
+#    mutate("exit_date_2" = exit_date) %>% 
+#    select(trade, stock_name, exit_date_2) 
+#
+#df_exit_date <- merge(df_exit_date1, df_exit_date2, all = TRUE) %>%
+#     mutate("sell_date" = ifelse(exit_date==0, exit_date_2, exit_date)) %>% 
+#     arrange((trade)) %>% 
+#     select(trade, stock_name, sell_date)
+#
+#df_hold_time1 <- merge(df_entry_date, df_exit_date) %>% 
+#  arrange(trade)
+#
+#df_hold_time1$sell_date[is.na(df_hold_time1$sell_date)] <- 0
+#
+#df_hold_time <- df_hold_time1 %>% 
+#  mutate("hold_time" = as.Date(as.character(df_hold_time1$sell_date), format = #"%m/%d/%Y")-as.Date(as.character(df_hold_time1$entry_date), format = "%m/%d/%Y"))
+
+
+
+```
+
+<div class="box1">
+
+```{r NEW_total_table, echo=FALSE, warning=FALSE}
+reactable(df_total_table,
+          defaultColDef = colDef(
+            align = "center"),
+          columns = list(
+            closed_pl_dollar = colDef(name = "P/L $",
+                                   format = colFormat(digits = 2, currency = "USD"),
+                                   style = function(value, index) {
+                                     if (df_total_table$closed_pl_dollar[index] > 0) {
+                                         color <- "#00cc00"
+                                   } else if (df_total_table$closed_pl_dollar[index] < 0){
+                                         color <- "#ff3333"
+                                    }else {
+                                        color <- "gray90"
+                                           }
+                                          list(color = color)
+                                                                  },
+                                   width = 90),
+            principal_change_percent = colDef(name = "P/L %",
+                                   format = colFormat(digits = 2),
+                                   style = function(value, index) {
+                                     if (df_total_table$principal_change_percent[index] > 0) {
+                                         color <- "#00cc00"
+                                   } else if (df_total_table$principal_change_percent[index] < 0){
+                                         color <- "#ff3333"
+                                    }else {
+                                        color <- "gray90"
+                                           }
+                                          list(color = color)
+                                                                  },
+                                   width = 80),
+            total_wins = colDef(name = "Wins",
+                                  format = colFormat(digits = 0),
+                                  width = 70),
+            total_losses = colDef(name = "Losses",
+                                  format = colFormat(digits = 0),
+                                  width = 70),
+            total_trades = colDef(name = "Total Trades",
+                                  format = colFormat(digits = 0),
+                                  width = 80),
+            largest_winner = colDef(name = "LG % Gain",
+                                  format = colFormat(digits = 2)), 
+                                  #style = list(color = "#00cc00")),
+            largest_loser = colDef(name = "LG % Loss",
+                                  format = colFormat(digits = 2)),
+                                  #style = list(color = "#ff3333")),
+            avg_win_hold_time = colDef(name = "Avg Win Hold",
+                                  format = colFormat(digits = 0)),
+            avg_lose_hold_time = colDef(name = "Avg Loss Hold",
+                                  format = colFormat(digits = 0),
+                                  )),
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 87%)",
+            backgroundColor = "hsl(233, 9%, 19%)",
+            borderColor = "hsl(233, 9%, 21%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")),
+          striped = TRUE,
+          highlight = TRUE,
+          outlined = TRUE,
+          bordered = TRUE,
+          width = 800)
+
+
+```
+</div>
+
+<br>
+
+### Monthly
+```{r NEW_monthly_data, echo=FALSE, warning=FALSE, include=FALSE}
+df_monthly_data1 <- trade_results_final %>% 
+   group_by(trade) %>% 
+   mutate(entries = coalesce(entries, 0),   # set na's of specific columns to 0 using coalesce
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0)) %>% 
+   mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+   mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate("winners" = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate("losers" = ifelse(pl_percent_trade<=-0.5, 1, 0)) 
+
+df_monthly_data2 <- df_monthly_data1 %>%  #Monthly PL dollar
+  select(trade, month, total_bought, total_sold, pl_dollar) %>% 
+  group_by(month) %>% 
+  filter(total_bought == total_sold) %>% 
+  distinct(trade, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar_month" = sum(pl_dollar)) %>% 
+  arrange(match(month, month.name)) 
+
+df_monthly_data3 <- df_monthly_data1 %>%   #Monthly PL percent
+  select(trade, month, pl_dollar) %>% 
+  group_by(month) %>% 
+  distinct(trade, month, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  arrange(match(month, month.name))  %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  mutate("monthly_end_bal" = start_bal + cumsum) %>% 
+  mutate("monthly_start_bal" = monthly_end_bal - pl_dollar) %>% 
+  mutate("monthly_percent_change" = ((monthly_end_bal - monthly_start_bal)/monthly_start_bal)*100) %>% 
+  select(month, monthly_percent_change) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data3$monthly_percent_change[is.nan(df_monthly_data3$monthly_percent_change)] <- NA
+
+df_monthly_data4 <- df_monthly_data1 %>% #Monthly batting average
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  distinct(trade, pl_percent_trade, .keep_all = FALSE) %>% 
+  mutate("winners" = ifelse(pl_percent_trade >=0.5, 1, 0)) %>% 
+  mutate("losers" = ifelse(pl_percent_trade <=-0.5, 1, 0)) %>% 
+  summarise("batting_avg" = sum(winners)/(sum(winners)+sum(losers))) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data5 <- df_monthly_data1 %>% #Monthy avg gain percent
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  distinct(trade, pl_percent_trade, .keep_all = FALSE) %>% 
+  mutate("winners" = ifelse(pl_percent_trade >=0.5, pl_percent_trade, NA)) %>% 
+  select(trade, month, winners) %>% 
+  drop_na() %>% 
+  summarise("avg_gain" = mean(winners)) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data6 <- df_monthly_data1 %>% #Monthy avg loss percent
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  distinct(trade, pl_percent_trade, .keep_all = FALSE) %>% 
+  mutate("losers" = ifelse(pl_percent_trade <=-0.5, pl_percent_trade, NA)) %>%
+  select(trade, month, losers) %>% 
+  drop_na() %>% 
+  summarise("avg_loss" = mean(losers)) %>% 
+  arrange(match(month, month.name))
+
+
+df_monthly_data7 <- merge(df_monthly_data5, df_monthly_data6) %>% #Monthly win/loss ratio
+  mutate("monthly_win_loss" = abs(avg_gain/avg_loss)) %>% 
+  select(month, monthly_win_loss) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data8 <- merge(df_monthly_data4, df_monthly_data7) %>% #Monthly adjusted win/loss
+  mutate("adj_win_loss" = monthly_win_loss*batting_avg) %>% 
+  select(month, adj_win_loss) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data9 <- df_monthly_data1 %>% 
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  distinct(trade, pl_percent_trade, .keep_all = FALSE) %>% 
+  mutate("winners" = ifelse(pl_percent_trade >=0.5, 1, 0)) %>% 
+  mutate("losers" = ifelse(pl_percent_trade <=-0.5, 1, 0))
+
+df_monthly_data9$pl_percent_trade[is.nan(df_monthly_data9$pl_percent_trade)] <- NA
+
+df_monthly_wins <- df_monthly_data9 %>% 
+  drop_na() %>% 
+  summarise("total_wins" = sum(winners)) #monthly winners
+
+df_monthly_losses <- df_monthly_data9 %>% #monthly losses
+  drop_na() %>% 
+  summarise("total_losses" = sum(losers))
+
+df_monthly_data10 <- df_monthly_data1 %>% #Total trades per month
+  select(month, trade, stock_name) %>% 
+  group_by(month) %>% 
+  count(stock_name) %>%
+  drop_na() %>% 
+  summarise("trade" = sum(n)) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data11 <- df_monthly_data1 %>% #largest % gain per month
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  drop_na() %>% 
+  summarise("largest_gain" = max(pl_percent_trade)) %>%
+  filter(largest_gain > 0) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data12 <- df_monthly_data1 %>% #largest % loss per month
+  select(trade, month, pl_percent_trade) %>% 
+  group_by(month) %>% 
+  drop_na() %>% 
+  summarise("largest_loss" = min(pl_percent_trade)) %>% 
+  filter(largest_loss < 0) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data13 <- df_monthly_data1 %>% #Monthly avg hold time of winners
+  select(trade,month, stock_name, pl_percent_trade, hold_time) %>%
+  group_by(month) %>% 
+  filter(pl_percent_trade > 0.5) %>% 
+  drop_na() %>% 
+  summarise("avg_win_hold" = mean(hold_time)) %>% 
+  arrange(match(month, month.name))
+  
+  
+df_monthly_data14 <- df_monthly_data1 %>% #Monthly avg hold time of losers
+  select(trade,month, stock_name, pl_percent_trade, hold_time) %>%
+  group_by(month) %>% 
+  filter(pl_percent_trade < -0.5) %>% 
+  drop_na() %>% 
+  summarise("avg_loss_hold" = mean(hold_time)) %>% 
+  arrange(match(month, month.name))
+
+df_monthly_data <- merge(df_monthly_data2, df_monthly_data3, all = TRUE) %>% #MONTHLY DATAFRAME
+                    merge(df_monthly_data4, all = TRUE) %>% 
+                      merge(df_monthly_data5, all = TRUE) %>% 
+                        merge(df_monthly_data6, all = TRUE) %>% 
+                          merge(df_monthly_data7, all = TRUE) %>% 
+                           merge(df_monthly_data8, all = TRUE) %>% 
+                            arrange(match(month, month.name))
+
+df_monthly_data$monthly_percent_change[is.na(df_monthly_data$monthly_percent_change)] <- 0
+df_monthly_data$pl_dollar_month[is.na(df_monthly_data$pl_dollar_month)] <- 0
+
+df_nested_monthly_data <- merge(df_monthly_wins, df_monthly_losses, all = TRUE) %>% #MONTHLY NESTED DATAFRAME
+                            merge(df_monthly_data10, all = TRUE) %>% 
+                              merge(df_monthly_data11, all = TRUE) %>% 
+                                merge(df_monthly_data12, all = TRUE) %>% 
+                                  merge(df_monthly_data13, all = TRUE) %>% 
+                                    merge(df_monthly_data14, all = TRUE) %>% 
+                                      arrange(match(month, month.name))
+```
+
+<div class="box2">
+
+```{r NEW_monthly_table, echo=FALSE, warning = FALSE}
+reactable(df_monthly_data,
+          defaultColDef = colDef(
+            align = "center"),
+          columns = list(
+            month = colDef(name = "Month", width = 100),
+            pl_dollar_month = colDef(name = "P/L $",
+                                     format = colFormat(digits = 2, currency = "USD"),
+                                     style = function(value, index) {
+                                       if (df_monthly_data$pl_dollar_month[index] > 0) {
+                                         color <- "#00cc00"
+                                       } else if (df_monthly_data$pl_dollar_month[index] < 0){
+                                         color <- "#ff3333"
+                                       } else {
+                                         color <- "gray90"
+                                       }
+                                       list(color = color)
+                                       } ),
+            monthly_percent_change = colDef(name = "P/L %", width = 90,
+                                            format = colFormat(digits = 2),
+                                            style = function(value, index) {
+                                              if (df_monthly_data$pl_dollar_month[index] > 0) {
+                                                color <- "#00cc00"
+                                              } else if (df_monthly_data$pl_dollar_month[index] < 0){
+                                                color <- "#ff3333"
+                                              } else {
+                                                color <- "gray90"
+                                              }
+                                              list(color = color)
+                                              }),
+            avg_gain = colDef(name = "Avg % Gain", width = 100,
+              format = colFormat(digits = 2)),
+            avg_loss = colDef(name = "Avg % Loss", width = 100,
+              format = colFormat(digits = 2)),
+            batting_avg = colDef(name = "Batting Avg %",
+                                 format = colFormat(digits = 2)),
+            monthly_win_loss = colDef(name = "W/L", width = 80,
+                                      format = colFormat(digits = 2)),
+            adj_win_loss = colDef(name = "Adj W/L", width = 90,
+                                  format = colFormat(digits = 2))
+            ),
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 87%)",
+            backgroundColor = "hsl(233, 9%, 19%)",
+            borderColor = "hsl(233, 9%, 21%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")),
+          resizable = TRUE,
+          showSortable = TRUE, 
+          showSortIcon = TRUE, 
+          bordered = TRUE,
+          highlight = TRUE, 
+          striped = TRUE, 
+          showPageSizeOptions = TRUE, 
+        details = colDef(name = "More", 
+                           width = 60,
+        details = function(index) {
+
+          
+df_nested1 <- df_nested_monthly_data[df_nested_monthly_data$month == df_monthly_data$month[index], ]
+            
+reactable(df_nested1, outlined = TRUE,
+          defaultColDef = colDef(
+            align = "center"),
+          columns = list(
+            month = colDef(name = "Month",
+                           width = 100), 
+            total_wins = colDef(name = "Wins",
+                                width = 80),
+            total_losses = colDef(name = "Losses",
+                                  width = 80),
+            trade = colDef(name = "Total", width = 80, 
+                                 format = colFormat(digits = 0)),
+            largest_gain = colDef(name = "LG Gain",
+                                  format = colFormat(digits = 2)),
+            largest_loss = colDef(name = "LG Loss", 
+                                  format = colFormat(digits = 2)),
+            avg_win_hold = colDef(name = "Avg Hold Win", width = 90,
+                                format = colFormat(digits = 1)),
+            avg_loss_hold = colDef(name = "Avg Hold Loss", width = 90,
+                                      format = colFormat(digits = 1))),
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 95%)",
+            backgroundColor = "#336699",
+            borderColor = "hsl(233, 9%, 22%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
+          ),
+        )
+      }
+    )
+)
+```
+</div>
+
+</center>
+<br>
+
+CLOSED TRADES only. Does not include partials or open positions.

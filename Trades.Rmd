@@ -1,0 +1,213 @@
+---
+output: 
+  html_document:
+    theme: darkly
+---
+<style type="text/css">
+body{
+  font-size: 11pt;
+  font-family: Arial
+}
+.box {
+  height: auto;
+  width: auto;
+  background-color: hsl(233, 9%, 19%);
+  color: #fff;
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 15px;
+}
+</style>
+
+```{r, include=FALSE}
+trade_results_final <- read.csv("Trade_Results_2023-copy-csv.csv", na.strings = c("", "NA"))
+#trade_results_final <- read.csv(sprintf("Trade_Results_%s.csv", Sys.Date()))
+```
+
+```{r, include = FALSE}
+library(ggplot2)
+library(reshape)
+library(kimisc)
+library(tidyverse)
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(devtools)
+```
+<br>
+<center>
+### All Trades
+</center>
+
+<div class="box">
+
+<center>
+```{r All_trades_data, warning=FALSE, include=FALSE}
+df_trade_data1 <- trade_results_final %>% 
+   group_by(trade) %>% 
+   mutate(entries = coalesce(entries, 0),   # set na's of specific columns to 0 using coalesce
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0)) %>% 
+   mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+   mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate("winners" = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate("losers" = ifelse(pl_percent_trade<=-0.5, 1, 0)) %>% 
+   mutate("stop_loss" = ((weight_avg_buy-stop_loss_dollar)/weight_avg_buy)*100)
+
+df_all_trades <- df_trade_data1 %>% 
+  select(month, stock_name, trade,
+         pl_dollar, pl_percent_trade) %>%
+  distinct(trade, month, stock_name, pl_dollar, pl_percent_trade, .keep_all = FALSE) %>% 
+  mutate_at(vars(pl_percent_trade), funs(round(., 2))) %>% 
+  drop_na() %>% 
+  arrange(desc(trade))
+
+df_nested_trades <- trade_results_final %>% 
+   group_by(trade) %>% 
+   mutate(entries = coalesce(entries, 0),   # set na's of specific columns to 0 using coalesce
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0)) %>% 
+   mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+   mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>%
+   mutate("stop_loss" = ((weight_avg_buy-stop_loss_dollar)/weight_avg_buy)*100) %>% 
+   select(trade, stock_name, entries, 
+          entry_price, entry_date,
+         weight_avg_buy, stop_loss_dollar, 
+         stop_loss, exits, exit_price, exit_date, 
+         weight_avg_sell, hold_time)
+
+df_nested_trades$entries[df_nested_trades$entries == 0] <- NA
+df_nested_trades$exits[df_nested_trades$exits == 0] <- NA
+df_nested_trades$entry_price[df_nested_trades$entry_price == 0] <- NA
+df_nested_trades$exit_price[df_nested_trades$exit_price == 0] <- NA
+
+
+```
+
+```{r All_closed_trades_table, echo=FALSE, warning=FALSE}
+reactable(df_all_trades,
+          defaultColDef = colDef(
+            footerStyle = list(fontWeight = "bold"),
+            align = "center"),
+          columns = list(
+            month = colDef(name = "Month", width = 110),
+            trade = colDef(name = "Trade"),
+            stock_name = colDef(name = "Stock", footer = "Total"),
+            pl_dollar = colDef(name = "P/L $",
+              footer = sprintf("$%.2f", sum(df_all_trades$pl_dollar)),
+              format = colFormat(digits = 2, currency = "USD"),
+              style = function(value, index) {
+                if (df_all_trades$pl_percent_trade[index] >= 0.5) {
+                  color <- "#00cc00"
+                } else if (df_all_trades$pl_percent_trade[index] <= -0.5){
+                  color <- "#ff3333"
+                } else {
+                  color <- "gray90"
+                }
+                list(color = color)
+              } ),
+            pl_percent_trade = colDef(name = "P/L %",
+              format = colFormat(digits = 2),
+              style = function(value) {
+                if (value >= 0.5) {
+                  color <- "#00cc00"
+                } else if (value <= -0.5){
+                  color <- "#ff3333"
+                } else {
+                  color <- "gray90"
+                }
+                list(color = color)
+              } )
+            ),
+          defaultPageSize = 25,
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 87%)",
+            backgroundColor = "hsl(233, 9%, 19%)",
+            borderColor = "hsl(233, 9%, 22%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")),
+          searchable = TRUE, 
+          resizable = TRUE,
+          showSortable = TRUE, 
+          showSortIcon = TRUE, 
+          bordered = TRUE, 
+          highlight = TRUE, 
+          striped = TRUE, 
+          showPageSizeOptions = TRUE, 
+        details = colDef(name = "More", 
+                           width = 80,
+        details = function(index) {
+          
+df_nested_trade1 <- df_nested_trades[df_nested_trades$trade == df_all_trades$trade[index], ]
+            
+reactable(df_nested_trade1, outlined = TRUE,
+          defaultColDef = colDef(
+            align = "center"),
+          columns = list(
+            trade = colDef(name = "#", 
+                           width = 40),
+            stock_name = colDef(name = "Stock", 
+                                width = 60),
+            entries = colDef(name = "Buys", 
+                             width = 55),
+            entry_price = colDef(name = "Buy Price", 
+                                 format = colFormat(currency = "USD"), 
+                                 width = 80),
+            entry_date = colDef(name = "Buy Date", width = 90),
+            weight_avg_buy = colDef(name = "Avg Price", 
+                                format = colFormat(currency = "USD"), 
+                                width = 70),
+            stop_loss_dollar = colDef(name = "$ Stop", 
+                                format = colFormat(currency = "USD"),
+                                width = 70),
+            stop_loss = colDef(name = "% Stop", 
+                               format = colFormat(digits = 2),
+                               width = 60),
+            exits = colDef(name = "Sells", width = 55),
+            exit_price = colDef(name = "Sell Price", 
+                                format = colFormat(currency = "USD"), 
+                                width = 70),
+            exit_date = colDef(name = "Sell Date", 
+                               width = 90),
+            weight_avg_sell = colDef(name = "Avg Sell", 
+                                format = colFormat(currency = "USD"), 
+                                width = 70),
+            hold_time = colDef(name = "Hold Time", width = 70)
+          ),
+          theme = reactableTheme(
+            color = "hsl(233, 9%, 95%)",
+            backgroundColor = "#336699",
+            borderColor = "hsl(233, 9%, 19%)",
+            stripedColor = "hsl(233, 12%, 22%)",
+            highlightColor = "hsl(233, 12%, 24%)",
+            inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+            pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
+          )
+        )
+      }
+    )
+)
+```
+</center>
+
+</div>
+
+Closed positions. Includes partials.

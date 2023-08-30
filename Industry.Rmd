@@ -1,0 +1,189 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Library, echo=FALSE, include=FALSE}
+library(quantmod)
+library(TTR)
+library(dplyr)
+library(kableExtra)
+library(reactable)
+library(tidyr)
+```
+
+```{r Index, echo=FALSE, include=FALSE}
+
+#symbols <- stockSymbols()
+#symbols <- symbols[,1]
+#all <- getSymbols('v1', source='yahoo', auto.assign = FALSE)
+
+## cool progress bar to see the % of completion
+#n <- length(symbols)
+#pb <- txtProgressBar(min = 0, max = n, style=3)
+#
+#
+## Actual loop: 
+#for(i in 1:length(symbols)) {
+#  symbols[i]-> symbol
+## specify the "from" date to desired start date
+#  tryit <- try(getSymbols(symbol,from="2014-01-01", src='yahoo'))
+#  if(inherits(tryit, "try-error")){
+#    i <- i+1
+#  } else {
+#  # specify the "from" date to desired start date
+#  data <- getSymbols(symbol, from="2014-01-01", src='yahoo')
+#  dataset <- merge(dataset, Ad(get(symbols[i])))
+#  rm(symbol)
+#  }
+#  setTxtProgressBar(pb, i)
+#}
+```
+
+
+```{r}
+#dataset<- xts()
+```
+
+
+```{r}
+# cool progress bar to see the % of completion
+#n <- length(symbols)
+#pb <- txtProgressBar(min = 0, max = n, style=3)
+#
+#
+## Actual loop: 
+#for(i in 1:length(symbols)) {
+#  symbols[i]-> symbol
+## specify the "from" date to desired start date
+#  tryit <- try(getSymbols(symbol,from="2014-01-01", src='yahoo'))
+#  if(inherits(tryit, "try-error")){
+#    i <- i+1
+#  } else {
+#  # specify the "from" date to desired start date
+#  data <- getSymbols(symbol, from="2014-01-01", src='yahoo')
+#  dataset <- merge(dataset, Ad(get(symbols[i])))
+#  rm(symbol)
+#  }
+#  setTxtProgressBar(pb, i)
+#}
+```
+
+
+```{r Sector, echo=FALSE, include=FALSE}
+#consider adding overall sectors and leading industry groups & LEADING STOCKS
+#spy <- getSymbols('spy', src='yahoo', auto.assign=FALSE)
+#xlv <- getSymbols('xlv', src='yahoo', auto.assign=FALSE)
+#xlp <- getSymbols('xlp', src='yahoo', auto.assign=FALSE)
+#xlu <- getSymbols('xlu', src='yahoo', auto.assign=FALSE)
+#xly <- getSymbols('xly', src='yahoo', auto.assign=FALSE)
+#xlb <- getSymbols('xlb', src='yahoo', auto.assign=FALSE)
+#xlf <- getSymbols('xlf', src='yahoo', auto.assign=FALSE)
+#xlc <- getSymbols('xlc', src='yahoo', auto.assign=FALSE)
+#xlk <- getSymbols('xlk', src='yahoo', auto.assign=FALSE)
+#xli <- getSymbols('xli', src='yahoo', auto.assign=FALSE)
+#xle <- getSymbols('xle', src='yahoo', auto.assign=FALSE)
+#xsd <- getSymbols('xsd', src='yahoo', auto.assign=FALSE)
+#
+#df_sector <- merge(spy, xlv, all = TRUE) %>% 
+#              merge(xlp, all = TRUE) %>% 
+#                merge(xlu, all = TRUE) %>% 
+#                  merge(xly, all = TRUE) %>% 
+#                   merge(xlb, all = TRUE) %>% 
+#                     merge(xlf, all = TRUE) %>% 
+#                       merge(xlc, all = TRUE) %>% 
+#                         merge(xlk, all = TRUE) %>% 
+#                           merge(xli, all = TRUE) %>% 
+#                               merge(xle, all = TRUE) %>% 
+#                                 merge(xsd, all = TRUE) 
+#
+#df_sector1 <- as.data.frame(df_sector)
+#
+#Sector <- tail(df_sector1, 252) %>% 
+#  mutate("spy_daily_change" = ((SPY.Close - lag(SPY.Close))/SPY.Open)*100) %>% 
+#  mutate("xlv_daily_change" = ((XLV.Close - lag(XLV.Close))/XLV.Open)*100) %>% 
+#  mutate("xlp_daily_change" = ((XLP.Close - lag(XLP.Close))/XLP.Open)*100) %>% 
+#  mutate("xlu_daily_change" = ((XLU.Close - lag(XLU.Close))/XLU.Open)*100) %>% 
+#  mutate("xly_daily_change" = ((XLY.Close - lag(XLY.Close))/XLY.Open)*100) %>% 
+#  mutate("xlb_daily_change" = ((XLB.Close - lag(XLB.Close))/XLB.Open)*100) %>% 
+#  mutate("xlf_daily_change" = ((XLF.Close - lag(XLF.Close))/XLF.Open)*100) %>% 
+#  mutate("xlc_daily_change" = ((XLC.Close - lag(XLC.Close))/XLC.Open)*100) %>% 
+#  mutate("xlk_daily_change" = ((XLK.Close - lag(XLK.Close))/XLK.Open)*100) %>% 
+#  mutate("xli_daily_change" = ((XLI.Close - lag(XLI.Close))/XLI.Open)*100) %>% 
+#  mutate("xle_daily_change" = ((XLE.Close - lag(XLE.Close))/XLE.Open)*100) %>% 
+#  mutate("xsd_daily_change" = ((XSD.Close - lag(XSD.Close))/XSD.Open)*100) %>% 
+#  select(spy_daily_change, xlv_daily_change,
+#         xlp_daily_change, xlu_daily_change,
+#         xly_daily_change, xlb_daily_change,
+#         xlf_daily_change, xlc_daily_change,
+#         xlk_daily_change, xli_daily_change,
+#         xle_daily_change, xsd_daily_change ) %>% 
+#  drop_na()
+```
+
+
+```{r Leading Stocks, echo=FALSE, include=FALSE}
+#Symbols <- c('AEHR', 'ACLS', "VTYX", "AGYS", "AXON", "CECO", "SANM", "ARHS", "AI", "FOLD", "HROW")
+#
+#Details <- c("GREATT WOohoooo", 
+#             "The leading stock. Best perfomatnce of any ohter name in this list",
+#             "Love it made a great trade",
+#             "Love it made a great tradefdg",
+#             "Love it made a great tradgdfgsde",
+#             "Love it made a great tfrade",
+#             "Love it made a great tfradsfgdfgde",
+#             "Love it made a great tffrade",
+#             "Love it made a great tdffgdsfgrade",
+#             "Love it made a great tdssrade",
+#             "Love it made a great tffffrade"
+#             )
+#
+#Data <- new.env()
+#getSymbols(c(Symbols), from="2022-02-23", env=Data)    
+## calculate returns, merge, and create data.frame (eapply loops over all
+## objects in an environment, applies a function, and returns a list)
+#Returns <- eapply(Data, function(s) ROC(Ad(s), type="discrete"))
+#ReturnsDF <- as.data.frame(do.call(merge, Returns))
+## adjust column names are re-order columns
+#colnames(ReturnsDF) <- gsub(".Adjusted","",colnames(ReturnsDF))
+#ReturnsDF <- ReturnsDF[,c(Symbols)]
+#
+#
+#
+#
+#
+##chartSeries(AEHR, 
+##            type = "bars", 
+##            bar.type = "hlc")
+##
+
+
+```
+
+```{r Leaders List, echo=FALSE}
+#Symbol_List <- data.frame(Symbols)
+#Detail_List <- data.frame(Details)
+#
+#Combined_Leaders <- data.frame(Symbol_List, Detail_List) 
+#
+#kable(Combined_Leaders) %>% 
+#  kable_styling(full_width = F, position = "float_left")
+```
+
+
+```{r, echo=FALSE}
+#SPY <- tail(spy, 252)
+#
+#chartSeries(SPY, 
+#            type = "bars", 
+#            bar.type = "hlc",
+#            name="SPY")
+```
+
